@@ -1,0 +1,86 @@
+/* ============================================================
+   FARUTECH · DESIGN TOKENS
+   Fuente única de verdad del design system.
+   Ningún color / tamaño / easing debe escribirse fuera de aquí
+   (salvo composiciones en global.css que referencien estos tokens).
+   Extraíble a futuro como @farutech/tokens.
+   ============================================================ */
+
+:root {
+  /* ---- Color · base "papel técnico" ---- */
+  --paper: #f5f6f3;          /* fondo general */
+  --paper-2: #eceee9;        /* paneles sobre papel */
+  --paper-3: #e3e6df;        /* hover / inset */
+
+  /* ---- Color · tinta ---- */
+  --ink: #0c1b2a;            /* texto principal + paneles oscuros */
+  --ink-2: #45586b;          /* texto secundario */
+  --ink-3: #7a8a99;          /* texto terciario / labels */
+
+  /* ---- Color · acentos de marca (heredados, con variantes legibles) ---- */
+  --c-blue: #3fc1ff;         /* cian marca — usar sobre oscuro */
+  --c-blue-deep: #0a78b8;    /* cian legible sobre papel */
+  --c-green: #22e07c;        /* verde marca — sobre oscuro */
+  --c-green-deep: #0b8f57;   /* verde legible sobre papel */
+  --c-orange: #ff7a1a;       /* naranja señal — CTA */
+  --c-orange-deep: #e05f00;  /* hover CTA */
+
+  /* ---- Color · líneas ---- */
+  --line: #d7dcd6;           /* hairline sobre papel */
+  --line-strong: #b8c0b8;
+  --line-ink: rgba(12, 27, 42, 0.16);
+
+  /* ---- Color · panel oscuro ("spec panel") ---- */
+  --panel: #0c1b2a;
+  --panel-2: #12283c;
+  --panel-line: rgba(233, 240, 246, 0.14);
+  --panel-text: #e9f0f6;
+  --panel-muted: #93a9bc;
+
+  /* ---- Tipografía ---- */
+  --font-display: "Bricolage Grotesque", "Archivo Black", system-ui, sans-serif;
+  --font-body: "Instrument Sans", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+
+  /* Escala tipográfica (fluida) */
+  --fs-hero: clamp(2.6rem, 6.2vw, 4.9rem);
+  --fs-h1: clamp(2.1rem, 4.6vw, 3.4rem);
+  --fs-h2: clamp(1.7rem, 3.4vw, 2.5rem);
+  --fs-h3: clamp(1.15rem, 1.8vw, 1.4rem);
+  --fs-body: 1.0625rem;
+  --fs-small: 0.9375rem;
+  --fs-mono: 0.8125rem;
+
+  /* ---- Espaciado ---- */
+  --sp-1: 0.5rem;
+  --sp-2: 1rem;
+  --sp-3: 1.5rem;
+  --sp-4: 2.5rem;
+  --sp-5: 4rem;
+  --sp-6: 6.5rem;
+  --section-y: clamp(4.5rem, 9vw, 7.5rem);
+  --container: 72rem;
+  --gutter: clamp(1.25rem, 4vw, 2.5rem);
+
+  /* ---- Forma ---- */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-pill: 999px;
+
+  /* ---- Elevación ---- */
+  --shadow-1: 0 1px 2px rgba(12, 27, 42, 0.06), 0 4px 14px rgba(12, 27, 42, 0.06);
+  --shadow-2: 0 2px 6px rgba(12, 27, 42, 0.08), 0 14px 34px rgba(12, 27, 42, 0.12);
+
+  /* ---- Movimiento ---- */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-snap: cubic-bezier(0.3, 0, 0.2, 1);
+  --dur-fast: 160ms;
+  --dur-med: 320ms;
+
+  /* ---- Fondo blueprint ---- */
+  --grid-line: rgba(12, 27, 42, 0.05);
+  --grid-size: 44px;
+}
+
+/* Modo oscuro del panel se define por componente (clase .on-dark),
+   no como theme global: el sitio es paper-first con paneles de tinta. */
