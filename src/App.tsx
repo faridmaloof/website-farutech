@@ -17,6 +17,8 @@ import { StudioPage } from "./pages/StudioPage";
 import { EcosystemPage } from "./pages/EcosystemPage";
 import { LegalPage } from "./pages/LegalPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
+import { InsightsPage } from "./pages/InsightsPage";
+import { InsightDetailPage } from "./pages/InsightDetailPage";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -39,6 +41,8 @@ export default function App() {
             <Route path="/trabajo" element={<WorkPage />} />
             <Route path="/metodologia" element={<MethodologyPage />} />
             <Route path="/studio" element={<StudioPage />} />
+            <Route path="/insights" element={<InsightsPage />} />
+            <Route path="/insights/:slug" element={<InsightDetailPage />} />
             <Route path="/ecosistema" element={<EcosystemPage />} />
             <Route path="/privacidad" element={<LegalPage kind="privacidad" />} />
             <Route path="/terminos" element={<LegalPage kind="terminos" />} />
