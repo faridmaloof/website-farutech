@@ -11,14 +11,14 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 const dist = path.resolve(root, "dist");
 
 const template = fs.readFileSync(path.resolve(dist, "index.html"), "utf-8");
-const { render } = await import(path.resolve(dist, "server", "entry-server.js"));
+const { render } = await import(pathToFileURL(path.resolve(dist, "server", "entry-server.js")).href);
 
 const SITE = "https://www.farutech.com";
 const BRAND = "FaruTech";
@@ -46,7 +46,7 @@ const routeMeta = {
   },
   "/trabajo": {
     title: `Trabajo · ${BRAND}`,
-    description: "Trabajo real con clientes reales y su estado honesto. Caso Afilamos Hermanos S.A.S.",
+    description: "Trabajo real con clientes reales y su estado honesto: Afilamos Hermanos y Supraeventos.",
   },
   "/metodologia": {
     title: `Metodología · ${BRAND}`,

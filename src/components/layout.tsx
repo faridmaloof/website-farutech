@@ -23,6 +23,7 @@ import { Button } from "./primitives";
 import { LanguageSwitcher, useT } from "../i18n";
 import { useContact } from "./contact";
 import { site } from "../content/site";
+import { siteConfig } from "../content/site.config";
 import { capabilities } from "../content/capabilities";
 import { cn } from "../lib/utils";
 
@@ -276,6 +277,8 @@ function Footer() {
                 </button>
               </li>
               <li className="text-sm text-muted-foreground">{t(site.location)}</li>
+              <li><a href={siteConfig.social.linkedin} target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground transition-colors hover:text-foreground">LinkedIn</a></li>
+              <li><a href={siteConfig.social.website} className="text-sm text-muted-foreground transition-colors hover:text-foreground">farutech.com</a></li>
             </ul>
           </div>
         </div>

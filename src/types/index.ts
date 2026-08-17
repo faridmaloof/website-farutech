@@ -75,15 +75,11 @@ export interface SiteConfig {
   language: 'es' | 'en';
   languages: ('es' | 'en')[];
   social: {
-    linkedin?: string;
-    twitter?: string;
-    instagram?: string;
-    facebook?: string;
-    github?: string;
+    linkedin: string;
+    website?: string;
   };
   contact: {
     email: string;
-    phone?: string;
     address?: string;
   };
   solutions: SolutionConfig[];

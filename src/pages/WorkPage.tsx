@@ -1,8 +1,8 @@
 import { useDocumentMeta } from "../hooks/useDocumentMeta";
 import { useT } from "../i18n";
-import { workPage, work as workUi } from "../content/work";
-import { CaseCard } from "../components/patterns";
-import { Reveal } from "../components/primitives";
+import { workPage } from "../content/work";
+import { caseStudies } from "../content/site.config";
+import { PageBuilder } from "../components/PageBuilder";
 import { useContact } from "../components/contact";
 
 export function WorkPage() {
@@ -28,20 +28,8 @@ export function WorkPage() {
         </div>
       </div>
 
-      <section className="py-16 md:py-24">
-        <div className="mx-auto max-w-7xl px-6">
-          <Reveal>
-            <CaseCard />
-          </Reveal>
-          <p className="mt-10 text-muted-foreground">
-            {t(workUi.nextCase)}{" "}
-            <button onClick={open} className="text-primary underline-offset-4 hover:underline">
-              {t(workUi.hablemos)}
-            </button>
-            .
-          </p>
-        </div>
-      </section>
+      {caseStudies.map((caseStudy) => <PageBuilder key={caseStudy.id} blocks={caseStudy.blocks} />)}
+      <section className="pb-20"><div className="mx-auto max-w-7xl px-6"><button onClick={open} className="text-primary underline-offset-4 hover:underline">¿Quieres ser el próximo caso? Hablemos.</button></div></section>
     </>
   );
 }
