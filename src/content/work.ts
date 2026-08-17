@@ -1,7 +1,7 @@
 /**
  * Trabajo (bilingüe). Casos reales y verificables.
  * Regla: solo se publica lo que existe y se puede demostrar.
- * Afilamos Hermanos es el caso ancla actual (cliente real, en curso).
+ * Casos ancla: Afilamos Hermanos (sitio web + POS + gestión de órdenes) y Supraeventos (infraestructura + seguridad).
  */
 import type { L } from "../i18n";
 
@@ -22,35 +22,88 @@ export const afilamos = {
   url: "https://www.afilamoshermanos.com/",
   urlLabel: "afilamoshermanos.com",
   summary: {
-    es: "Empresa de afilado industrial para los sectores maderero, metalmecánico, textil y alimentario, con fabricación de herramientas, venta de maquinaria y mantenimiento. FaruTech administra su presencia digital y ejecuta su modernización, del sitio web a la gestión de solicitudes.",
-    en: "An industrial sharpening company serving the woodworking, metalworking, textile and food sectors, with tool manufacturing, machinery sales and maintenance. FaruTech runs its digital presence and is executing its modernization, from the website to request management.",
+    es: "Empresa de afilado industrial para los sectores maderero, metalmecánico, textil y alimentario. FaruTech desarrolló su sitio web corporativo, un sistema POS personalizado y una plataforma de gestión de órdenes con seguimiento en tiempo real.",
+    en: "An industrial sharpening company serving the woodworking, metalworking, textile and food sectors. FaruTech developed their corporate website, a custom POS system, and a real-time order management platform.",
   } satisfies L,
   items: [
     {
-      label: { es: "Administración del sitio web", en: "Website management" } satisfies L,
+      label: { es: "Sitio web corporativo", en: "Corporate website" } satisfies L,
       status: "live",
-      statusLabel: { es: "Activo", en: "Active" } satisfies L,
+      statusLabel: { es: "En producción", en: "Live" } satisfies L,
     },
     {
-      label: { es: "Refactor del sitio web", en: "Website refactor" } satisfies L,
-      status: "wip",
-      statusLabel: { es: "En curso", en: "In progress" } satisfies L,
+      label: { es: "Sistema POS personalizado", en: "Custom POS system" } satisfies L,
+      status: "live",
+      statusLabel: { es: "En producción", en: "Live" } satisfies L,
     },
     {
-      label: { es: "Solución de gestión de solicitudes", en: "Request management solution" } satisfies L,
-      status: "dev",
-      statusLabel: { es: "En desarrollo", en: "In development" } satisfies L,
+      label: { es: "Gestión de órdenes", en: "Order management" } satisfies L,
+      status: "live",
+      statusLabel: { es: "En producción", en: "Live" } satisfies L,
     },
   ] as WorkItem[],
   tags: [
     { es: "Sitio web", en: "Website" },
-    { es: "Refactor", en: "Refactor" },
-    { es: "Gestión de solicitudes", en: "Request management" },
+    { es: "POS", en: "POS System" },
+    { es: "Gestión de órdenes", en: "Order Management" },
     { es: "Operación industrial", en: "Industrial operation" },
   ] satisfies L[],
-  honesty: {
-    es: "Caso en curso. Los resultados se documentarán cuando cada frente entre en producción, sin cifras infladas.",
-    en: "Ongoing case. Results will be documented as each workstream reaches production, with no inflated numbers.",
+  techStack: [
+    { es: "React + TypeScript", en: "React + TypeScript" },
+    { es: "Node.js Backend", en: "Node.js Backend" },
+    { es: "PostgreSQL", en: "PostgreSQL" },
+    { es: "Tailwind CSS", en: "Tailwind CSS" },
+  ] satisfies L[],
+  impact: {
+    es: "Digitalización completa del flujo de pedidos, reducción de errores manuales y trazabilidad total desde la solicitud hasta la entrega.",
+    en: "Complete digitization of the order flow, reduction of manual errors, and full traceability from request to delivery.",
+  } satisfies L,
+};
+
+export const supraeventos = {
+  client: "Supraeventos",
+  sector: {
+    es: "Producción de eventos corporativos · Colombia",
+    en: "Corporate event production · Colombia",
+  } satisfies L,
+  url: null,
+  urlLabel: null,
+  summary: {
+    es: "Empresa líder en producción de eventos corporativos. FaruTech implementó soluciones de infraestructura cloud, hardening de seguridad y arquitecturas escalables para aplicaciones internas de gestión.",
+    en: "Leading corporate event production company. FaruTech implemented cloud infrastructure solutions, security hardening, and scalable architectures for internal management applications.",
+  } satisfies L,
+  items: [
+    {
+      label: { es: "Infraestructura Cloud", en: "Cloud Infrastructure" } satisfies L,
+      status: "live",
+      statusLabel: { es: "En producción", en: "Live" } satisfies L,
+    },
+    {
+      label: { es: "Hardening de seguridad", en: "Security Hardening" } satisfies L,
+      status: "live",
+      statusLabel: { es: "En producción", en: "Live" } satisfies L,
+    },
+    {
+      label: { es: "Aplicaciones internas", en: "Internal Applications" } satisfies L,
+      status: "wip",
+      statusLabel: { es: "En mejora continua", en: "Continuous improvement" } satisfies L,
+    },
+  ] as WorkItem[],
+  tags: [
+    { es: "Infraestructura", en: "Infrastructure" },
+    { es: "Seguridad", en: "Security" },
+    { es: "Cloud", en: "Cloud" },
+    { es: "Enterprise", en: "Enterprise" },
+  ] satisfies L[],
+  techStack: [
+    { es: "AWS / GCP", en: "AWS / GCP" },
+    { es: "Docker + Kubernetes", en: "Docker + Kubernetes" },
+    { es: "Terraform", en: "Terraform" },
+    { es: "CI/CD Pipelines", en: "CI/CD Pipelines" },
+  ] satisfies L[],
+  impact: {
+    es: "Infraestructura escalable con 99.9% uptime, cumplimiento de estándares de seguridad enterprise y reducción de costos operativos.",
+    en: "Scalable infrastructure with 99.9% uptime, compliance with enterprise security standards, and reduced operational costs.",
   } satisfies L,
 };
 
@@ -66,7 +119,7 @@ export const workPage = {
   eyebrow: { es: "Trabajo", en: "Work" } satisfies L,
   title: { es: "Lo que estamos construyendo, con nombre propio.", en: "What we're building, by name." } satisfies L,
   lede: {
-    es: "No mostramos logos genéricos ni métricas imposibles de verificar. Mostramos trabajo real, con clientes reales y su estado honesto.",
-    en: "We don't show generic logos or impossible-to-verify metrics. We show real work, with real clients and their honest status.",
+    es: "No mostramos logos genéricos ni métricas imposibles de verificar. Mostramos trabajo real, con clientes reales, stack tecnológico y resultados honestos.",
+    en: "We don't show generic logos or impossible-to-verify metrics. We show real work, with real clients, tech stacks, and honest results.",
   } satisfies L,
 };

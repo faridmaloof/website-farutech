@@ -211,7 +211,7 @@ export function CaseCard() {
               {t(workUi.visitar)} <ArrowUpRight className="h-3.5 w-3.5" />
             </Button>
           </div>
-          <p className="mt-4 font-mono text-[11px] leading-relaxed text-muted-foreground">{t(afilamos.honesty)}</p>
+          <p className="mt-4 font-mono text-[11px] leading-relaxed text-muted-foreground">{t(afilamos.impact)}</p>
         </div>
         <div className="flex flex-col gap-3 self-center">
           {afilamos.items.map((item) => (
