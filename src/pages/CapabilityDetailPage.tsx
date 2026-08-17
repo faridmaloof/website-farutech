@@ -4,6 +4,7 @@ import { useDocumentMeta } from "../hooks/useDocumentMeta";
 import { useT } from "../i18n";
 import { getCapability, capUI } from "../content/capabilities";
 import { Button, Tag, Reveal } from "../components/primitives";
+import { CapabilityMotif } from "../components/patterns";
 import { useContact } from "../components/contact";
 import { NotFoundPage } from "./NotFoundPage";
 
@@ -23,16 +24,17 @@ export function CapabilityDetailPage() {
 
   return (
     <>
-      <div className="relative overflow-hidden border-b border-border pb-16 pt-36 md:pt-44">
-        <div className="pointer-events-none absolute inset-0 bg-mesh opacity-60" aria-hidden="true" />
-        <div className="relative mx-auto max-w-7xl px-6">
-          <Link
+      <section className="relative isolate overflow-hidden border-b border-border pb-16 pt-32 md:pb-24 md:pt-40" style={{ background: `linear-gradient(135deg, ${cap.accent}20, transparent 58%), linear-gradient(225deg, ${cap.accent2}16, transparent 62%)` }}>
+        <div className="pointer-events-none absolute inset-0 opacity-70" aria-hidden="true"><CapabilityMotif motif={cap.motif} accent={cap.accent} className="h-full w-full" /></div>
+        <div className={`relative mx-auto grid max-w-7xl items-center gap-12 px-6 md:grid-cols-2 ${cap.layout === "right" ? "md:[&>div:first-child]:order-2" : ""}`}>
+          <div>
+            <Link
             to="/capacidades"
             className="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
           >
             <ArrowLeft className="h-3.5 w-3.5" /> {t(capUI.volver)}
           </Link>
-          <div className="mt-6 flex items-center gap-3">
+          <div className="mt-8 flex items-center gap-3">
             <span className="font-mono text-sm font-semibold" style={{ color: cap.accent }}>
               {cap.index}
             </span>
@@ -51,8 +53,14 @@ export function CapabilityDetailPage() {
               <Tag key={tag.es}>{t(tag)}</Tag>
             ))}
           </div>
+          </div>
+          <div className="relative min-h-72 overflow-hidden border border-white/10 bg-surface/60 p-3 shadow-elevated md:min-h-[28rem]" style={{ clipPath: cap.shape === "hex" ? "polygon(12% 0, 88% 0, 100% 14%, 100% 86%, 88% 100%, 12% 100%, 0 86%, 0 14%)" : undefined }}>
+            {cap.image ? <img src={cap.image} alt="" className="absolute inset-0 h-full w-full object-cover opacity-75" /> : <CapabilityMotif motif={cap.motif} accent={cap.accent} className="absolute inset-0 h-full w-full" />}
+            <div className="absolute inset-0 bg-gradient-to-tr from-background via-background/20 to-transparent" />
+            <p className="absolute bottom-7 left-7 font-mono text-xs uppercase tracking-[0.3em]" style={{ color: cap.accent }}>{t(cap.signature)}</p>
+          </div>
         </div>
-      </div>
+      </section>
 
       <section className="py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-6">

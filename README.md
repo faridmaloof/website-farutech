@@ -21,6 +21,10 @@ El contenido corporativo bilingüe permanece en `src/content`. La configuración
 
 Los enlaces corporativos publicados son el sitio web de FaruTech y su perfil de LinkedIn. No se deben añadir redes ni métricas sin una fuente verificable.
 
+## Contacto en Hostinger
+
+El frontend envía el formulario a `POST /api/contact`. Al desplegar, publica la carpeta `api/` junto al contenido generado de `dist/`, ejecuta `api/schema.sql` una vez en la base de datos MySQL y configura en PHP/Hostinger las variables `FARUTECH_DB_HOST`, `FARUTECH_DB_NAME`, `FARUTECH_DB_USER`, `FARUTECH_DB_PASSWORD` y `FARUTECH_ALLOWED_ORIGINS`. No subas credenciales al repositorio.
+
 ## Validación antes de publicar
 
 Ejecuta `npm run typecheck`, `npm run build`, `npm run build:seo` y `npm audit`. Revisa también `/trabajo` con teclado y lector de pantalla, incluidos los enlaces externos y la preferencia de movimiento reducido.
