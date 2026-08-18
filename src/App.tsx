@@ -38,7 +38,8 @@ export default function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/capacidades" element={<CapabilitiesPage />} />
             <Route path="/capacidades/:slug" element={<CapabilityDetailPage />} />
-            <Route path="/trabajo" element={<WorkPage />} />
+            <Route path="/casos-de-exito" element={<WorkPage />} />
+            <Route path="/casos-de-exito/:slug" element={<WorkPage />} />
             <Route path="/metodologia" element={<MethodologyPage />} />
             <Route path="/studio" element={<StudioPage />} />
             <Route path="/insights" element={<InsightsPage />} />
