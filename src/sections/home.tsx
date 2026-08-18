@@ -5,7 +5,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { hero, ecosystem, tickerItems, trustBanner, finalCta } from "../content/home";
-import { capabilities, capUI } from "../content/capabilities";
+import { services, servicesUI } from "../content/servicesData";
 import { methodSteps, methodPage } from "../content/methodology";
 import { site } from "../content/site";
 import { LOGO_URL } from "../components/Logo";
@@ -179,17 +179,17 @@ export function CapabilitiesSection() {
     <section className="relative py-24 md:py-32" id="capacidades" aria-labelledby="cap-title">
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeading
-          eyebrow={t(capUI.eyebrow)}
+          eyebrow={t(servicesUI.eyebrow)}
           index="[ 01 ]"
           title={
             <>
-              {t(capUI.titleA)} <span className="text-gradient">{t(capUI.titleB)}</span>
+              {t(servicesUI.titleA)} <span className="text-gradient">{t(servicesUI.titleB)}</span>
             </>
           }
-          lede={t(capUI.lede)}
+          lede={t(servicesUI.lede)}
         />
         <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {capabilities.map((c, i) => (
+          {services.map((c, i) => (
             <CapabilityCard
               key={c.slug}
               cap={c}

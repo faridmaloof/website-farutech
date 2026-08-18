@@ -23,7 +23,7 @@ import { Button } from "./primitives";
 import { LanguageSwitcher, useT } from "../i18n";
 import { useContact } from "./contact";
 import { site } from "../content/site";
-import { capabilities } from "../content/capabilities";
+import { services } from "../content/servicesData";
 import { cn } from "../lib/utils";
 
 const CAP_ICONS: Record<string, LucideIcon> = {
@@ -92,7 +92,7 @@ function Header() {
               <div className="absolute left-0 top-full w-[560px] pt-3">
                 <div className="border-gradient overflow-hidden rounded-2xl border border-border bg-surface/95 p-3 shadow-elevated backdrop-blur-xl">
                   <div className="grid grid-cols-2 gap-1">
-                    {capabilities.map((c) => {
+                    {services.map((c) => {
                       const Icon = CAP_ICONS[c.slug] ?? Boxes;
                       return (
                         <Link
@@ -116,7 +116,7 @@ function Header() {
                     })}
                   </div>
                   <Link
-                    to="/capacidades"
+                    to="/services"
                     onClick={() => setSolOpen(false)}
                     className="mt-2 flex items-center justify-between rounded-xl border border-border bg-background/40 px-4 py-2.5 font-mono text-xs uppercase tracking-wider text-muted-foreground transition-colors hover:text-foreground"
                   >
@@ -166,7 +166,7 @@ function Header() {
             <div className="pb-1 pt-2 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
               {t(ui.soluciones)}
             </div>
-            {capabilities.map((c) => {
+            {services.map((c) => {
               const Icon = CAP_ICONS[c.slug] ?? Boxes;
               return (
                 <Link
@@ -223,12 +223,12 @@ function Footer() {
             </div>
           </div>
 
-          <nav aria-label={t(site.footer.capabilities)}>
+          <nav aria-label={t(site.footer.services)}>
             <h4 className="font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground">
-              {t(site.footer.capabilities)}
+              {t(site.footer.services)}
             </h4>
             <ul className="mt-4 space-y-2.5">
-              {capabilities.map((c) => (
+              {services.map((c) => (
                 <li key={c.slug}>
                   <Link to={`/capacidades/${c.slug}`} className="text-sm text-muted-foreground transition-colors hover:text-foreground">
                     {t(c.name)}

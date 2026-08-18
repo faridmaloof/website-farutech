@@ -7,10 +7,10 @@
  */
 import type { L } from "../i18n";
 
-export type CapabilityMotif = "grid" | "spectrum" | "blueprint" | "orbit" | "circuit";
-export type CapabilityShape = "arch" | "diagonal" | "hex" | "blob" | "tilt";
+export type ServiceMotif = "grid" | "spectrum" | "blueprint" | "orbit" | "circuit";
+export type ServiceShape = "arch" | "diagonal" | "hex" | "blob" | "tilt";
 
-export interface Capability {
+export interface Service {
   slug: string;
   index: string;
   name: L;
@@ -28,12 +28,12 @@ export interface Capability {
   accent2: string;
   glow: string;
   layout: "left" | "right" | "centered";
-  motif: CapabilityMotif;
-  shape: CapabilityShape;
+  motif: ServiceMotif;
+  shape: ServiceShape;
   signature: L;
 }
 
-export const capabilities: Capability[] = [
+export const services: Service[] = [
   {
     slug: "desarrollo-software",
     index: "01",
@@ -446,12 +446,12 @@ export const capabilities: Capability[] = [
   },
 ];
 
-export function getCapability(slug: string | undefined) {
-  return capabilities.find((c) => c.slug === slug);
+export function getService(slug: string | undefined) {
+  return services.find((c) => c.slug === slug);
 }
 
 /** Etiquetas compartidas de las páginas de capacidades. */
-export const capUI = {
+export const servicesUI = {
   eyebrow: { es: "Servicios", en: "Services" } satisfies L,
   titleA: { es: "Lo que", en: "What we" } satisfies L,
   titleB: { es: "construimos.", en: "build." } satisfies L,

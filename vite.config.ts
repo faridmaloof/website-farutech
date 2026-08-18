@@ -9,7 +9,7 @@ export default defineConfig({
   build: {
     target: 'esnext',
     minify: 'esbuild',
-    chunkSizeWarningLimit: 150,
+    chunkSizeWarningLimit: 600,
     rollupOptions: {
       plugins: [
         visualizer({

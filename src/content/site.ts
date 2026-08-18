@@ -33,7 +33,7 @@ export const site = {
       es: "Construimos plataformas que tienen que escalar, de verdad. Ingeniería de software a medida desde Colombia para el mundo.",
       en: "We build platforms that actually have to scale. Custom software engineering from Colombia to the world.",
     } satisfies L,
-    capabilities: { es: "Soluciones", en: "Solutions" } satisfies L,
+    services: { es: "Servicios", en: "Services" } satisfies L,
     company: { es: "Compañía", en: "Company" } satisfies L,
     contact: { es: "Contacto", en: "Contact" } satisfies L,
     derechos: { es: "Ingeniería de software a medida.", en: "Custom software engineering." } satisfies L,

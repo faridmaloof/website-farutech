@@ -6,8 +6,8 @@ import { useId } from "react";
 import { Link } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
-import type { Capability, CapabilityMotif as MotifKind } from "../content/capabilities";
-import { capUI } from "../content/capabilities";
+import type { Service, ServiceMotif as MotifKind } from "../content/servicesData";
+import { servicesUI } from "../content/servicesData";
 import { afilamos, supraeventos, work as workUi } from "../content/work";
 import type { L } from "../i18n";
 import { useT } from "../i18n";
@@ -185,7 +185,7 @@ export function CapabilityCard({
           className="mt-5 inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider transition-opacity hover:opacity-80"
           style={{ color: cap.accent }}
         >
-          {t(capUI.verMas)} <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          {t(servicesUI.verMas)} <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
         </Link>
       </div>
     </motion.article>

@@ -8,7 +8,7 @@ export function StudioPage() {
   useDocumentMeta({
     title: t(studioPage.eyebrow),
     description: t(studioPage.lede),
-    path: "/studio",
+    path: "/about-us",
   });
   return (
     <>

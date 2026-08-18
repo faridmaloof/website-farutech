@@ -1,14 +1,14 @@
 import { useDocumentMeta } from "../hooks/useDocumentMeta";
 import { useT } from "../i18n";
-import { capabilities, capUI } from "../content/capabilities";
+import { services, servicesUI } from "../content/servicesData";
 import { CapabilityCard } from "../components/patterns";
 
 export function CapabilitiesPage() {
   const t = useT();
   useDocumentMeta({
-    title: t(capUI.eyebrow),
-    description: t(capUI.lede),
-    path: "/capacidades",
+    title: t(servicesUI.eyebrow),
+    description: t(servicesUI.lede),
+    path: "/services",
   });
   return (
     <>
@@ -19,16 +19,16 @@ export function CapabilitiesPage() {
             ~/farutech/capacidades
           </span>
           <h1 className="mt-4 font-display text-4xl font-semibold tracking-tight md:text-6xl">
-            {t(capUI.titleA)} <span className="text-gradient">{t(capUI.titleB)}</span>
+            {t(servicesUI.titleA)} <span className="text-gradient">{t(servicesUI.titleB)}</span>
           </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">{t(capUI.lede)}</p>
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">{t(servicesUI.lede)}</p>
         </div>
       </div>
 
       <section className="py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {capabilities.map((c, i) => (
+            {services.map((c, i) => (
               <CapabilityCard key={c.slug} cap={c} delay={(i % 3) * 0.06} />
             ))}
           </div>
