@@ -10,12 +10,17 @@ import { ContactProvider } from "./components/contact";
 import { SiteLayout } from "./components/layout";
 import { HomePage } from "./pages/HomePage";
 import { CapabilitiesPage } from "./pages/CapabilitiesPage";
-import { CapabilityDetailPage } from "./pages/CapabilityDetailPage";
 import { WorkPage } from "./pages/WorkPage";
 import { StudioPage } from "./pages/StudioPage";
 import { EcosystemPage } from "./pages/EcosystemPage";
 import { LegalPage } from "./pages/LegalPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
+// Landing pages individuales por servicio
+import { DesarrolloSoftwarePage } from "./pages/services/DesarrolloSoftwarePage";
+import { PlataformasSaaSPage } from "./pages/services/PlataformasSaaSPage";
+import { SolucionesEmpresarialesPage } from "./pages/services/SolucionesEmpresarialesPage";
+import { IAAutomatizacionPage } from "./pages/services/IAAutomatizacionPage";
+import { UXEngineeringPage } from "./pages/services/UXEngineeringPage";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -34,7 +39,12 @@ export default function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/servicios" element={<CapabilitiesPage />} />
-            <Route path="/servicios/:slug" element={<CapabilityDetailPage />} />
+            {/* Landing pages únicas por servicio */}
+            <Route path="/servicios/desarrollo-software" element={<DesarrolloSoftwarePage />} />
+            <Route path="/servicios/plataformas-saas" element={<PlataformasSaaSPage />} />
+            <Route path="/servicios/soluciones-empresariales" element={<SolucionesEmpresarialesPage />} />
+            <Route path="/servicios/ia-automatizacion" element={<IAAutomatizacionPage />} />
+            <Route path="/servicios/ux-engineering" element={<UXEngineeringPage />} />
             <Route path="/casos-exito" element={<WorkPage />} />
             <Route path="/nosotros" element={<StudioPage />} />
             <Route path="/ecosistema" element={<EcosystemPage />} />
