@@ -17,7 +17,7 @@ export const hero = {
 
 /** Manifiesto que se escribe solo en el terminal del hero (método verificable, no métricas). */
 export const manifesto: L[] = [
-  { es: "$ cat MANIFIESTO.md", en: "$ cat MANIFESTO.md" },
+  { es: "$ farutech principios", en: "$ farutech principles" },
   { es: " ", en: " " },
   { es: "# FaruTech, principios de ingeniería", en: "# FaruTech, engineering principles" },
   { es: "01 · Producción desde el primer commit", en: "01 · Production from the first commit" },

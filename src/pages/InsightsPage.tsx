@@ -1,0 +1,12 @@
+import { useEffect, useState } from "react";
+import { ArrowUpRight } from "lucide-react";
+import { Link } from "react-router-dom";
+import { seededInsights, type Insight } from "../content/insights";
+import { useDocumentMeta } from "../hooks/useDocumentMeta";
+
+export function InsightsPage() {
+  const [insights, setInsights] = useState<Insight[]>(seededInsights);
+  useDocumentMeta({ title: "Notas de ingeniería", description: "Decisiones, prácticas y aprendizajes para construir software que llega a producción.", path: "/insights" });
+  useEffect(() => { fetch("/api/posts").then((response) => response.ok ? response.json() : null).then((data) => { if (data?.ok && data.posts?.length) setInsights(data.posts.map((post: { slug: string; title: string; excerpt: string; published_at: string }) => ({ slug: post.slug, title: post.title, excerpt: post.excerpt, publishedAt: post.published_at, readTime: "Nota técnica" }))); }).catch(() => undefined); }, []);
+  return <><section className="relative overflow-hidden border-b border-border pb-16 pt-36 md:pt-44"><div className="pointer-events-none absolute inset-0 bg-mesh opacity-60" aria-hidden="true" /><div className="relative mx-auto max-w-7xl px-6"><p className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">Notas de ingeniería</p><h1 className="mt-4 max-w-4xl font-display text-4xl font-semibold tracking-tight md:text-6xl">Ideas útiles para decidir, construir y operar mejor.</h1><p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">Sin volumen por volumen: publicamos cuando hay una decisión o aprendizaje que pueda ayudar a un equipo.</p></div></section><section className="py-16 md:py-24"><div className="mx-auto grid max-w-7xl gap-5 px-6 md:grid-cols-2">{insights.map((insight) => <article key={insight.slug} className="group flex min-h-64 flex-col rounded-2xl border border-border bg-card p-7 transition hover:-translate-y-1 hover:border-primary/50"><p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">{new Date(`${insight.publishedAt}T12:00:00`).toLocaleDateString("es-CO", { dateStyle: "medium" })} · {insight.readTime}</p><h2 className="mt-5 font-display text-2xl font-semibold tracking-tight">{insight.title}</h2><p className="mt-3 flex-1 leading-relaxed text-muted-foreground">{insight.excerpt}</p><Link className="mt-6 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-primary" to={`/insights/${insight.slug}`}>Leer nota <ArrowUpRight className="h-4 w-4" /></Link></article>)}</div></section></>;
+}

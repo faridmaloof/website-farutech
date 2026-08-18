@@ -11,14 +11,14 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 const dist = path.resolve(root, "dist");
 
 const template = fs.readFileSync(path.resolve(dist, "index.html"), "utf-8");
-const { render } = await import(path.resolve(dist, "server", "entry-server.js"));
+const { render } = await import(pathToFileURL(path.resolve(dist, "server", "entry-server.js")).href);
 
 const SITE = "https://www.farutech.com";
 const BRAND = "FaruTech";
@@ -28,6 +28,7 @@ const capNames = {
   "plataformas-saas": "Plataformas SaaS y Multi-Tenant",
   "soluciones-empresariales": "Soluciones Empresariales",
   "ia-automatizacion": "IA y Automatización",
+  modernizacion: "Modernización Tecnológica",
   "ux-engineering": "UX Engineering",
 };
 
@@ -41,11 +42,16 @@ const routeMeta = {
   "/servicios": {
     title: `Servicios · ${BRAND}`,
     description:
-      "Cinco disciplinas de ingeniería: desarrollo a medida, SaaS multi-tenant, soluciones empresariales, IA y automatización, y UX Engineering.",
+      "Seis disciplinas de ingeniería: desarrollo a medida, SaaS multi-tenant, soluciones empresariales, IA y automatización, modernización y UX Engineering.",
   },
-  "/casos-exito": {
-    title: `Casos de Éxito · ${BRAND}`,
-    description: "Trabajo real con clientes reales: Afilamos Hermanos y Supraeventos. Stack tecnológico e impacto medible.",
+  "/trabajo": {
+    title: `Trabajo · ${BRAND}`,
+    description: "Trabajo real con clientes reales y su estado honesto. Caso Afilamos Hermanos S.A.S.",
+  },
+  "/metodologia": {
+    title: `Metodología · ${BRAND}`,
+    description:
+      "Un proceso de ingeniería: diagnóstico, arquitectura, construcción y producción. Documentado y verificable.",
   },
   "/nosotros": {
     title: `Nosotros · ${BRAND}`,

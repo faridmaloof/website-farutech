@@ -18,8 +18,9 @@ export const site = {
     showStack: false,
   },
   nav: [
-    { label: { es: "Servicios", en: "Services" } satisfies L, to: "/servicios" },
-    { label: { es: "Nosotros", en: "About Us" } satisfies L, to: "/nosotros" },
+    { label: { es: "Metodología", en: "Methodology" } satisfies L, to: "/metodologia" },
+    { label: { es: "Trabajo", en: "Work" } satisfies L, to: "/trabajo" },
+    { label: { es: "Studio", en: "Studio" } satisfies L, to: "/studio" },
   ],
   ui: {
     empezar: { es: "Empezar un proyecto", en: "Start a project" } satisfies L,
@@ -41,5 +42,6 @@ export const site = {
     privacidad: { es: "Privacidad", en: "Privacy" } satisfies L,
     terminos: { es: "Términos", en: "Terms" } satisfies L,
     proximamente: { es: "próximamente", en: "coming soon" } satisfies L,
+    blog: { es: "Blog / Recursos", en: "Blog / Resources" } satisfies L,
   },
 };

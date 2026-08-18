@@ -4,24 +4,20 @@
  */
 import { motion } from "framer-motion";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { hero, ecosystem, tickerItems, trustBanner, finalCta } from "../content/home";
-import { services, servicesUI } from "../content/servicesData";
+import { hero, ecosystem, tickerItems, finalCta } from "../content/home";
+import { capabilities, capUI } from "../content/capabilities";
 import { methodSteps, methodPage } from "../content/methodology";
 import { site } from "../content/site";
 import { LOGO_URL } from "../components/Logo";
 import { Button, SectionHeading, Reveal, StatusBadge } from "../components/primitives";
-import { CapabilityCard, Marquee } from "../components/patterns";
+import { CapabilityCard, CaseCard, Marquee } from "../components/patterns";
 import { useContact } from "../components/contact";
 import { useT } from "../i18n";
+import { cn } from "../lib/utils";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-/** Spans del mosaico de capacidades (cierra la cuadrícula sin huecos en desktop). */
-const SPANS: Record<string, string> = {
-  "desarrollo-a-medida": "md:col-span-2",
-  modernizacion: "lg:row-span-2",
-  "ux-engineering": "md:col-span-2",
-};
+
 
 /* ---------- Hero ---------- */
 export function Hero() {
@@ -174,29 +170,44 @@ export function TrustBannerSection() {
 
 /* ---------- Capacidades (mosaico) ---------- */
 export function CapabilitiesSection() {
-  const t = useT();
   return (
     <section className="relative py-24 md:py-32" id="capacidades" aria-labelledby="cap-title">
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeading
-          eyebrow={t(servicesUI.eyebrow)}
+          eyebrow={t(capUI.eyebrow)}
           index="[ 01 ]"
           title={
             <>
-              {t(servicesUI.titleA)} <span className="text-gradient">{t(servicesUI.titleB)}</span>
+              {t(capUI.titleA)} <span className="text-gradient">{t(capUI.titleB)}</span>
             </>
           }
-          lede={t(servicesUI.lede)}
+          lede={t(capUI.lede)}
         />
         <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {services.map((c, i) => (
+          {capabilities.map((c, i) => (
             <CapabilityCard
               key={c.slug}
-              cap={c}
               delay={(i % 3) * 0.06}
-              className={SPANS[c.slug]}
-              tall={c.slug === "modernizacion"}
-            />
+              className={cn(
+                "group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:border-foreground/20 hover:shadow-elevated",
+                i === 0 || i === 3 ? "md:col-span-2" : ""
+              )}
+            >
+              <div className="h-40 shrink-0 relative overflow-hidden bg-surface/30 border-b border-border/50 flex items-center justify-center">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--color-primary)_0,transparent_1px)] opacity-[0.03] bg-[size:16px_16px]" />
+                <span className="absolute right-5 top-5 font-mono text-[10px] font-semibold tracking-[0.2em] text-muted-foreground">{c.slug.toUpperCase()}</span>
+                <div className="relative h-16 w-16 rounded-2xl border border-border bg-background shadow-sm flex items-center justify-center">
+                  <span className="font-display text-xl font-bold text-foreground opacity-80">0{i + 1}</span>
+                </div>
+              </div>
+              <div className="flex flex-col p-8 flex-1">
+                <h3 className="font-display text-2xl font-semibold tracking-tight">{c.title}</h3>
+                <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground flex-1">{c.shortDescription}</p>
+                <a href={`/capacidades/${c.slug}`} className="mt-6 inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-primary transition-opacity hover:opacity-80">
+                  VER SERVICIO <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                </a>
+              </div>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -204,9 +215,20 @@ export function CapabilitiesSection() {
   );
 }
 
-/* ---------- Trabajo (caso real - integrado en capacidades) ---------- */
-// Nota: La sección WorkSection se elimina del home ya que los casos de éxito
-// ahora aparecen en el TrustBanner. Los detalles completos están en /casos-exito
+/* ---------- Trabajo (caso real) ---------- */
+export function WorkSection() {
+  const t = useT();
+  return (
+    <section className="relative py-24 md:py-32" id="trabajo" aria-labelledby="work-title">
+      <div className="mx-auto max-w-7xl px-6">
+        <SectionHeading eyebrow={t(workPage.eyebrow)} index="[ 02 ]" title={t(workPage.title)} lede={t(workPage.lede)} />
+        <Reveal className="mt-12">
+          <CaseCard />
+        </Reveal>
+      </div>
+    </section>
+  );
+}
 
 /* ---------- Metodología ---------- */
 export function MethodSection() {
