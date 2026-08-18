@@ -15,7 +15,7 @@
 import { motion, type Variants } from 'framer-motion';
 import type { JSX } from 'react';
 import { cn } from '../lib/utils';
-import type { ContentBlock, BlockPosition, AnimationType, HeroLayout } from '../types';
+import type { ContentBlock, BlockPosition, AnimationType } from '../types';
 
 // ---------------------------------------------------------------------------
 // Layout helpers
@@ -50,75 +50,45 @@ function getAnimationVariants(animation: AnimationType = 'fade-up'): Variants {
       return { hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } };
   }
 }
-
-/**
- * Clip-path por heroLayout — evita el "grid 2 columnas genérico".
- * Los ángulos están inspirados en el pliegue del isotipo de FaruTech,
- * NO son diagonales arbitrarias de 45°.
- */
-function getHeroClipPath(layout: HeroLayout = 'origami-left'): string {
-  switch (layout) {
-    case 'origami-left':
-      return 'polygon(0 0, 62% 0, 48% 100%, 0% 100%)';
-    case 'origami-right':
-      return 'polygon(38% 0, 100% 0, 100% 100%, 52% 100%)';
-    case 'dark-authority':
-      return 'none'; // fondo oscuro completo, sin recorte — la autoridad viene del vacío, no de la forma
-    case 'organic':
-      return 'none'; // se resuelve con blobs SVG en el propio HeroBlock, no con clip-path
-    default:
-      return 'none';
-  }
-}
-
 // ---------------------------------------------------------------------------
 // Sub-renderers por tipo de bloque
 // ---------------------------------------------------------------------------
 
 function HeroBlock({ block }: { block: ContentBlock }) {
-  const clipPath = getHeroClipPath(block.heroLayout);
   const isDark = block.heroLayout === 'dark-authority';
 
   return (
     <div
       className={cn(
-        'relative overflow-hidden rounded-none md:rounded-3xl min-h-[70vh] flex items-center',
-        isDark ? 'bg-[--color-charcoal] text-white' : 'bg-[--color-primary]/5'
+        'relative overflow-hidden rounded-none md:rounded-3xl min-h-[50vh] flex items-center border border-border',
+        isDark ? 'bg-zinc-950 text-white' : 'bg-surface/50 text-foreground'
       )}
     >
-      <div className="relative z-10 max-w-2xl px-6 md:px-16 py-16">
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
+      <div className="relative z-10 max-w-3xl px-6 md:px-16 py-20">
         {block.subtitle && (
-          <p className="text-sm uppercase tracking-widest font-semibold text-[--color-primary] mb-4">
+          <p className="text-sm uppercase tracking-widest font-semibold text-primary mb-6">
             {block.subtitle}
           </p>
         )}
         {block.title && (
-          <h1 className="text-4xl md:text-6xl font-display font-bold leading-[1.05] mb-6">{block.title}</h1>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-semibold leading-[1.1] mb-6 tracking-tight">{block.title}</h1>
         )}
-        {block.content && <p className="text-lg opacity-80 mb-8 max-w-xl">{block.content}</p>}
+        {block.content && <p className="text-lg text-muted-foreground mb-10 max-w-2xl leading-relaxed">{block.content}</p>}
         {block.cta && (
           <a
             href={block.cta.href}
             className={cn(
-              'inline-flex items-center px-6 py-3 rounded-full font-medium transition-colors',
+              'inline-flex items-center px-8 py-4 rounded-xl font-medium transition-colors text-sm',
               block.cta.variant === 'outline'
-                ? 'border border-current'
-                : 'bg-[--color-primary] text-white hover:opacity-90'
+                ? 'border border-border hover:bg-muted'
+                : 'bg-primary text-primary-foreground hover:bg-primary/90'
             )}
           >
             {block.cta.text}
           </a>
         )}
       </div>
-
-      {block.image && (
-        <div
-          className="absolute inset-y-0 right-0 w-full md:w-[60%] bg-cover bg-center"
-          style={{ backgroundImage: `url(${block.image.src})`, clipPath }}
-          role="img"
-          aria-label={block.image.alt}
-        />
-      )}
     </div>
   );
 }

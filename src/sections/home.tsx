@@ -136,17 +136,18 @@ export function CapabilitiesSection() {
                 i === 0 || i === 3 ? "md:col-span-2" : ""
               )}
             >
-              <div className="h-44 shrink-0 relative overflow-hidden" style={{ background: `linear-gradient(135deg, ${c.color}1f, transparent 70%)` }}>
-                <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
-                <span className="absolute right-4 top-4 font-mono text-[10px] font-semibold tracking-[0.35em] text-foreground/70">{c.slug.toUpperCase()}</span>
-                <div className="absolute inset-x-0 bottom-0 h-px" style={{ background: `linear-gradient(90deg, transparent, ${c.color}, transparent)` }} aria-hidden="true" />
+              <div className="h-40 shrink-0 relative overflow-hidden bg-surface/30 border-b border-border/50 flex items-center justify-center">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--color-primary)_0,transparent_1px)] opacity-[0.03] bg-[size:16px_16px]" />
+                <span className="absolute right-5 top-5 font-mono text-[10px] font-semibold tracking-[0.2em] text-muted-foreground">{c.slug.toUpperCase()}</span>
+                <div className="relative h-16 w-16 rounded-2xl border border-border bg-background shadow-sm flex items-center justify-center">
+                  <span className="font-display text-xl font-bold text-foreground opacity-80">0{i + 1}</span>
+                </div>
               </div>
-              <div className="flex flex-col p-6 flex-1">
-                <span className="font-mono text-[11px] font-semibold tracking-[0.2em]" style={{ color: c.color }}>[ 0{i + 1} ]</span>
-                <h3 className="mt-3 font-display text-xl font-semibold tracking-tight">{c.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground flex-1">{c.shortDescription}</p>
-                <a href={`/capacidades/${c.slug}`} className="mt-5 inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider transition-opacity hover:opacity-80" style={{ color: c.color }}>
-                  VER SOLUCIÓN <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              <div className="flex flex-col p-8 flex-1">
+                <h3 className="font-display text-2xl font-semibold tracking-tight">{c.title}</h3>
+                <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground flex-1">{c.shortDescription}</p>
+                <a href={`/capacidades/${c.slug}`} className="mt-6 inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-primary transition-opacity hover:opacity-80">
+                  VER SERVICIO <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                 </a>
               </div>
             </Reveal>
