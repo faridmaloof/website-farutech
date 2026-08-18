@@ -8,10 +8,9 @@ import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import type { Capability, CapabilityMotif as MotifKind } from "../content/capabilities";
 import { capUI } from "../content/capabilities";
-import { afilamos, work as workUi } from "../content/work";
 import type { L } from "../i18n";
 import { useT } from "../i18n";
-import { Button, StatusBadge, Tag } from "./primitives";
+import { Tag } from "./primitives";
 import { cn } from "../lib/utils";
 
 /* ---------- CapabilityMotif (patrón decorativo) ---------- */
@@ -192,42 +191,6 @@ export function CapabilityCard({
   );
 }
 
-/* ---------- CaseCard (Afilamos Hermanos) ---------- */
-export function CaseCard() {
-  const t = useT();
-  return (
-    <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-8 md:p-10">
-      <div className="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-primary to-accent" aria-hidden="true" />
-      <div className="grid gap-10 md:grid-cols-[1.4fr_1fr]">
-        <div>
-          <div className="flex flex-wrap gap-x-5 gap-y-1 font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
-            <span className="text-accent">{t(workUi.casoReal)}</span>
-            <span>{t(afilamos.sector)}</span>
-          </div>
-          <h3 className="mt-3 font-display text-3xl font-semibold tracking-tight">{afilamos.client}</h3>
-          <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground">{t(afilamos.summary)}</p>
-          <div className="mt-6 flex flex-wrap items-center gap-3">
-            <Button href={afilamos.url} external variant="outline" size="sm">
-              {t(workUi.visitar)} <ArrowUpRight className="h-3.5 w-3.5" />
-            </Button>
-          </div>
-          <p className="mt-4 font-mono text-[11px] leading-relaxed text-muted-foreground">{t(afilamos.impact)}</p>
-        </div>
-        <div className="flex flex-col gap-3 self-center">
-          {afilamos.items.map((item) => (
-            <div
-              key={item.label.es}
-              className="flex items-center justify-between gap-3 rounded-xl border border-border bg-surface/50 px-4 py-3 transition-transform duration-200 hover:translate-x-1"
-            >
-              <span className="text-sm font-medium">{t(item.label)}</span>
-              <StatusBadge status={item.status} label={t(item.statusLabel)} />
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
 
 /* ---------- Marquee (cinta de disciplinas) ---------- */
 export function Marquee({ items }: { items: L[] }) {

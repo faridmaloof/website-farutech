@@ -21,16 +21,19 @@ const copy = {
   emailPh: { es: "tu@empresa.com", en: "you@company.com" },
   empresa: { es: "Empresa (opcional)", en: "Company (optional)" },
   empresaPh: { es: "Nombre de tu empresa", en: "Your company name" },
+  tipo: { es: "¿En qué podemos ayudarte?", en: "How can we help?" },
+  tipoPh: { es: "Selecciona una opción", en: "Select an option" },
+  plazo: { es: "Horizonte deseado", en: "Desired timeline" },
+  presupuesto: { es: "Rango de inversión (opcional)", en: "Investment range (optional)" },
   mensaje: { es: "Cuéntanos del proyecto", en: "Tell us about the project" },
   mensajePh: {
     es: "Qué necesitas, en qué etapa estás, qué te frena…",
     en: "What you need, what stage you're at, what's holding you back…",
   },
   enviar: { es: "Enviar", en: "Send" },
-  nota: {
-    es: "Se abrirá tu cliente de correo con el mensaje listo. No almacenamos tus datos.",
-    en: "Your mail client will open with the message ready. We don't store your data.",
-  },
+  nota: { es: "Usamos esta información solo para responder a tu consulta.", en: "We use this information only to respond to your inquiry." },
+  enviado: { es: "Consulta enviada. Te responderemos pronto.", en: "Inquiry sent. We'll reply soon." },
+  error: { es: "No pudimos enviar la consulta. Inténtalo otra vez o escríbenos por email.", en: "We couldn't send your inquiry. Try again or email us." },
   directo: { es: "Directo", en: "Direct" },
   ubicacion: { es: "Ubicación", en: "Location" },
   respuesta: { es: "Respuesta", en: "Response" },
@@ -79,7 +82,8 @@ export function ContactProvider({ children }: { children: ReactNode }) {
 
 function ContactDrawer({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const t = useT();
-  const [form, setForm] = useState({ nombre: "", email: "", empresa: "", mensaje: "" });
+  const [form, setForm] = useState({ nombre: "", email: "", empresa: "", tipo: "", plazo: "", presupuesto: "", mensaje: "" });
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const firstField = useRef<HTMLInputElement>(null);
 
   // Foco al primer campo al abrir
@@ -91,16 +95,20 @@ function ContactDrawer({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
 
   const set =
     (k: keyof typeof form) =>
-    (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+    (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
       setForm((f) => ({ ...f, [k]: e.target.value }));
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const subject = encodeURIComponent(`Proyecto: ${form.nombre || "Consulta"}`);
-    const body = encodeURIComponent(
-      `Nombre: ${form.nombre}\nEmail: ${form.email}\nEmpresa: ${form.empresa}\n\n${form.mensaje}`
-    );
-    window.location.href = `mailto:${site.email}?subject=${subject}&body=${body}`;
+    setStatus("sending");
+    try {
+      const response = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name: form.nombre, email: form.email, company: form.empresa, projectType: form.tipo, timeline: form.plazo, budget: form.presupuesto, message: form.mensaje }) });
+      if (!response.ok) throw new Error("contact request failed");
+      setStatus("success");
+      setForm({ nombre: "", email: "", empresa: "", tipo: "", plazo: "", presupuesto: "", mensaje: "" });
+    } catch {
+      setStatus("error");
+    }
   };
 
   const inputCls =
@@ -170,6 +178,11 @@ function ContactDrawer({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
                   </label>
                   <input id="cd-empresa" value={form.empresa} onChange={set("empresa")} placeholder={t(copy.empresaPh)} className={inputCls} />
                 </div>
+                <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                  <div className="flex flex-col gap-1.5"><label htmlFor="cd-tipo" className="font-mono text-[11px] font-medium uppercase tracking-wider text-muted-foreground">{t(copy.tipo)}</label><select id="cd-tipo" required value={form.tipo} onChange={set("tipo")} className={inputCls}><option value="">{t(copy.tipoPh)}</option><option value="software">Software a medida</option><option value="saas">Plataforma SaaS</option><option value="cloud">Cloud y seguridad</option><option value="ux">UX Engineering</option><option value="otro">Otro</option></select></div>
+                  <div className="flex flex-col gap-1.5"><label htmlFor="cd-plazo" className="font-mono text-[11px] font-medium uppercase tracking-wider text-muted-foreground">{t(copy.plazo)}</label><select id="cd-plazo" value={form.plazo} onChange={set("plazo")} className={inputCls}><option value="">Aún no definido</option><option value="inmediato">Inmediato</option><option value="trimestre">Este trimestre</option><option value="exploracion">En exploración</option></select></div>
+                </div>
+                <div className="mt-4 flex flex-col gap-1.5"><label htmlFor="cd-presupuesto" className="font-mono text-[11px] font-medium uppercase tracking-wider text-muted-foreground">{t(copy.presupuesto)}</label><input id="cd-presupuesto" value={form.presupuesto} onChange={set("presupuesto")} placeholder="Opcional" className={inputCls} /></div>
                 <div className="mt-4 flex flex-col gap-1.5">
                   <label htmlFor="cd-mensaje" className="font-mono text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
                     {t(copy.mensaje)}
@@ -178,11 +191,14 @@ function ContactDrawer({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
                 </div>
                 <button
                   type="submit"
+                  disabled={status === "sending"}
                   className="mt-5 inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-6 text-base font-medium text-background shadow-[0_0_24px_-6px_rgba(255,255,255,0.3)] transition-all hover:bg-foreground/90"
                 >
-                  {t(copy.enviar)} <ArrowRight className="h-4 w-4" />
+                  {status === "sending" ? "Enviando…" : t(copy.enviar)} <ArrowRight className="h-4 w-4" />
                 </button>
                 <p className="mt-3 font-mono text-[11px] leading-relaxed text-muted-foreground">{t(copy.nota)}</p>
+                {status === "success" && <p role="status" className="mt-3 text-sm text-accent">{t(copy.enviado)}</p>}
+                {status === "error" && <p role="alert" className="mt-3 text-sm text-spark">{t(copy.error)}</p>}
               </form>
 
               <div className="mt-8 border-t border-border pt-6">

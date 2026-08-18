@@ -23,7 +23,7 @@ import { Button } from "./primitives";
 import { LanguageSwitcher, useT } from "../i18n";
 import { useContact } from "./contact";
 import { site } from "../content/site";
-import { capabilities } from "../content/capabilities";
+import { siteConfig } from "../content/site.config";
 import { cn } from "../lib/utils";
 
 const CAP_ICONS: Record<string, LucideIcon> = {
@@ -92,7 +92,7 @@ function Header() {
               <div className="absolute left-0 top-full w-[560px] pt-3">
                 <div className="border-gradient overflow-hidden rounded-2xl border border-border bg-surface/95 p-3 shadow-elevated backdrop-blur-xl">
                   <div className="grid grid-cols-2 gap-1">
-                    {capabilities.map((c) => {
+                    {siteConfig.solutions.map((c) => {
                       const Icon = CAP_ICONS[c.slug] ?? Boxes;
                       return (
                         <Link
@@ -103,13 +103,13 @@ function Header() {
                         >
                           <span
                             className="mt-0.5 rounded-lg border border-border bg-background/60 p-2"
-                            style={{ color: c.accent }}
+                            style={{ color: c.color }}
                           >
                             <Icon className="h-4 w-4" />
                           </span>
                           <span>
-                            <span className="block text-sm font-medium group-hover:text-foreground">{t(c.name)}</span>
-                            <span className="mt-0.5 line-clamp-2 block text-xs text-muted-foreground">{t(c.short)}</span>
+                            <span className="block text-sm font-medium group-hover:text-foreground">{c.title}</span>
+                            <span className="mt-0.5 line-clamp-2 block text-xs text-muted-foreground">{c.shortDescription}</span>
                           </span>
                         </Link>
                       );
@@ -166,7 +166,7 @@ function Header() {
             <div className="pb-1 pt-2 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
               {t(ui.soluciones)}
             </div>
-            {capabilities.map((c) => {
+            {siteConfig.solutions.map((c) => {
               const Icon = CAP_ICONS[c.slug] ?? Boxes;
               return (
                 <Link
@@ -175,8 +175,8 @@ function Header() {
                   onClick={() => setOpenMenu(false)}
                   className="flex items-center gap-3 py-2.5 text-sm text-foreground"
                 >
-                  <Icon className="h-4 w-4" style={{ color: c.accent }} />
-                  {t(c.name)}
+                  <Icon className="h-4 w-4" style={{ color: c.color }} />
+                  {c.title}
                 </Link>
               );
             })}
@@ -228,10 +228,10 @@ function Footer() {
               {t(site.footer.capabilities)}
             </h4>
             <ul className="mt-4 space-y-2.5">
-              {capabilities.map((c) => (
+              {siteConfig.solutions.map((c) => (
                 <li key={c.slug}>
                   <Link to={`/capacidades/${c.slug}`} className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-                    {t(c.name)}
+                    {c.title}
                   </Link>
                 </li>
               ))}
@@ -250,6 +250,11 @@ function Footer() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link to="/studio" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+                  {t(site.footer.blog)}
+                </Link>
+              </li>
               {site.flags.showEcosystemInFooter && (
                 <li>
                   <Link to="/ecosistema" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
@@ -276,7 +281,35 @@ function Footer() {
                 </button>
               </li>
               <li className="text-sm text-muted-foreground">{t(site.location)}</li>
+              <li><a href={siteConfig.social.linkedin} target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground transition-colors hover:text-foreground">LinkedIn</a></li>
+              <li><a href={siteConfig.social.website} className="text-sm text-muted-foreground transition-colors hover:text-foreground">farutech.com</a></li>
             </ul>
+            
+            <h4 className="mt-8 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground">
+              Newsletter
+            </h4>
+            <form 
+              className="mt-4 flex gap-2"
+              onSubmit={async (e) => {
+                e.preventDefault();
+                const fd = new FormData(e.currentTarget);
+                try {
+                  await fetch('/api/newsletter.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: fd.get('email'), website: '' })
+                  });
+                  alert('¡Gracias por suscribirte!');
+                  e.currentTarget.reset();
+                } catch(err) {
+                  console.error(err);
+                }
+              }}
+            >
+              <input type="email" name="email" required placeholder="tu@email.com" className="w-full rounded-md border border-border bg-background/50 px-3 py-1.5 text-sm" />
+              <input type="text" name="website" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
+              <button type="submit" className="rounded-md bg-primary px-3 py-1.5 text-sm text-white">Suscribir</button>
+            </form>
           </div>
         </div>
 

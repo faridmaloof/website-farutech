@@ -5,24 +5,20 @@
 import { motion } from "framer-motion";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { hero, ecosystem, tickerItems, finalCta } from "../content/home";
-import { capabilities, capUI } from "../content/capabilities";
+import { siteConfig } from "../content/site.config";
+import { caseStudies } from "../content/work";
 import { methodSteps, methodPage } from "../content/methodology";
-import { workPage } from "../content/work";
 import { site } from "../content/site";
 import { LOGO_URL } from "../components/Logo";
 import { Button, SectionHeading, Reveal, StatusBadge } from "../components/primitives";
-import { CapabilityCard, CaseCard, Marquee } from "../components/patterns";
+import { Marquee } from "../components/patterns";
 import { useContact } from "../components/contact";
 import { useT } from "../i18n";
+import { cn } from "../lib/utils";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-/** Spans del mosaico de capacidades (cierra la cuadrícula sin huecos en desktop). */
-const SPANS: Record<string, string> = {
-  "desarrollo-a-medida": "md:col-span-2",
-  modernizacion: "lg:row-span-2",
-  "ux-engineering": "md:col-span-2",
-};
+
 
 /* ---------- Hero ---------- */
 export function Hero() {
@@ -121,29 +117,40 @@ export function MarqueeSection() {
 
 /* ---------- Capacidades (mosaico) ---------- */
 export function CapabilitiesSection() {
-  const t = useT();
   return (
     <section className="relative py-24 md:py-32" id="capacidades" aria-labelledby="cap-title">
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeading
-          eyebrow={t(capUI.eyebrow)}
+          eyebrow="Soluciones"
           index="[ 01 ]"
-          title={
-            <>
-              {t(capUI.titleA)} <span className="text-gradient">{t(capUI.titleB)}</span>
-            </>
-          }
-          lede={t(capUI.lede)}
+          title={<>Ingeniería que <span className="text-gradient">resuelve</span></>}
+          lede="Construimos plataformas modulares adaptadas a cada necesidad."
         />
         <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {capabilities.map((c, i) => (
-            <CapabilityCard
+          {siteConfig.solutions.map((c, i) => (
+            <Reveal
               key={c.slug}
-              cap={c}
               delay={(i % 3) * 0.06}
-              className={SPANS[c.slug]}
-              tall={c.slug === "modernizacion"}
-            />
+              className={cn(
+                "group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:border-foreground/20 hover:shadow-elevated",
+                i === 0 || i === 3 ? "md:col-span-2" : ""
+              )}
+            >
+              <div className="h-40 shrink-0 relative overflow-hidden bg-surface/30 border-b border-border/50 flex items-center justify-center">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--color-primary)_0,transparent_1px)] opacity-[0.03] bg-[size:16px_16px]" />
+                <span className="absolute right-5 top-5 font-mono text-[10px] font-semibold tracking-[0.2em] text-muted-foreground">{c.slug.toUpperCase()}</span>
+                <div className="relative h-16 w-16 rounded-2xl border border-border bg-background shadow-sm flex items-center justify-center">
+                  <span className="font-display text-xl font-bold text-foreground opacity-80">0{i + 1}</span>
+                </div>
+              </div>
+              <div className="flex flex-col p-8 flex-1">
+                <h3 className="font-display text-2xl font-semibold tracking-tight">{c.title}</h3>
+                <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground flex-1">{c.shortDescription}</p>
+                <a href={`/capacidades/${c.slug}`} className="mt-6 inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-primary transition-opacity hover:opacity-80">
+                  VER SERVICIO <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                </a>
+              </div>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -153,14 +160,51 @@ export function CapabilitiesSection() {
 
 /* ---------- Trabajo (caso real) ---------- */
 export function WorkSection() {
-  const t = useT();
+  const featuredCases = caseStudies.filter(c => c.featured).slice(0, 3);
   return (
     <section className="relative py-24 md:py-32" id="trabajo" aria-labelledby="work-title">
       <div className="mx-auto max-w-7xl px-6">
-        <SectionHeading eyebrow={t(workPage.eyebrow)} index="[ 02 ]" title={t(workPage.title)} lede={t(workPage.lede)} />
-        <Reveal className="mt-12">
-          <CaseCard />
-        </Reveal>
+        <SectionHeading 
+          eyebrow="Casos de Éxito" 
+          index="[ 02 ]" 
+          title="Resultados que hablan" 
+          lede="Proyectos en los que hemos implementado soluciones clave." 
+        />
+        <div className="mt-12 grid gap-8">
+          {featuredCases.map((c) => (
+            <Reveal key={c.id}>
+              <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-8 md:p-10">
+                <div className="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-primary to-accent" aria-hidden="true" />
+                <div className="grid gap-10 md:grid-cols-[1.4fr_1fr]">
+                  <div>
+                    <div className="flex flex-wrap gap-x-5 gap-y-1 font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
+                      <span className="text-accent">CASO REAL</span>
+                      <span>{c.industry}</span>
+                    </div>
+                    <h3 className="mt-3 font-display text-3xl font-semibold tracking-tight">{c.client}</h3>
+                    <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground">{c.solution}</p>
+                    <div className="mt-6 flex flex-wrap items-center gap-3">
+                      <Button to={`/casos-de-exito`} variant="outline" size="sm">
+                        Ver caso <ArrowUpRight className="h-3.5 w-3.5" />
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-3 self-center">
+                    {c.metrics.map((item) => (
+                      <div
+                        key={item.label}
+                        className="flex items-center justify-between gap-3 rounded-xl border border-border bg-surface/50 px-4 py-3 transition-transform duration-200 hover:translate-x-1"
+                      >
+                        <span className="text-sm font-medium">{item.label}</span>
+                        <StatusBadge status="live" label={item.value} />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -1,0 +1,6 @@
+RewriteEngine On
+RewriteRule ^contact/?$ contact.php [L,QSA]
+RewriteRule ^newsletter/?$ newsletter.php [L,QSA]
+RewriteRule ^posts/?$ posts.php [L,QSA]
+RewriteRule ^manage-post/?$ manage-post.php [L,QSA]
+Options -Indexes

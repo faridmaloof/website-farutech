@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /admin/
 
-Sitemap: https://www.farutech.com/sitemap.xml
+Sitemap: https://farutech.com/sitemap.xml

@@ -11,14 +11,14 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 const dist = path.resolve(root, "dist");
 
 const template = fs.readFileSync(path.resolve(dist, "index.html"), "utf-8");
-const { render } = await import(path.resolve(dist, "server", "entry-server.js"));
+const { render } = await import(pathToFileURL(path.resolve(dist, "server", "entry-server.js")).href);
 
 const SITE = "https://www.farutech.com";
 const BRAND = "FaruTech";
@@ -26,10 +26,9 @@ const BRAND = "FaruTech";
 const capNames = {
   "desarrollo-a-medida": "Desarrollo de Software a Medida",
   "plataformas-saas": "Plataformas SaaS y Multi-Tenant",
-  "soluciones-empresariales": "Soluciones Empresariales",
-  "ia-automatizacion": "IA y Automatización",
-  modernizacion: "Modernización Tecnológica",
-  "ux-engineering": "UX Engineering",
+  "modernizacion": "Modernización de Sistemas (Legacy)",
+  "ux-engineering": "UX Engineering & Diseño",
+  "staff-augmentation": "Staff Augmentation & Gestión de Proyectos",
 };
 
 /** title + description por ruta (se inyectan en el HTML estático). */
@@ -39,14 +38,14 @@ const routeMeta = {
     description:
       "Desarrollo de software a medida, plataformas SaaS multi-tenant y soluciones empresariales. Ingeniería senior desde Colombia. Bogotá · Cali · Remoto.",
   },
-  "/capacidades": {
-    title: `Soluciones · ${BRAND}`,
+  "/servicios": {
+    title: `Servicios · ${BRAND}`,
     description:
-      "Seis disciplinas de ingeniería: desarrollo a medida, SaaS multi-tenant, soluciones empresariales, IA y automatización, modernización y UX Engineering.",
+      "Nuestras soluciones de ingeniería corporativa: desarrollo a medida, plataformas SaaS, modernización legacy, UX engineering y staff augmentation.",
   },
   "/trabajo": {
     title: `Trabajo · ${BRAND}`,
-    description: "Trabajo real con clientes reales y su estado honesto. Caso Afilamos Hermanos S.A.S.",
+    description: "Trabajo real con clientes reales y su estado honesto: Afilamos Hermanos y Supraeventos.",
   },
   "/metodologia": {
     title: `Metodología · ${BRAND}`,
@@ -73,7 +72,7 @@ const routeMeta = {
 };
 
 for (const [slug, name] of Object.entries(capNames)) {
-  routeMeta[`/capacidades/${slug}`] = {
+  routeMeta[`/servicios/${slug}`] = {
     title: `${name} · ${BRAND}`,
     description: `${name} en ${BRAND}. Ingeniería senior, desde el primer commit hasta el runbook.`,
   };

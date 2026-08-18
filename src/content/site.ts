@@ -19,8 +19,7 @@ export const site = {
   },
   nav: [
     { label: { es: "Metodología", en: "Methodology" } satisfies L, to: "/metodologia" },
-    { label: { es: "Trabajo", en: "Work" } satisfies L, to: "/trabajo" },
-    { label: { es: "Studio", en: "Studio" } satisfies L, to: "/studio" },
+    { label: { es: "Casos de Éxito", en: "Work" } satisfies L, to: "/casos-de-exito" },
   ],
   ui: {
     empezar: { es: "Empezar un proyecto", en: "Start a project" } satisfies L,
@@ -42,5 +41,6 @@ export const site = {
     privacidad: { es: "Privacidad", en: "Privacy" } satisfies L,
     terminos: { es: "Términos", en: "Terms" } satisfies L,
     proximamente: { es: "próximamente", en: "coming soon" } satisfies L,
+    blog: { es: "Blog / Recursos", en: "Blog / Resources" } satisfies L,
   },
 };
