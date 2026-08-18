@@ -36,8 +36,8 @@ export default function App() {
           <ScrollToTop />
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/capacidades" element={<CapabilitiesPage />} />
-            <Route path="/capacidades/:slug" element={<CapabilityDetailPage />} />
+            <Route path="/servicios" element={<CapabilitiesPage />} />
+            <Route path="/servicios/:slug" element={<CapabilityDetailPage />} />
             <Route path="/casos-de-exito" element={<WorkPage />} />
             <Route path="/casos-de-exito/:slug" element={<WorkPage />} />
             <Route path="/metodologia" element={<MethodologyPage />} />
