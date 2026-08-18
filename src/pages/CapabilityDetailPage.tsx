@@ -16,7 +16,7 @@ export function CapabilityDetailPage() {
   useDocumentMeta({
     title: cap ? t(cap.name) : t(capUI.notFound),
     description: cap ? t(cap.short) : t(capUI.notFoundDesc),
-    path: cap ? `/capacidades/${cap.slug}` : undefined,
+    path: cap ? `/servicios/${cap.slug}` : undefined,
   });
 
   if (!cap) return <NotFoundPage />;
@@ -27,7 +27,7 @@ export function CapabilityDetailPage() {
         <div className="pointer-events-none absolute inset-0 bg-mesh opacity-60" aria-hidden="true" />
         <div className="relative mx-auto max-w-7xl px-6">
           <Link
-            to="/capacidades"
+            to="/servicios"
             className="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
           >
             <ArrowLeft className="h-3.5 w-3.5" /> {t(capUI.volver)}

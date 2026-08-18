@@ -8,7 +8,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import type { Capability, CapabilityMotif as MotifKind } from "../content/capabilities";
 import { capUI } from "../content/capabilities";
-import { afilamos, work as workUi } from "../content/work";
+import { afilamos, supraeventos, work as workUi } from "../content/work";
 import type { L } from "../i18n";
 import { useT } from "../i18n";
 import { Button, StatusBadge, Tag } from "./primitives";
@@ -223,6 +223,80 @@ export function CaseCard() {
               <StatusBadge status={item.status} label={t(item.statusLabel)} />
             </div>
           ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- TrustBanner (banner de confianza con casos reales) ---------- */
+export function TrustBanner() {
+  const t = useT();
+  return (
+    <div className="grid gap-6 md:grid-cols-2">
+      {/* Afilamos Hermanos */}
+      <div className="group relative overflow-hidden rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-foreground/20 hover:shadow-elevated">
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex-1">
+            <div className="flex items-center gap-2">
+              <span className="h-2 w-2 animate-pulse rounded-full bg-success" aria-hidden="true" />
+              <span className="font-mono text-[10px] uppercase tracking-wider text-accent">{t(workUi.casoReal)}</span>
+            </div>
+            <h3 className="mt-2 font-display text-lg font-semibold tracking-tight">{afilamos.client}</h3>
+            <p className="mt-1 font-mono text-xs uppercase tracking-wider text-muted-foreground">{t(afilamos.sector)}</p>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{t(afilamos.summary)}</p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {afilamos.tags.slice(0, 3).map((tag) => (
+                <Tag key={tag.es}>{t(tag)}</Tag>
+              ))}
+            </div>
+          </div>
+          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg border border-border bg-surface/50 p-2">
+            <img
+              src="/images/clients/afilamos-hermanos.webp"
+              alt="Afilamos Hermanos Logo"
+              loading="lazy"
+              className="h-full w-full object-contain"
+            />
+          </div>
+        </div>
+        <div className="mt-4 flex items-center justify-between">
+          <Button href={afilamos.url} external variant="outline" size="sm">
+            {t(workUi.visitar)} <ArrowUpRight className="h-3.5 w-3.5" />
+          </Button>
+          <span className="font-mono text-[10px] text-muted-foreground">Live since 2024</span>
+        </div>
+      </div>
+
+      {/* Supraeventos */}
+      <div className="group relative overflow-hidden rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-foreground/20 hover:shadow-elevated">
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex-1">
+            <div className="flex items-center gap-2">
+              <span className="h-2 w-2 animate-pulse rounded-full bg-success" aria-hidden="true" />
+              <span className="font-mono text-[10px] uppercase tracking-wider text-accent">{t(workUi.casoReal)}</span>
+            </div>
+            <h3 className="mt-2 font-display text-lg font-semibold tracking-tight">{supraeventos.client}</h3>
+            <p className="mt-1 font-mono text-xs uppercase tracking-wider text-muted-foreground">{t(supraeventos.sector)}</p>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{t(supraeventos.summary)}</p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {supraeventos.tags.slice(0, 3).map((tag) => (
+                <Tag key={tag.es}>{t(tag)}</Tag>
+              ))}
+            </div>
+          </div>
+          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg border border-border bg-surface/50 p-2">
+            <img
+              src="/images/clients/supraeventos.webp"
+              alt="Supraeventos Logo"
+              loading="lazy"
+              className="h-full w-full object-contain"
+            />
+          </div>
+        </div>
+        <div className="mt-4 flex items-center justify-between">
+          <span className="font-mono text-[10px] text-muted-foreground">Infraestructura Cloud</span>
+          <span className="font-mono text-[10px] text-muted-foreground">99.9% uptime</span>
         </div>
       </div>
     </div>

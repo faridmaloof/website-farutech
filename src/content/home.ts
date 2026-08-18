@@ -39,6 +39,31 @@ export const tickerItems: L[] = [
   { es: "Soluciones empresariales", en: "Enterprise solutions" },
 ];
 
+/** Banner de confianza - empresas que confían en nosotros */
+export const trustBanner = {
+  eyebrow: { es: "Confían en nosotros", en: "Trusted by" } satisfies L,
+  companies: [
+    {
+      name: "Afilamos Hermanos S.A.S.",
+      sector: { es: "Industrial", en: "Industrial" } satisfies L,
+      logo: "/afilamos-logo.png", // Placeholder - usar logo real si disponible
+      description: {
+        es: "Empresa líder en afilado industrial de herramientas con soluciones digitales integrales.",
+        en: "Leading industrial tool sharpening company with comprehensive digital solutions.",
+      } satisfies L,
+    },
+    {
+      name: "Supraeventos",
+      sector: { es: "Eventos Corporativos", en: "Corporate Events" } satisfies L,
+      logo: "/supraeventos-logo.png", // Placeholder - usar logo real si disponible
+      description: {
+        es: "Producción de eventos corporativos con infraestructura cloud y seguridad enterprise.",
+        en: "Corporate event production with cloud infrastructure and enterprise security.",
+      } satisfies L,
+    },
+  ],
+};
+
 export const ecosystem = {
   eyebrow: { es: "Ecosistema", en: "Ecosystem" } satisfies L,
   title: { es: "El front door de un ecosistema en construcción.", en: "The front door to an ecosystem under construction." } satisfies L,

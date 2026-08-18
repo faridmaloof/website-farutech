@@ -1,37 +1,52 @@
+```
 # Dependencies
 node_modules/
 
-# Build outputs
+# Build artifacts
 dist/
 build/
-.output/
-
-# Logs and temp files
-*.log
-*.tmp
+target/
 
 # Environment
 .env
 .env.local
-*.env.*
+.env.*
 
-# Editors
+# Logs
+*.log
+
+# Editor/IDE
 .vscode/
 .idea/
+*.swp
+*.swo
+*.tmp
 
 # Python
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
+.Python
+venv/
+.venv/
+.env
+
+# Database
+*.sql
 
 # OS
 .DS_Store
 Thumbs.db
 
-# Nitro cache
-.nitro/
-.wrangler/
-
-# Test coverage
+# Coverage
 coverage/
+htmlcov/
+.coverage
+
+# Cache
+.mypy_cache/
+.pytest_cache/
+.nyc_output/
+coverage/
+```

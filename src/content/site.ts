@@ -18,9 +18,8 @@ export const site = {
     showStack: false,
   },
   nav: [
-    { label: { es: "Metodología", en: "Methodology" } satisfies L, to: "/metodologia" },
-    { label: { es: "Trabajo", en: "Work" } satisfies L, to: "/trabajo" },
-    { label: { es: "Studio", en: "Studio" } satisfies L, to: "/studio" },
+    { label: { es: "Servicios", en: "Services" } satisfies L, to: "/servicios" },
+    { label: { es: "Nosotros", en: "About Us" } satisfies L, to: "/nosotros" },
   ],
   ui: {
     empezar: { es: "Empezar un proyecto", en: "Start a project" } satisfies L,

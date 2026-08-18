@@ -24,11 +24,10 @@ const SITE = "https://www.farutech.com";
 const BRAND = "FaruTech";
 
 const capNames = {
-  "desarrollo-a-medida": "Desarrollo de Software a Medida",
+  "desarrollo-software": "Desarrollo de Software a Medida",
   "plataformas-saas": "Plataformas SaaS y Multi-Tenant",
   "soluciones-empresariales": "Soluciones Empresariales",
   "ia-automatizacion": "IA y Automatización",
-  modernizacion: "Modernización Tecnológica",
   "ux-engineering": "UX Engineering",
 };
 
@@ -39,22 +38,17 @@ const routeMeta = {
     description:
       "Desarrollo de software a medida, plataformas SaaS multi-tenant y soluciones empresariales. Ingeniería senior desde Colombia. Bogotá · Cali · Remoto.",
   },
-  "/capacidades": {
-    title: `Soluciones · ${BRAND}`,
+  "/servicios": {
+    title: `Servicios · ${BRAND}`,
     description:
-      "Seis disciplinas de ingeniería: desarrollo a medida, SaaS multi-tenant, soluciones empresariales, IA y automatización, modernización y UX Engineering.",
+      "Cinco disciplinas de ingeniería: desarrollo a medida, SaaS multi-tenant, soluciones empresariales, IA y automatización, y UX Engineering.",
   },
-  "/trabajo": {
-    title: `Trabajo · ${BRAND}`,
-    description: "Trabajo real con clientes reales y su estado honesto. Caso Afilamos Hermanos S.A.S.",
+  "/casos-exito": {
+    title: `Casos de Éxito · ${BRAND}`,
+    description: "Trabajo real con clientes reales: Afilamos Hermanos y Supraeventos. Stack tecnológico e impacto medible.",
   },
-  "/metodologia": {
-    title: `Metodología · ${BRAND}`,
-    description:
-      "Un proceso de ingeniería: diagnóstico, arquitectura, construcción y producción. Documentado y verificable.",
-  },
-  "/studio": {
-    title: `Studio · ${BRAND}`,
+  "/nosotros": {
+    title: `Nosotros · ${BRAND}`,
     description: "Un colectivo de ingeniería, primero. Distribuidos por diseño, con presencia en Bogotá y Cali.",
   },
   "/ecosistema": {
@@ -73,7 +67,7 @@ const routeMeta = {
 };
 
 for (const [slug, name] of Object.entries(capNames)) {
-  routeMeta[`/capacidades/${slug}`] = {
+  routeMeta[`/servicios/${slug}`] = {
     title: `${name} · ${BRAND}`,
     description: `${name} en ${BRAND}. Ingeniería senior, desde el primer commit hasta el runbook.`,
   };

@@ -12,7 +12,6 @@ import { HomePage } from "./pages/HomePage";
 import { CapabilitiesPage } from "./pages/CapabilitiesPage";
 import { CapabilityDetailPage } from "./pages/CapabilityDetailPage";
 import { WorkPage } from "./pages/WorkPage";
-import { MethodologyPage } from "./pages/MethodologyPage";
 import { StudioPage } from "./pages/StudioPage";
 import { EcosystemPage } from "./pages/EcosystemPage";
 import { LegalPage } from "./pages/LegalPage";
@@ -34,11 +33,10 @@ export default function App() {
           <ScrollToTop />
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/capacidades" element={<CapabilitiesPage />} />
-            <Route path="/capacidades/:slug" element={<CapabilityDetailPage />} />
-            <Route path="/trabajo" element={<WorkPage />} />
-            <Route path="/metodologia" element={<MethodologyPage />} />
-            <Route path="/studio" element={<StudioPage />} />
+            <Route path="/servicios" element={<CapabilitiesPage />} />
+            <Route path="/servicios/:slug" element={<CapabilityDetailPage />} />
+            <Route path="/casos-exito" element={<WorkPage />} />
+            <Route path="/nosotros" element={<StudioPage />} />
             <Route path="/ecosistema" element={<EcosystemPage />} />
             <Route path="/privacidad" element={<LegalPage kind="privacidad" />} />
             <Route path="/terminos" element={<LegalPage kind="terminos" />} />

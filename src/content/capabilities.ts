@@ -35,7 +35,7 @@ export interface Capability {
 
 export const capabilities: Capability[] = [
   {
-    slug: "desarrollo-a-medida",
+    slug: "desarrollo-software",
     index: "01",
     name: { es: "Desarrollo de Software a Medida", en: "Custom Software Development" },
     short: {
@@ -452,15 +452,15 @@ export function getCapability(slug: string | undefined) {
 
 /** Etiquetas compartidas de las páginas de capacidades. */
 export const capUI = {
-  eyebrow: { es: "Soluciones", en: "Solutions" } satisfies L,
+  eyebrow: { es: "Servicios", en: "Services" } satisfies L,
   titleA: { es: "Lo que", en: "What we" } satisfies L,
   titleB: { es: "construimos.", en: "build." } satisfies L,
   lede: {
-    es: "Seis disciplinas de ingeniería para llevar tu operación al siguiente nivel, del software a medida a la plataforma multi-tenant.",
-    en: "Six engineering disciplines to take your operation to the next level, from custom software to a multi-tenant platform.",
+    es: "Cinco disciplinas de ingeniería para llevar tu operación al siguiente nivel, del software a medida a la plataforma multi-tenant.",
+    en: "Five engineering disciplines to take your operation to the next level, from custom software to a multi-tenant platform.",
   } satisfies L,
   verMas: { es: "Ver más", en: "Learn more" } satisfies L,
-  volver: { es: "Todas las capacidades", en: "All capabilities" } satisfies L,
+  volver: { es: "Todos los servicios", en: "All services" } satisfies L,
   problems: { es: "Qué resolvemos", en: "What we solve" } satisfies L,
   approach: { es: "Cómo lo hacemos", en: "How we do it" } satisfies L,
   useCases: { es: "Cuándo aplica", en: "When it applies" } satisfies L,
@@ -470,6 +470,6 @@ export const capUI = {
     en: "Tell us and we'll honestly tell you if we can help, and how.",
   } satisfies L,
   ctaButton: { es: "Hablemos", en: "Let's talk" } satisfies L,
-  notFound: { es: "Capacidad no encontrada", en: "Capability not found" } satisfies L,
-  notFoundDesc: { es: "Esta capacidad no existe o cambió de nombre.", en: "This capability doesn't exist or was renamed." } satisfies L,
+  notFound: { es: "Servicio no encontrado", en: "Service not found" } satisfies L,
+  notFoundDesc: { es: "Este servicio no existe o cambió de nombre.", en: "This service doesn't exist or was renamed." } satisfies L,
 };
