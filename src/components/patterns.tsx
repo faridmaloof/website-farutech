@@ -181,7 +181,7 @@ export function CapabilityCard({
           ))}
         </div>
         <Link
-          to={`/capacidades/${cap.slug}`}
+          to={`/services/${cap.slug}`}
           className="mt-5 inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider transition-opacity hover:opacity-80"
           style={{ color: cap.accent }}
         >

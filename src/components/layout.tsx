@@ -37,7 +37,7 @@ const CAP_ICONS: Record<string, LucideIcon> = {
 
 const ui = {
   soluciones: { es: "Soluciones", en: "Solutions" },
-  verTodas: { es: "Ver todas las capacidades", en: "View all capabilities" },
+  verTodas: { es: "Ver todas las soluciones", en: "View all solutions" },
 };
 
 function Header() {
@@ -97,7 +97,7 @@ function Header() {
                       return (
                         <Link
                           key={c.slug}
-                          to={`/capacidades/${c.slug}`}
+                          to={`/services/${c.slug}`}
                           onClick={() => setSolOpen(false)}
                           className="group flex items-start gap-3 rounded-xl p-3 transition-colors hover:bg-surface-elevated"
                         >
@@ -171,7 +171,7 @@ function Header() {
               return (
                 <Link
                   key={c.slug}
-                  to={`/capacidades/${c.slug}`}
+                  to={`/services/${c.slug}`}
                   onClick={() => setOpenMenu(false)}
                   className="flex items-center gap-3 py-2.5 text-sm text-foreground"
                 >
@@ -230,7 +230,7 @@ function Footer() {
             <ul className="mt-4 space-y-2.5">
               {services.map((c) => (
                 <li key={c.slug}>
-                  <Link to={`/capacidades/${c.slug}`} className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+                  <Link to={`/services/${c.slug}`} className="text-sm text-muted-foreground transition-colors hover:text-foreground">
                     {t(c.name)}
                   </Link>
                 </li>
