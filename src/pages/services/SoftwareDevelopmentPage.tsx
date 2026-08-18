@@ -5,7 +5,7 @@
 import { useT } from "../../i18n";
 import { Link } from "react-router-dom";
 
-export function DesarrolloSoftwarePage() {
+export function SoftwareDevelopmentPage() {
   const t = useT();
   
   return (

@@ -5,7 +5,7 @@
 import { useT } from "../../i18n";
 import { Link } from "react-router-dom";
 
-export function PlataformasSaaSPage() {
+export function SaaSPlatformsPage() {
   const t = useT();
   
   return (

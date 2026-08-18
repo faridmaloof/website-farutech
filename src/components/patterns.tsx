@@ -117,7 +117,7 @@ export function CapabilityCard({
   className,
   tall = false,
 }: {
-  cap: Capability;
+  cap: Service;
   delay?: number;
   className?: string;
   tall?: boolean;
@@ -176,7 +176,7 @@ export function CapabilityCard({
         <h3 className="mt-3 font-display text-xl font-semibold tracking-tight">{t(cap.name)}</h3>
         <p className={cn("mt-2 text-sm leading-relaxed text-muted-foreground", !tall && "flex-1")}>{t(cap.short)}</p>
         <div className="mt-4 flex flex-wrap gap-1.5">
-          {cap.tags.map((tag) => (
+          {cap.tags.map((tag: L) => (
             <Tag key={tag.es}>{t(tag)}</Tag>
           ))}
         </div>

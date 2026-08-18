@@ -3,7 +3,7 @@ import { useT } from "../i18n";
 import { studioPage } from "../content/studio";
 import { Reveal, Eyebrow } from "../components/primitives";
 
-export function StudioPage() {
+export function AboutUsPage() {
   const t = useT();
   useDocumentMeta({
     title: t(studioPage.eyebrow),

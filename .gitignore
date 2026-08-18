@@ -1,21 +1,18 @@
 ```
+# Dependencies
+node_modules/
+
 # Build artifacts
 dist/
 build/
 target/
-
-# Dependencies
-node_modules/
-.pnpm-store/
-.yarn/
-yarn.lock
 
 # Environment variables
 .env
 .env.local
 .env.*
 
-# IDE files
+# Editor/IDE files
 .vscode/
 .idea/
 *.swp
@@ -25,24 +22,30 @@ yarn.lock
 # Logs
 *.log
 
-# Coverage
-coverage/
-htmlcov/
-.coverage
-
 # Python specific
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 .Python
-*.so
-.pytest_cache/
-.mypy_cache/
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Coverage reports
+coverage/
+htmlcov/
+.coverage
 
 # OS generated files
 .DS_Store
 Thumbs.db
+
+# MyPy cache
+.mypy_cache/
+.pytest_cache/
 
 # Compressed files
 *.zip

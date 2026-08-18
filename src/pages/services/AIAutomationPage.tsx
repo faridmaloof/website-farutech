@@ -5,7 +5,7 @@
 import { useT } from "../../i18n";
 import { Link } from "react-router-dom";
 
-export function IAAutomatizacionPage() {
+export function AIAutomationPage() {
   const t = useT();
   
   return (

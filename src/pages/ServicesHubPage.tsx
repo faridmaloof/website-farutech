@@ -3,7 +3,7 @@ import { useT } from "../i18n";
 import { services, servicesUI } from "../content/servicesData";
 import { CapabilityCard } from "../components/patterns";
 
-export function CapabilitiesPage() {
+export function ServicesHubPage() {
   const t = useT();
   useDocumentMeta({
     title: t(servicesUI.eyebrow),

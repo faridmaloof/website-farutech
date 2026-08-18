@@ -5,7 +5,7 @@ import { CaseCard } from "../components/patterns";
 import { Reveal } from "../components/primitives";
 import { useContact } from "../components/contact";
 
-export function WorkPage() {
+export function CaseStudiesPage() {
   const t = useT();
   const { open } = useContact();
   useDocumentMeta({
