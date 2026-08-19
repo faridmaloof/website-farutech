@@ -34,7 +34,7 @@ export function ServiceLanding({ cap }: { cap: Service }) {
   const head = words.join(" ");
 
   return (
-    <>
+    <div data-service={cap.slug}>
       {/* ── Hero ── */}
       <section className="noise relative overflow-hidden pb-20 pt-32 md:pb-28 md:pt-44" aria-labelledby="svc-title">
         <div className="pointer-events-none absolute inset-0 bg-mesh opacity-80" aria-hidden="true" />
@@ -59,7 +59,7 @@ export function ServiceLanding({ cap }: { cap: Service }) {
             <div>
               {cap.flag && (
                 <span className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/50 px-3 py-1 text-xs text-muted-foreground backdrop-blur-sm">
-                  <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: cap.accent }} aria-hidden="true" />
+                  <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: "var(--accent-hex)" }} aria-hidden="true" />
                   {t(cap.flag)}
                 </span>
               )}
@@ -160,7 +160,7 @@ export function ServiceLanding({ cap }: { cap: Service }) {
             {cap.approach.map((a, i) => (
               <Reveal key={a.title.es} delay={(i % 4) * 0.07}>
                 <div className="relative overflow-hidden rounded-2xl border border-border bg-surface/60 p-6">
-                  <span className="font-mono text-lg font-semibold" style={{ color: cap.accent }}>
+                  <span className="font-mono text-lg font-semibold" style={{ color: "var(--accent-hex)" }}>
                     {cap.index}.{i + 1}
                   </span>
                   <h3 className="mt-3 font-display text-base font-semibold tracking-tight">{t(a.title)}</h3>
@@ -187,9 +187,9 @@ export function ServiceLanding({ cap }: { cap: Service }) {
                 <div className="flex items-center gap-3 rounded-xl border border-border bg-card px-5 py-4">
                   <span
                     className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full"
-                    style={{ backgroundColor: `${cap.accent}14` }}
+                    style={{ backgroundColor: "color-mix(in srgb, var(--accent-hex) 12%, transparent)" }}
                   >
-                    <Check className="h-3.5 w-3.5" style={{ color: cap.accent }} />
+                    <Check className="h-3.5 w-3.5" style={{ color: "var(--accent-hex)" }} />
                   </span>
                   <span className="text-sm text-foreground">{t(uc)}</span>
                 </div>
@@ -227,6 +227,6 @@ export function ServiceLanding({ cap }: { cap: Service }) {
           </Reveal>
         </div>
       </section>
-    </>
+    </div>
   );
 }

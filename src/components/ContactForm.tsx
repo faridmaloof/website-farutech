@@ -54,6 +54,7 @@ export function ContactForm() {
     { value: 'plataformas-saas', label: 'Plataformas SaaS' },
     { value: 'soluciones-empresariales', label: 'Soluciones Empresariales' },
     { value: 'ia-automatizacion', label: 'IA y Automatización' },
+    { value: 'modernizacion', label: 'Modernización Tecnológica' },
     { value: 'ux-engineering', label: 'UX Engineering' },
     { value: 'otro', label: 'Otro' }
   ];
