@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS leads (
         'plataformas-saas',
         'soluciones-empresariales',
         'ia-automatizacion',
+        'modernizacion',
         'ux-engineering',
         'otro'
     ) NOT NULL,

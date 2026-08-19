@@ -19,6 +19,11 @@
   --color-emerald: oklch(0.68 0.17 155);   /* verde — bloque inferior */
   --color-success: oklch(0.64 0.15 155);   /* estados OK */
 
+  /* Acentos hex por servicio (fallbacks base = cian/coral del isotipo) */
+  --accent-hex: #3FC1FF;
+  --accent2-hex: #FF7A1A;
+  --glow-color: oklch(0.74 0.15 220 / 0.32);
+
   /* Semánticos del tema claro */
   --color-background: oklch(0.99 0.002 250);
   --color-foreground: oklch(0.16 0.012 250);
@@ -35,37 +40,55 @@
 /* ----------------------------------------------------------------------------
    Theming por servicio — cascada de variables CSS, NO config de Tailwind
    duplicada. El slug de cada [data-service] DEBE coincidir con
-   SolutionConfig.slug en src/content/site.config.ts
+   Service.slug en src/content/servicesData.ts
    ---------------------------------------------------------------------------- */
 
-[data-service="web-pos"] {
-  --color-primary: oklch(0.75 0.15 220);
-  --color-accent: oklch(0.75 0.15 45);
+[data-service="software-development"] {
+  --color-primary: oklch(0.72 0.14 230);
+  --color-accent: oklch(0.62 0.18 290);
+  --accent-hex: #3FC1FF;
+  --accent2-hex: #7C5CFF;
+  --glow-color: oklch(0.72 0.14 230 / 0.35);
 }
 
-[data-service="cloud-security"] {
-  --color-primary: oklch(0.32 0.02 250);
-  --color-accent: oklch(0.75 0.15 220);
+[data-service="enterprise-solutions"] {
+  --color-primary: oklch(0.68 0.18 45);
+  --color-accent: oklch(0.62 0.20 340);
+  --accent-hex: #FF7A1A;
+  --accent2-hex: #FF3D71;
+  --glow-color: oklch(0.68 0.18 45 / 0.35);
 }
 
 [data-service="saas-platforms"] {
   --color-primary: oklch(0.68 0.17 155);
-  --color-accent: oklch(0.75 0.15 220);
+  --color-accent: oklch(0.65 0.15 190);
+  --accent-hex: #22E07C;
+  --accent2-hex: #14B8A6;
+  --glow-color: oklch(0.68 0.17 155 / 0.35);
 }
 
 [data-service="ux-engineering"] {
-  --color-primary: oklch(0.75 0.15 45);
-  --color-accent: oklch(0.32 0.02 250);
+  --color-primary: oklch(0.65 0.20 300);
+  --color-accent: oklch(0.68 0.18 340);
+  --accent-hex: #B66BFF;
+  --accent2-hex: #FF6BD6;
+  --glow-color: oklch(0.65 0.20 300 / 0.35);
 }
 
-[data-service="product-engineering"] {
-  --color-primary: oklch(0.60 0.10 210);
-  --color-accent: oklch(0.68 0.17 155);
+[data-service="ai-automation"] {
+  --color-primary: oklch(0.72 0.16 190);
+  --color-accent: oklch(0.65 0.14 240);
+  --accent-hex: #36E0C0;
+  --accent2-hex: #3F9BFF;
+  --glow-color: oklch(0.72 0.16 190 / 0.35);
 }
 
-[data-service="architecture-consulting"] {
-  --color-primary: oklch(0.25 0.02 250);
-  --color-accent: oklch(0.75 0.15 45);
+[data-service="modernization"] {
+  --color-primary: oklch(0.72 0.16 55);
+  --color-accent: oklch(0.68 0.18 35);
+  --accent-hex: #FFB020;
+  --accent2-hex: #FF7A1A;
+  --glow-color: oklch(0.72 0.16 55 / 0.35);
 }
 
 /* ---------------------------------------------------------------------------- */
@@ -78,15 +101,15 @@
 /* Fondo malla: manchas radiales sutiles en el tono del tema. */
 .bg-mesh {
   background-image:
-    radial-gradient(at 18% 28%, oklch(0.76 0.15 220 / 0.14), transparent 52%),
-    radial-gradient(at 82% 74%, oklch(0.72 0.17 155 / 0.12), transparent 52%),
-    radial-gradient(at 65% 12%, oklch(0.75 0.15 45 / 0.1), transparent 52%),
-    radial-gradient(at 40% 92%, oklch(0.76 0.15 220 / 0.08), transparent 45%);
+    radial-gradient(at 18% 28%, var(--color-primary) / 0.14, transparent 52%),
+    radial-gradient(at 82% 74%, var(--color-emerald) / 0.12, transparent 52%),
+    radial-gradient(at 65% 12%, var(--color-accent) / 0.1, transparent 52%),
+    radial-gradient(at 40% 92%, var(--color-primary) / 0.08, transparent 45%);
 }
 
 /* Mancha de brillo radial (blobs decorativos de hero y CTA). */
 .bg-glow {
-  background: radial-gradient(closest-side, oklch(0.74 0.15 220 / 0.32), transparent 72%);
+  background: radial-gradient(closest-side, var(--glow-color), transparent 72%);
 }
 
 /* Texto con gradiente de marca (sobre fondos claros). */
