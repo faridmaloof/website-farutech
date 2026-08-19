@@ -25,6 +25,15 @@ const { render } = await import(serverBundleUrl);
 const SITE = "https://www.farutech.com";
 const BRAND = "FaruTech";
 
+/** Slugs oficiales de servicios (deben coincidir con servicesData.ts) */
+const serviceSlugs = [
+  "desarrollo-software",
+  "plataformas-saas",
+  "soluciones-empresariales",
+  "ia-automatizacion",
+  "ux-engineering",
+];
+
 const capNames = {
   "desarrollo-software": "Desarrollo de Software a Medida",
   "plataformas-saas": "Plataformas SaaS y Multi-Tenant",
@@ -40,14 +49,27 @@ const routeMeta = {
     description:
       "Desarrollo de software a medida, plataformas SaaS multi-tenant y soluciones empresariales. Ingeniería senior desde Colombia. Bogotá · Cali · Remoto.",
   },
+  "/services": {
+    title: `Services · ${BRAND}`,
+    description:
+      "Five engineering disciplines: custom development, multi-tenant SaaS, enterprise solutions, AI & automation, and UX Engineering.",
+  },
   "/servicios": {
     title: `Servicios · ${BRAND}`,
     description:
       "Cinco disciplinas de ingeniería: desarrollo a medida, SaaS multi-tenant, soluciones empresariales, IA y automatización, y UX Engineering.",
   },
+  "/case-studies": {
+    title: `Case Studies · ${BRAND}`,
+    description: "Real work with real clients: Afilamos Hermanos and Supraeventos. Technology stack and measurable impact.",
+  },
   "/casos-exito": {
     title: `Casos de Éxito · ${BRAND}`,
     description: "Trabajo real con clientes reales: Afilamos Hermanos y Supraeventos. Stack tecnológico e impacto medible.",
+  },
+  "/about-us": {
+    title: `About Us · ${BRAND}`,
+    description: "An engineering collective first. Distributed by design, with presence in Bogotá and Cali.",
   },
   "/nosotros": {
     title: `Nosotros · ${BRAND}`,
@@ -68,10 +90,17 @@ const routeMeta = {
   },
 };
 
-for (const [slug, name] of Object.entries(capNames)) {
+// Add service routes in both languages
+for (const slug of serviceSlugs) {
+  const nameEs = capNames[slug];
+  const nameEn = capNames[slug]; // Same name for now, could be translated separately
+  routeMeta[`/services/${slug}`] = {
+    title: `${nameEn} · ${BRAND}`,
+    description: `${nameEn} at ${BRAND}. Senior engineering, from the first commit to the runbook.`,
+  };
   routeMeta[`/servicios/${slug}`] = {
-    title: `${name} · ${BRAND}`,
-    description: `${name} en ${BRAND}. Ingeniería senior, desde el primer commit hasta el runbook.`,
+    title: `${nameEs} · ${BRAND}`,
+    description: `${nameEs} en ${BRAND}. Ingeniería senior, desde el primer commit hasta el runbook.`,
   };
 }
 
