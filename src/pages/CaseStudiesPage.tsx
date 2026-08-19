@@ -4,7 +4,6 @@ import { useContact } from "../components/contact";
 import { ArrowRight } from "lucide-react";
 
 export function WorkPage() {
-  const t = useT();
   const { open } = useContact();
   useDocumentMeta({
     title: "Casos de Éxito",

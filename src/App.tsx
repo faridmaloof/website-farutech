@@ -15,6 +15,12 @@ import { AboutUsPage } from "./pages/AboutUsPage";
 import { EcosystemPage } from "./pages/EcosystemPage";
 import { LegalPage } from "./pages/LegalPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
+// Landing pages individuales por servicio (en inglés)
+import { SoftwareDevelopmentPage } from "./pages/services/SoftwareDevelopmentPage";
+import { SaaSPlatformsPage } from "./pages/services/SaaSPlatformsPage";
+import { EnterpriseSolutionsPage } from "./pages/services/EnterpriseSolutionsPage";
+import { AIAutomationPage } from "./pages/services/AIAutomationPage";
+import { UXEngineeringPage } from "./pages/services/UXEngineeringPage";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -32,11 +38,30 @@ export default function App() {
           <ScrollToTop />
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/capacidades" element={<CapabilitiesPage />} />
-            <Route path="/capacidades/:slug" element={<CapabilityDetailPage />} />
-            <Route path="/trabajo" element={<WorkPage />} />
-            <Route path="/metodologia" element={<MethodologyPage />} />
-            <Route path="/studio" element={<StudioPage />} />
+            
+            {/* Servicios - Rutas en Inglés (Estándar) */}
+            <Route path="/services" element={<ServicesHubPage />} />
+            <Route path="/services/software-development" element={<SoftwareDevelopmentPage />} />
+            <Route path="/services/saas-platforms" element={<SaaSPlatformsPage />} />
+            <Route path="/services/enterprise-solutions" element={<EnterpriseSolutionsPage />} />
+            <Route path="/services/ai-automation" element={<AIAutomationPage />} />
+            <Route path="/services/ux-engineering" element={<UXEngineeringPage />} />
+            
+            {/* Redirección de rutas antiguas (Español) -> Nuevas (Inglés) */}
+            <Route path="/servicios" element={<ServicesHubPage />} />
+            <Route path="/servicios/desarrollo-software" element={<SoftwareDevelopmentPage />} />
+            <Route path="/servicios/plataformas-saas" element={<SaaSPlatformsPage />} />
+            <Route path="/servicios/soluciones-empresariales" element={<EnterpriseSolutionsPage />} />
+            <Route path="/servicios/ia-automatizacion" element={<AIAutomationPage />} />
+            <Route path="/servicios/ux-engineering" element={<UXEngineeringPage />} />
+            
+            {/* Casos de éxito y Nosotros */}
+            <Route path="/case-studies" element={<CaseStudiesPage />} />
+            <Route path="/casos-exito" element={<CaseStudiesPage />} />
+            <Route path="/about-us" element={<AboutUsPage />} />
+            <Route path="/nosotros" element={<AboutUsPage />} />
+            
+            {/* Otras páginas */}
             <Route path="/ecosistema" element={<EcosystemPage />} />
             <Route path="/privacidad" element={<LegalPage kind="privacidad" />} />
             <Route path="/terminos" element={<LegalPage kind="terminos" />} />
