@@ -27,11 +27,11 @@ import { services } from "../content/servicesData";
 import { cn } from "../lib/utils";
 
 const CAP_ICONS: Record<string, LucideIcon> = {
-  "desarrollo-a-medida": Boxes,
-  "plataformas-saas": Layers,
-  "soluciones-empresariales": Building2,
-  "ia-automatizacion": Sparkles,
-  modernizacion: RefreshCw,
+  "software-development": Boxes,
+  "saas-platforms": Layers,
+  "enterprise-solutions": Building2,
+  "ai-automation": Sparkles,
+  modernization: RefreshCw,
   "ux-engineering": Palette,
 };
 

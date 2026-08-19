@@ -25,24 +25,17 @@ const { render } = await import(serverBundleUrl);
 const SITE = "https://www.farutech.com";
 const BRAND = "FaruTech";
 
-/** Slugs oficiales de servicios (deben coincidir con servicesData.ts) */
-const serviceSlugs = [
-  "desarrollo-software",
-  "plataformas-saas",
-  "soluciones-empresariales",
-  "ia-automatizacion",
-  "ux-engineering",
-  "modernizacion",
+/** Slugs oficiales de servicios (deben coincidir con servicesData.ts).
+ *  Canonical EN vive en `/services/<slug>`; el alias ES en `/servicios/<slugEs>`.
+ */
+const services = [
+  { slug: "software-development", slugEs: "desarrollo-software", nameEn: "Custom Software Development", nameEs: "Desarrollo de Software a Medida" },
+  { slug: "saas-platforms", slugEs: "plataformas-saas", nameEn: "SaaS & Multi-Tenant Platforms", nameEs: "Plataformas SaaS y Multi-Tenant" },
+  { slug: "enterprise-solutions", slugEs: "soluciones-empresariales", nameEn: "Enterprise Solutions", nameEs: "Soluciones Empresariales" },
+  { slug: "ai-automation", slugEs: "ia-automatizacion", nameEn: "AI & Automation", nameEs: "IA y Automatización" },
+  { slug: "modernization", slugEs: "modernizacion", nameEn: "Technology Modernization", nameEs: "Modernización Tecnológica" },
+  { slug: "ux-engineering", slugEs: "ux-engineering", nameEn: "UX Engineering", nameEs: "UX Engineering" },
 ];
-
-const capNames = {
-  "desarrollo-software": "Desarrollo de Software a Medida",
-  "plataformas-saas": "Plataformas SaaS y Multi-Tenant",
-  "soluciones-empresariales": "Soluciones Empresariales",
-  "ia-automatizacion": "IA y Automatización",
-  "ux-engineering": "UX Engineering",
-  "modernizacion": "Modernización de Sistemas",
-};
 
 /** title + description por ruta (se inyectan en el HTML estático). */
 const routeMeta = {
@@ -92,17 +85,15 @@ const routeMeta = {
   },
 };
 
-// Add service routes in both languages
-for (const slug of serviceSlugs) {
-  const nameEs = capNames[slug];
-  const nameEn = capNames[slug]; // Same name for now, could be translated separately
-  routeMeta[`/services/${slug}`] = {
-    title: `${nameEn} · ${BRAND}`,
-    description: `${nameEn} at ${BRAND}. Senior engineering, from the first commit to the runbook.`,
+// Add service routes in both languages (canonical EN in /services, ES alias in /servicios)
+for (const s of services) {
+  routeMeta[`/services/${s.slug}`] = {
+    title: `${s.nameEn} · ${BRAND}`,
+    description: `${s.nameEn} at ${BRAND}. Senior engineering, from the first commit to the runbook.`,
   };
-  routeMeta[`/servicios/${slug}`] = {
-    title: `${nameEs} · ${BRAND}`,
-    description: `${nameEs} en ${BRAND}. Ingeniería senior, desde el primer commit hasta el runbook.`,
+  routeMeta[`/servicios/${s.slugEs}`] = {
+    title: `${s.nameEs} · ${BRAND}`,
+    description: `${s.nameEs} en ${BRAND}. Ingeniería senior, desde el primer commit hasta el runbook.`,
   };
 }
 

@@ -12,14 +12,14 @@ import { LOGO_URL } from "../components/Logo";
 import { Button, SectionHeading, Reveal, StatusBadge } from "../components/primitives";
 import { CapabilityCard, Marquee } from "../components/patterns";
 import { useContact } from "../components/contact";
-import { useT } from "../i18n";
+import { useT, useLang } from "../i18n";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 /** Spans del mosaico de capacidades (cierra la cuadrícula sin huecos en desktop). */
 const SPANS: Record<string, string> = {
-  "desarrollo-a-medida": "md:col-span-2",
-  modernizacion: "lg:row-span-2",
+  "software-development": "md:col-span-2",
+  modernization: "lg:row-span-2",
   "ux-engineering": "md:col-span-2",
 };
 
@@ -80,7 +80,7 @@ export function Hero() {
               <Button onClick={open} size="lg">
                 {t(hero.primary)} <ArrowRight className="h-4 w-4" />
               </Button>
-              <Button to="/metodologia" size="lg" variant="outline">
+              <Button href="#metodologia" size="lg" variant="outline">
                 {t(hero.secondary)}
               </Button>
             </motion.div>
@@ -175,19 +175,27 @@ export function TrustBannerSection() {
 /* ---------- Capacidades (mosaico) ---------- */
 export function CapabilitiesSection() {
   const t = useT();
+  const { lang } = useLang();
+  const base = lang === "es" ? "/servicios" : "/services";
   return (
     <section className="relative py-24 md:py-32" id="capacidades" aria-labelledby="cap-title">
       <div className="mx-auto max-w-7xl px-6">
-        <SectionHeading
-          eyebrow={t(servicesUI.eyebrow)}
-          index="[ 01 ]"
-          title={
-            <>
-              {t(servicesUI.titleA)} <span className="text-gradient">{t(servicesUI.titleB)}</span>
-            </>
-          }
-          lede={t(servicesUI.lede)}
-        />
+        <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+          <SectionHeading
+            eyebrow={t(servicesUI.eyebrow)}
+            index="[ 01 ]"
+            title={
+              <>
+                {t(servicesUI.titleA)} <span className="text-gradient">{t(servicesUI.titleB)}</span>
+              </>
+            }
+            lede={t(servicesUI.lede)}
+            className="max-w-2xl"
+          />
+          <Button to={base} variant="outline" className="shrink-0 self-start lg:self-auto">
+            {t(servicesUI.verTodos)} <ArrowUpRight className="h-4 w-4" />
+          </Button>
+        </div>
         <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {services.map((c, i) => (
             <CapabilityCard
@@ -195,7 +203,8 @@ export function CapabilitiesSection() {
               cap={c}
               delay={(i % 3) * 0.06}
               className={SPANS[c.slug]}
-              tall={c.slug === "modernizacion"}
+              tall={c.slug === "modernization"}
+              base={base}
             />
           ))}
         </div>
@@ -211,6 +220,7 @@ export function CapabilitiesSection() {
 /* ---------- Metodología ---------- */
 export function MethodSection() {
   const t = useT();
+  const { open } = useContact();
   return (
     <section className="relative py-24 md:py-32" id="metodologia" aria-labelledby="method-title">
       <div className="mx-auto max-w-7xl px-6">
@@ -230,8 +240,8 @@ export function MethodSection() {
           </div>
         </Reveal>
         <div className="mt-8">
-          <Button to="/metodologia" variant="outline">
-            {t(methodPage.conocer)} <ArrowUpRight className="h-4 w-4" />
+          <Button onClick={open} variant="outline">
+            {t(methodPage.aplicar)} <ArrowRight className="h-4 w-4" />
           </Button>
         </div>
       </div>
