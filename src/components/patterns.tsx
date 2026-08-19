@@ -8,11 +8,21 @@ import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import type { Service, ServiceMotif as MotifKind } from "../content/servicesData";
 import { servicesUI } from "../content/servicesData";
-import { afilamos, supraeventos, work as workUi } from "../content/work";
+import caseStudies from "../content/work";
 import type { L } from "../i18n";
 import { useT } from "../i18n";
 import { Button, StatusBadge, Tag } from "./primitives";
 import { cn } from "../lib/utils";
+
+// Case study data for TrustBanner - using first two cases from the list
+const afilamos = caseStudies[0];
+const supraeventos = caseStudies[1];
+
+// UI labels for case studies (bilingual)
+const workUi = {
+  casoReal: { es: "Caso real", en: "Real case" } satisfies L,
+  visitar: { es: "Visitar sitio", en: "Visit site" } satisfies L,
+};
 
 /* ---------- CapabilityMotif (patrón decorativo) ---------- */
 export function CapabilityMotif({
