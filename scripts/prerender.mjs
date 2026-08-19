@@ -24,11 +24,12 @@ const SITE = "https://www.farutech.com";
 const BRAND = "FaruTech";
 
 const capNames = {
-  "desarrollo-a-medida": "Desarrollo de Software a Medida",
+  "desarrollo-software": "Desarrollo de Software a Medida",
   "plataformas-saas": "Plataformas SaaS y Multi-Tenant",
-  "modernizacion": "Modernización de Sistemas (Legacy)",
-  "ux-engineering": "UX Engineering & Diseño",
-  "staff-augmentation": "Staff Augmentation & Gestión de Proyectos",
+  "soluciones-empresariales": "Soluciones Empresariales",
+  "ia-automatizacion": "IA y Automatización",
+  modernizacion: "Modernización Tecnológica",
+  "ux-engineering": "UX Engineering",
 };
 
 /** title + description por ruta (se inyectan en el HTML estático). */
@@ -41,19 +42,19 @@ const routeMeta = {
   "/servicios": {
     title: `Servicios · ${BRAND}`,
     description:
-      "Nuestras soluciones de ingeniería corporativa: desarrollo a medida, plataformas SaaS, modernización legacy, UX engineering y staff augmentation.",
+      "Seis disciplinas de ingeniería: desarrollo a medida, SaaS multi-tenant, soluciones empresariales, IA y automatización, modernización y UX Engineering.",
   },
   "/trabajo": {
     title: `Trabajo · ${BRAND}`,
-    description: "Trabajo real con clientes reales y su estado honesto: Afilamos Hermanos y Supraeventos.",
+    description: "Trabajo real con clientes reales y su estado honesto. Caso Afilamos Hermanos S.A.S.",
   },
   "/metodologia": {
     title: `Metodología · ${BRAND}`,
     description:
       "Un proceso de ingeniería: diagnóstico, arquitectura, construcción y producción. Documentado y verificable.",
   },
-  "/studio": {
-    title: `Studio · ${BRAND}`,
+  "/nosotros": {
+    title: `Nosotros · ${BRAND}`,
     description: "Un colectivo de ingeniería, primero. Distribuidos por diseño, con presencia en Bogotá y Cali.",
   },
   "/ecosistema": {

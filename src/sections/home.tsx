@@ -5,13 +5,12 @@
 import { motion } from "framer-motion";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { hero, ecosystem, tickerItems, finalCta } from "../content/home";
-import { siteConfig } from "../content/site.config";
-import { caseStudies } from "../content/work";
+import { capabilities, capUI } from "../content/capabilities";
 import { methodSteps, methodPage } from "../content/methodology";
 import { site } from "../content/site";
 import { LOGO_URL } from "../components/Logo";
 import { Button, SectionHeading, Reveal, StatusBadge } from "../components/primitives";
-import { Marquee } from "../components/patterns";
+import { CapabilityCard, CaseCard, Marquee } from "../components/patterns";
 import { useContact } from "../components/contact";
 import { useT } from "../i18n";
 import { cn } from "../lib/utils";
@@ -115,20 +114,78 @@ export function MarqueeSection() {
   return <Marquee items={tickerItems} />;
 }
 
+/* ---------- Banner de Confianza (Trust Banner) ---------- */
+export function TrustBannerSection() {
+  const t = useT();
+  return (
+    <section className="relative py-16 md:py-24" aria-labelledby="trust-title">
+      <div className="mx-auto max-w-7xl px-6">
+        <Reveal>
+          <div className="text-center">
+            <motion.span
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground"
+            >
+              {t(trustBanner.eyebrow)}
+            </motion.span>
+            <div className="mt-8 grid gap-8 md:grid-cols-2">
+              {trustBanner.companies.map((company, i) => (
+                <motion.div
+                  key={company.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  className="group relative overflow-hidden rounded-2xl border border-border bg-card p-8 transition-all duration-300 hover:-translate-y-1 hover:border-foreground/20 hover:shadow-elevated"
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex-1">
+                      <h3 className="font-display text-xl font-semibold tracking-tight">{company.name}</h3>
+                      <p className="mt-1 font-mono text-xs uppercase tracking-wider text-accent">{t(company.sector)}</p>
+                      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{t(company.description)}</p>
+                    </div>
+                    {/* Placeholder para logo - reemplazar con imagen real */}
+                    <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-lg border border-border bg-surface/50">
+                      <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Logo</span>
+                    </div>
+                  </div>
+                  <div className="mt-6 flex items-center gap-2">
+                    <span className="h-2 w-2 animate-pulse rounded-full bg-success" aria-hidden="true" />
+                    <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                      Cliente verificado
+                    </span>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
 /* ---------- Capacidades (mosaico) ---------- */
 export function CapabilitiesSection() {
   return (
     <section className="relative py-24 md:py-32" id="capacidades" aria-labelledby="cap-title">
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeading
-          eyebrow="Soluciones"
+          eyebrow={t(capUI.eyebrow)}
           index="[ 01 ]"
-          title={<>Ingeniería que <span className="text-gradient">resuelve</span></>}
-          lede="Construimos plataformas modulares adaptadas a cada necesidad."
+          title={
+            <>
+              {t(capUI.titleA)} <span className="text-gradient">{t(capUI.titleB)}</span>
+            </>
+          }
+          lede={t(capUI.lede)}
         />
         <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {siteConfig.solutions.map((c, i) => (
-            <Reveal
+          {capabilities.map((c, i) => (
+            <CapabilityCard
               key={c.slug}
               delay={(i % 3) * 0.06}
               className={cn(
@@ -160,51 +217,14 @@ export function CapabilitiesSection() {
 
 /* ---------- Trabajo (caso real) ---------- */
 export function WorkSection() {
-  const featuredCases = caseStudies.filter(c => c.featured).slice(0, 3);
+  const t = useT();
   return (
     <section className="relative py-24 md:py-32" id="trabajo" aria-labelledby="work-title">
       <div className="mx-auto max-w-7xl px-6">
-        <SectionHeading 
-          eyebrow="Casos de Éxito" 
-          index="[ 02 ]" 
-          title="Resultados que hablan" 
-          lede="Proyectos en los que hemos implementado soluciones clave." 
-        />
-        <div className="mt-12 grid gap-8">
-          {featuredCases.map((c) => (
-            <Reveal key={c.id}>
-              <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-8 md:p-10">
-                <div className="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-primary to-accent" aria-hidden="true" />
-                <div className="grid gap-10 md:grid-cols-[1.4fr_1fr]">
-                  <div>
-                    <div className="flex flex-wrap gap-x-5 gap-y-1 font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
-                      <span className="text-accent">CASO REAL</span>
-                      <span>{c.industry}</span>
-                    </div>
-                    <h3 className="mt-3 font-display text-3xl font-semibold tracking-tight">{c.client}</h3>
-                    <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground">{c.solution}</p>
-                    <div className="mt-6 flex flex-wrap items-center gap-3">
-                      <Button to={`/casos-de-exito`} variant="outline" size="sm">
-                        Ver caso <ArrowUpRight className="h-3.5 w-3.5" />
-                      </Button>
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-3 self-center">
-                    {c.metrics.map((item) => (
-                      <div
-                        key={item.label}
-                        className="flex items-center justify-between gap-3 rounded-xl border border-border bg-surface/50 px-4 py-3 transition-transform duration-200 hover:translate-x-1"
-                      >
-                        <span className="text-sm font-medium">{item.label}</span>
-                        <StatusBadge status="live" label={item.value} />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
+        <SectionHeading eyebrow={t(workPage.eyebrow)} index="[ 02 ]" title={t(workPage.title)} lede={t(workPage.lede)} />
+        <Reveal className="mt-12">
+          <CaseCard />
+        </Reveal>
       </div>
     </section>
   );

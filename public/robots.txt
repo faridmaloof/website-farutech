@@ -1,6 +1,7 @@
+# https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /admin/
 
-Sitemap: https://farutech.com/sitemap.xml
+Sitemap: https://www.farutech.com/sitemap.xml

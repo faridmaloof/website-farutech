@@ -4,8 +4,8 @@ import { hero } from "../content/home";
 import {
   Hero,
   MarqueeSection,
+  TrustBannerSection,
   CapabilitiesSection,
-  WorkSection,
   MethodSection,
   EcosystemSection,
   FinalCTA,
@@ -21,8 +21,8 @@ export function HomePage() {
     <>
       <Hero />
       <MarqueeSection />
+      <TrustBannerSection />
       <CapabilitiesSection />
-      <WorkSection />
       <MethodSection />
       <EcosystemSection />
       <FinalCTA />

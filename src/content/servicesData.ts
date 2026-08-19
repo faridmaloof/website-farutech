@@ -7,10 +7,10 @@
  */
 import type { L } from "../i18n";
 
-export type CapabilityMotif = "grid" | "spectrum" | "blueprint" | "orbit" | "circuit";
-export type CapabilityShape = "arch" | "diagonal" | "hex" | "blob" | "tilt";
+export type ServiceMotif = "grid" | "spectrum" | "blueprint" | "orbit" | "circuit";
+export type ServiceShape = "arch" | "diagonal" | "hex" | "blob" | "tilt";
 
-export interface Capability {
+export interface Service {
   slug: string;
   index: string;
   name: L;
@@ -28,14 +28,14 @@ export interface Capability {
   accent2: string;
   glow: string;
   layout: "left" | "right" | "centered";
-  motif: CapabilityMotif;
-  shape: CapabilityShape;
+  motif: ServiceMotif;
+  shape: ServiceShape;
   signature: L;
 }
 
-export const capabilities: Capability[] = [
+export const services: Service[] = [
   {
-    slug: "desarrollo-a-medida",
+    slug: "desarrollo-software",
     index: "01",
     name: { es: "Desarrollo de Software a Medida", en: "Custom Software Development" },
     short: {
@@ -96,7 +96,7 @@ export const capabilities: Capability[] = [
       { es: "Productos digitales desde cero (MVP a producción)", en: "Digital products from scratch (MVP to production)" },
       { es: "Sistemas críticos que no pueden fallar", en: "Critical systems that can't fail" },
     ],
-    image: "/cap-product-engineering.jpg",
+    image: "/images/services/product-engineering.webp",
     accent: "#3FC1FF",
     accent2: "#7C5CFF",
     glow: "rgba(63,193,255,0.45)",
@@ -164,7 +164,7 @@ export const capabilities: Capability[] = [
       { es: "Productos que requieren aislamiento de datos", en: "Products requiring data isolation" },
       { es: "Ecosistemas con portal y marketplace", en: "Ecosystems with portal and marketplace" },
     ],
-    image: "/cap-saas-platforms.jpg",
+    image: "/images/services/saas-platforms.webp",
     accent: "#22E07C",
     accent2: "#14B8A6",
     glow: "rgba(34,224,124,0.4)",
@@ -232,7 +232,7 @@ export const capabilities: Capability[] = [
       { es: "Sistemas de gestión a medida", en: "Custom management systems" },
       { es: "Digitalización de procesos manuales", en: "Digitization of manual processes" },
     ],
-    image: "/cap-architecture-consulting.jpg",
+    image: "/images/services/architecture-consulting.webp",
     accent: "#FF7A1A",
     accent2: "#FF3D71",
     glow: "rgba(255,122,26,0.4)",
@@ -300,7 +300,7 @@ export const capabilities: Capability[] = [
       { es: "Clasificación y extracción de información", en: "Information classification and extraction" },
       { es: "Workflows con intervención humana", en: "Workflows with human oversight" },
     ],
-    image: "/cap-automation-integrations.jpg",
+    image: "/images/services/automation-integrations.webp",
     accent: "#36E0C0",
     accent2: "#3F9BFF",
     glow: "rgba(54,224,192,0.4)",
@@ -435,7 +435,7 @@ export const capabilities: Capability[] = [
       { es: "Optimización de Core Web Vitals", en: "Core Web Vitals optimization" },
       { es: "Interfaces complejas de producto", en: "Complex product interfaces" },
     ],
-    image: "/cap-ux-engineering.jpg",
+    image: "/images/services/ux-engineering.webp",
     accent: "#B66BFF",
     accent2: "#FF6BD6",
     glow: "rgba(182,107,255,0.42)",
@@ -446,21 +446,21 @@ export const capabilities: Capability[] = [
   },
 ];
 
-export function getCapability(slug: string | undefined) {
-  return capabilities.find((c) => c.slug === slug);
+export function getService(slug: string | undefined) {
+  return services.find((c) => c.slug === slug);
 }
 
 /** Etiquetas compartidas de las páginas de capacidades. */
-export const capUI = {
-  eyebrow: { es: "Soluciones", en: "Solutions" } satisfies L,
+export const servicesUI = {
+  eyebrow: { es: "Servicios", en: "Services" } satisfies L,
   titleA: { es: "Lo que", en: "What we" } satisfies L,
   titleB: { es: "construimos.", en: "build." } satisfies L,
   lede: {
-    es: "Seis disciplinas de ingeniería para llevar tu operación al siguiente nivel, del software a medida a la plataforma multi-tenant.",
-    en: "Six engineering disciplines to take your operation to the next level, from custom software to a multi-tenant platform.",
+    es: "Cinco disciplinas de ingeniería para llevar tu operación al siguiente nivel, del software a medida a la plataforma multi-tenant.",
+    en: "Five engineering disciplines to take your operation to the next level, from custom software to a multi-tenant platform.",
   } satisfies L,
   verMas: { es: "Ver más", en: "Learn more" } satisfies L,
-  volver: { es: "Todas las capacidades", en: "All capabilities" } satisfies L,
+  volver: { es: "Todos los servicios", en: "All services" } satisfies L,
   problems: { es: "Qué resolvemos", en: "What we solve" } satisfies L,
   approach: { es: "Cómo lo hacemos", en: "How we do it" } satisfies L,
   useCases: { es: "Cuándo aplica", en: "When it applies" } satisfies L,
@@ -470,6 +470,6 @@ export const capUI = {
     en: "Tell us and we'll honestly tell you if we can help, and how.",
   } satisfies L,
   ctaButton: { es: "Hablemos", en: "Let's talk" } satisfies L,
-  notFound: { es: "Capacidad no encontrada", en: "Capability not found" } satisfies L,
-  notFoundDesc: { es: "Esta capacidad no existe o cambió de nombre.", en: "This capability doesn't exist or was renamed." } satisfies L,
+  notFound: { es: "Servicio no encontrado", en: "Service not found" } satisfies L,
+  notFoundDesc: { es: "Este servicio no existe o cambió de nombre.", en: "This service doesn't exist or was renamed." } satisfies L,
 };
