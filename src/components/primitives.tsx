@@ -120,21 +120,26 @@ export function Tag({ children, className }: { children: ReactNode; className?: 
 }
 
 /* ---------- StatusBadge ---------- */
-export function StatusBadge({ status, label }: { status: "live" | "wip" | "dev"; label: string }) {
+export function StatusBadge({ status, label }: { status: string; label: string }) {
+  const styles: Record<string, { border: string; bg: string; text: string; dot: string }> = {
+    live: { border: "border-accent/30", bg: "bg-accent/10", text: "text-accent", dot: "bg-accent" },
+    wip: { border: "border-spark/30", bg: "bg-spark/10", text: "text-spark", dot: "bg-spark" },
+    dev: { border: "border-primary/30", bg: "bg-primary/10", text: "text-primary", dot: "bg-primary" },
+    success: { border: "border-accent/30", bg: "bg-accent/10", text: "text-accent", dot: "bg-accent" },
+    error: { border: "border-spark/30", bg: "bg-spark/10", text: "text-spark", dot: "bg-spark" },
+    warning: { border: "border-spark/30", bg: "bg-spark/10", text: "text-spark", dot: "bg-spark" },
+    info: { border: "border-primary/30", bg: "bg-primary/10", text: "text-primary", dot: "bg-primary" },
+  };
+  const s = styles[status] ?? styles.info;
   return (
     <span
       className={cn(
         "inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 py-0.5 font-mono text-[10px] font-medium uppercase tracking-wider",
-        status === "live" && "border-accent/30 bg-accent/10 text-accent",
-        status === "wip" && "border-spark/30 bg-spark/10 text-spark",
-        status === "dev" && "border-primary/30 bg-primary/10 text-primary"
+        s.border, s.bg, s.text
       )}
     >
       <span
-        className={cn(
-          "h-1.5 w-1.5 rounded-full",
-          status === "live" ? "bg-accent" : status === "wip" ? "bg-spark" : "bg-primary"
-        )}
+        className={cn("h-1.5 w-1.5 rounded-full", s.dot)}
         aria-hidden="true"
       />
       {label}

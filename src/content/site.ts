@@ -4,7 +4,7 @@ import type { L } from "../i18n";
 export const site = {
   name: "FaruTech",
   domain: "https://www.farutech.com",
-  email: "hello@farutech.com",
+  email: "contacto@farutech.com",
   location: { es: "Bogotá · Cali · Remoto", en: "Bogotá · Cali · Remote" } satisfies L,
   claim: { es: "Ingeniería de software a medida", en: "Custom software engineering" } satisfies L,
   /**

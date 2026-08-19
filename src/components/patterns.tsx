@@ -8,11 +8,21 @@ import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import type { Service, ServiceMotif as MotifKind } from "../content/servicesData";
 import { servicesUI } from "../content/servicesData";
-import { afilamos, supraeventos, work as workUi } from "../content/work";
+import caseStudies from "../content/work";
 import type { L } from "../i18n";
 import { useT } from "../i18n";
 import { Button, StatusBadge, Tag } from "./primitives";
 import { cn } from "../lib/utils";
+
+// Case study data for TrustBanner - using first two cases from the list
+const afilamos = caseStudies[0];
+const supraeventos = caseStudies[1];
+
+// UI labels for case studies (bilingual)
+const workUi = {
+  casoReal: { es: "Caso real", en: "Real case" } satisfies L,
+  visitar: { es: "Visitar sitio", en: "Visit site" } satisfies L,
+};
 
 /* ---------- CapabilityMotif (patrón decorativo) ---------- */
 export function CapabilityMotif({
@@ -110,20 +120,25 @@ export function CapabilityMotif({
 /* ---------- CapabilityCard ----------
  * `className` permite los spans del mosaico (col-span-2 / row-span-2).
  * `tall` hace que la banda visual crezca para llenar tarjetas de 2 filas.
+ * Tarjeta data-driven: acento/signature/motif desde el servicio (tema claro).
  */
 export function CapabilityCard({
   cap,
   delay = 0,
   className,
   tall = false,
+  base = "/services",
 }: {
   cap: Service;
   delay?: number;
   className?: string;
   tall?: boolean;
+  /** Prefijo de ruta ("/services" o "/servicios"). El slug se elige según el idioma. */
+  base?: string;
 }) {
   const t = useT();
   const reduce = useReducedMotion();
+  const serviceSlug = base === "/servicios" ? cap.slugEs : cap.slug;
   return (
     <motion.article
       initial={reduce ? false : { opacity: 0, y: 24 }}
@@ -136,6 +151,13 @@ export function CapabilityCard({
         className
       )}
     >
+      {/* Hairline superior con el acento (se ilumina al hover) */}
+      <span
+        className="pointer-events-none absolute inset-x-0 top-0 z-10 h-px opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{ background: `linear-gradient(90deg, transparent, ${cap.accent}, transparent)` }}
+        aria-hidden="true"
+      />
+
       {/* Banda visual: imagen o motif, con glow del acento */}
       <div
         className={cn("relative overflow-hidden", tall ? "min-h-52 flex-1" : "h-44 shrink-0")}
@@ -151,10 +173,20 @@ export function CapabilityCard({
         ) : (
           <CapabilityMotif motif={cap.motif} accent={cap.accent} className="h-full w-full" />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
-        <span className="absolute right-4 top-4 font-mono text-[10px] font-semibold tracking-[0.35em] text-foreground/70">
+        <div className="absolute inset-0 bg-gradient-to-t from-card via-card/40 to-transparent" />
+
+        {/* Firma en vertical, al margen derecho */}
+        <span
+          className="absolute right-3 top-1/2 -translate-y-1/2 font-mono text-[9px] font-semibold tracking-[0.4em]"
+          style={{ writingMode: "vertical-rl", color: `${cap.accent}cc` }}
+        >
           {t(cap.signature)}
         </span>
+
+        <span className="absolute left-4 top-4 font-mono text-xs" style={{ color: `${cap.accent}bb` }}>
+          {cap.index}
+        </span>
+
         <div
           className="absolute inset-x-0 bottom-0 h-px"
           style={{ background: `linear-gradient(90deg, transparent, ${cap.accent}, transparent)` }}
@@ -162,18 +194,20 @@ export function CapabilityCard({
         />
       </div>
 
-      <div className={cn("flex flex-col p-6", !tall && "flex-1")}>
-        <div className="flex items-center justify-between gap-3">
-          <span className="font-mono text-[11px] font-semibold tracking-[0.2em]" style={{ color: cap.accent }}>
-            {cap.index}
-          </span>
+      <div className={cn("relative flex flex-col p-6", !tall && "flex-1")}>
+        <div className="flex items-start justify-between gap-3">
+          <h3 className="font-display text-xl font-semibold tracking-tight transition-colors group-hover:text-primary">
+            {t(cap.name)}
+          </h3>
           {cap.flag && (
-            <span className="rounded-full border border-spark/30 bg-spark/15 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-spark">
+            <span
+              className="shrink-0 rounded-full border px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider"
+              style={{ borderColor: `${cap.accent}40`, backgroundColor: `${cap.accent}14`, color: cap.accent }}
+            >
               {t(cap.flag)}
             </span>
           )}
         </div>
-        <h3 className="mt-3 font-display text-xl font-semibold tracking-tight">{t(cap.name)}</h3>
         <p className={cn("mt-2 text-sm leading-relaxed text-muted-foreground", !tall && "flex-1")}>{t(cap.short)}</p>
         <div className="mt-4 flex flex-wrap gap-1.5">
           {cap.tags.map((tag: L) => (
@@ -181,11 +215,12 @@ export function CapabilityCard({
           ))}
         </div>
         <Link
-          to={`/services/${cap.slug}`}
-          className="mt-5 inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider transition-opacity hover:opacity-80"
+          to={`${base}/${serviceSlug}`}
+          className="mt-5 inline-flex w-fit items-center gap-1.5 rounded-full border border-border bg-surface/40 px-4 py-2 font-mono text-xs uppercase tracking-wider transition-colors hover:border-foreground/25 hover:bg-surface"
           style={{ color: cap.accent }}
         >
-          {t(servicesUI.verMas)} <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          {t(servicesUI.verMas)}
+          <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5" />
         </Link>
       </div>
     </motion.article>

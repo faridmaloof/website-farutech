@@ -11,7 +11,10 @@ export type ServiceMotif = "grid" | "spectrum" | "blueprint" | "orbit" | "circui
 export type ServiceShape = "arch" | "diagonal" | "hex" | "blob" | "tilt";
 
 export interface Service {
+  /** Slug canónico en inglés (ruta `/services/<slug>`). */
   slug: string;
+  /** Slug en español (ruta `/servicios/<slugEs>`). */
+  slugEs: string;
   index: string;
   name: L;
   short: L;
@@ -35,7 +38,8 @@ export interface Service {
 
 export const services: Service[] = [
   {
-    slug: "desarrollo-software",
+    slug: "software-development",
+    slugEs: "desarrollo-software",
     index: "01",
     name: { es: "Desarrollo de Software a Medida", en: "Custom Software Development" },
     short: {
@@ -106,7 +110,8 @@ export const services: Service[] = [
     signature: { es: "CONSTRUIR", en: "BUILD" },
   },
   {
-    slug: "plataformas-saas",
+    slug: "saas-platforms",
+    slugEs: "plataformas-saas",
     index: "02",
     name: { es: "Plataformas SaaS y Multi-Tenant", en: "SaaS & Multi-Tenant Platforms" },
     short: {
@@ -174,7 +179,8 @@ export const services: Service[] = [
     signature: { es: "ESCALAR", en: "SCALE" },
   },
   {
-    slug: "soluciones-empresariales",
+    slug: "enterprise-solutions",
+    slugEs: "soluciones-empresariales",
     index: "03",
     name: { es: "Soluciones Empresariales", en: "Enterprise Solutions" },
     short: {
@@ -242,7 +248,8 @@ export const services: Service[] = [
     signature: { es: "INTEGRAR", en: "INTEGRATE" },
   },
   {
-    slug: "ia-automatizacion",
+    slug: "ai-automation",
+    slugEs: "ia-automatizacion",
     index: "04",
     name: { es: "IA y Automatización", en: "AI & Automation" },
     short: {
@@ -310,7 +317,8 @@ export const services: Service[] = [
     signature: { es: "AUTOMATIZAR", en: "AUTOMATE" },
   },
   {
-    slug: "modernizacion",
+    slug: "modernization",
+    slugEs: "modernizacion",
     index: "05",
     name: { es: "Modernización Tecnológica", en: "Technology Modernization" },
     short: {
@@ -378,6 +386,7 @@ export const services: Service[] = [
   },
   {
     slug: "ux-engineering",
+    slugEs: "ux-engineering",
     index: "06",
     name: { es: "UX Engineering", en: "UX Engineering" },
     short: {
@@ -456,10 +465,11 @@ export const servicesUI = {
   titleA: { es: "Lo que", en: "What we" } satisfies L,
   titleB: { es: "construimos.", en: "build." } satisfies L,
   lede: {
-    es: "Cinco disciplinas de ingeniería para llevar tu operación al siguiente nivel, del software a medida a la plataforma multi-tenant.",
-    en: "Five engineering disciplines to take your operation to the next level, from custom software to a multi-tenant platform.",
+    es: "Seis disciplinas de ingeniería para llevar tu operación al siguiente nivel, del software a la plataforma multi-tenant.",
+    en: "Six engineering disciplines to take your operation to the next level, from custom software to a multi-tenant platform.",
   } satisfies L,
   verMas: { es: "Ver más", en: "Learn more" } satisfies L,
+  verTodos: { es: "Ver todos los servicios", en: "See all services" } satisfies L,
   volver: { es: "Todos los servicios", en: "All services" } satisfies L,
   problems: { es: "Qué resolvemos", en: "What we solve" } satisfies L,
   approach: { es: "Cómo lo hacemos", en: "How we do it" } satisfies L,

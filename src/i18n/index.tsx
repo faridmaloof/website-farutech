@@ -25,8 +25,20 @@ function applyLang(l: Lang) {
   }
 }
 
-export function I18nProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>("es");
+/**
+ * Detecta el idioma implícito de una ruta bilingüe.
+ * Las rutas EN usan prefijos ingleses (/services, /case-studies, /about-us…);
+ * todo lo demás es español. Se usa en el prerender/SSR y en el primer render
+ * del cliente para que el HTML estático y la hidratación coincidan.
+ */
+export function detectRouteLang(pathname: string): Lang {
+  const EN_PREFIXES = ["/services", "/case-studies", "/about-us", "/privacy", "/terms"];
+  const hit = EN_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`));
+  return hit ? "en" : "es";
+}
+
+export function I18nProvider({ children, initialLang }: { children: ReactNode; initialLang?: Lang }) {
+  const [lang, setLangState] = useState<Lang>(initialLang ?? "es");
 
   useEffect(() => {
     let detected: Lang = "es";

@@ -3,8 +3,22 @@
 // ============================================================================
 
 import type { CaseStudy } from '../types';
+import type { L } from '../i18n';
 
-export const caseStudies: CaseStudy[] = [
+export interface ExtendedCaseStudy extends CaseStudy {
+  sector: L;
+  summary: L;
+  tags: L[];
+  url: string;
+  impact: L;
+  items: Array<{
+    label: L;
+    status: 'success' | 'warning' | 'error' | 'info';
+    statusLabel: L;
+  }>;
+}
+
+export const caseStudies: ExtendedCaseStudy[] = [
   {
     id: 'afilamos-hermanos',
     slug: 'afilamos-hermanos',
@@ -23,6 +37,40 @@ export const caseStudies: CaseStudy[] = [
     ],
     featured: true,
     order: 1,
+    // Extended fields for patterns.tsx
+    sector: { es: 'Industrial', en: 'Industrial' },
+    summary: {
+      es: 'Plataforma web + POS con inventario unificado en tiempo real.',
+      en: 'Web platform + POS with unified real-time inventory.',
+    },
+    tags: [
+      { es: 'E-commerce', en: 'E-commerce' },
+      { es: 'POS', en: 'POS' },
+      { es: 'Inventario', en: 'Inventory' },
+      { es: 'React', en: 'React' },
+    ],
+    url: 'https://afilamos.com',
+    impact: {
+      es: '✓ En producción desde 2024',
+      en: '✓ Live since 2024',
+    },
+    items: [
+      {
+        label: { es: 'Plataforma web', en: 'Web platform' },
+        status: 'success' as const,
+        statusLabel: { es: 'Completado', en: 'Completed' },
+      },
+      {
+        label: { es: 'POS integrado', en: 'Integrated POS' },
+        status: 'success' as const,
+        statusLabel: { es: 'Completado', en: 'Completed' },
+      },
+      {
+        label: { es: 'Inventario en tiempo real', en: 'Real-time inventory' },
+        status: 'success' as const,
+        statusLabel: { es: 'Completado', en: 'Completed' },
+      },
+    ],
   },
   {
     id: 'supraeventos',
@@ -42,6 +90,40 @@ export const caseStudies: CaseStudy[] = [
     ],
     featured: true,
     order: 2,
+    // Extended fields for patterns.tsx
+    sector: { es: 'Eventos Corporativos', en: 'Corporate Events' },
+    summary: {
+      es: 'Infraestructura cloud escalable con seguridad enterprise para venta de entradas.',
+      en: 'Scalable cloud infrastructure with enterprise security for ticket sales.',
+    },
+    tags: [
+      { es: 'AWS', en: 'AWS' },
+      { es: 'Cloud', en: 'Cloud' },
+      { es: 'Seguridad', en: 'Security' },
+      { es: 'Escalabilidad', en: 'Scalability' },
+    ],
+    url: 'https://supraeventos.com',
+    impact: {
+      es: '✓ 99.9% uptime desde 2024',
+      en: '✓ 99.9% uptime since 2024',
+    },
+    items: [
+      {
+        label: { es: 'Infraestructura cloud', en: 'Cloud infrastructure' },
+        status: 'success' as const,
+        statusLabel: { es: 'Completado', en: 'Completed' },
+      },
+      {
+        label: { es: 'Autoescalado', en: 'Auto-scaling' },
+        status: 'success' as const,
+        statusLabel: { es: 'Completado', en: 'Completed' },
+      },
+      {
+        label: { es: 'Monitoreo 24/7', en: '24/7 monitoring' },
+        status: 'success' as const,
+        statusLabel: { es: 'Activo', en: 'Active' },
+      },
+    ],
   },
 ];
 

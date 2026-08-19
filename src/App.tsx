@@ -6,21 +6,17 @@
 import { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { I18nProvider } from "./i18n";
+import type { Lang } from "./i18n";
 import { ContactProvider } from "./components/contact";
 import { SiteLayout } from "./components/layout";
 import { HomePage } from "./pages/HomePage";
 import { ServicesHubPage } from "./pages/ServicesHubPage";
+import { ServiceLandingPage } from "./pages/services/ServiceLandingPage";
 import { CaseStudiesPage } from "./pages/CaseStudiesPage";
 import { AboutUsPage } from "./pages/AboutUsPage";
 import { EcosystemPage } from "./pages/EcosystemPage";
 import { LegalPage } from "./pages/LegalPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
-// Landing pages individuales por servicio (en inglés)
-import { SoftwareDevelopmentPage } from "./pages/services/SoftwareDevelopmentPage";
-import { SaaSPlatformsPage } from "./pages/services/SaaSPlatformsPage";
-import { EnterpriseSolutionsPage } from "./pages/services/EnterpriseSolutionsPage";
-import { AIAutomationPage } from "./pages/services/AIAutomationPage";
-import { UXEngineeringPage } from "./pages/services/UXEngineeringPage";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -30,37 +26,29 @@ function ScrollToTop() {
   return null;
 }
 
-export default function App() {
+export default function App({ initialLang }: { initialLang?: Lang }) {
   return (
-    <I18nProvider>
+    <I18nProvider initialLang={initialLang}>
       <ContactProvider>
         <SiteLayout>
           <ScrollToTop />
           <Routes>
             <Route path="/" element={<HomePage />} />
-            
-            {/* Servicios - Rutas en Inglés (Estándar) */}
+
+            {/* Servicios — rutas EN canónicas (slugs en inglés) */}
             <Route path="/services" element={<ServicesHubPage />} />
-            <Route path="/services/software-development" element={<SoftwareDevelopmentPage />} />
-            <Route path="/services/saas-platforms" element={<SaaSPlatformsPage />} />
-            <Route path="/services/enterprise-solutions" element={<EnterpriseSolutionsPage />} />
-            <Route path="/services/ai-automation" element={<AIAutomationPage />} />
-            <Route path="/services/ux-engineering" element={<UXEngineeringPage />} />
-            
-            {/* Redirección de rutas antiguas (Español) -> Nuevas (Inglés) */}
+            <Route path="/services/:slug" element={<ServiceLandingPage />} />
+
+            {/* Servicios — rutas ES alternas (slugs en español) */}
             <Route path="/servicios" element={<ServicesHubPage />} />
-            <Route path="/servicios/desarrollo-software" element={<SoftwareDevelopmentPage />} />
-            <Route path="/servicios/plataformas-saas" element={<SaaSPlatformsPage />} />
-            <Route path="/servicios/soluciones-empresariales" element={<EnterpriseSolutionsPage />} />
-            <Route path="/servicios/ia-automatizacion" element={<AIAutomationPage />} />
-            <Route path="/servicios/ux-engineering" element={<UXEngineeringPage />} />
-            
+            <Route path="/servicios/:slug" element={<ServiceLandingPage />} />
+
             {/* Casos de éxito y Nosotros */}
             <Route path="/case-studies" element={<CaseStudiesPage />} />
             <Route path="/casos-exito" element={<CaseStudiesPage />} />
             <Route path="/about-us" element={<AboutUsPage />} />
             <Route path="/nosotros" element={<AboutUsPage />} />
-            
+
             {/* Otras páginas */}
             <Route path="/ecosistema" element={<EcosystemPage />} />
             <Route path="/privacidad" element={<LegalPage kind="privacidad" />} />

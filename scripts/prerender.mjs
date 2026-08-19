@@ -18,18 +18,24 @@ const root = path.resolve(__dirname, "..");
 const dist = path.resolve(root, "dist");
 
 const template = fs.readFileSync(path.resolve(dist, "index.html"), "utf-8");
-const { render } = await import(path.resolve(dist, "server", "entry-server.js"));
+const serverBundlePath = path.resolve(dist, "server", "entry-server.js");
+const serverBundleUrl = new URL(`file://${serverBundlePath.replace(/\\/g, "/")}`);
+const { render } = await import(serverBundleUrl);
 
 const SITE = "https://www.farutech.com";
 const BRAND = "FaruTech";
 
-const capNames = {
-  "desarrollo-software": "Desarrollo de Software a Medida",
-  "plataformas-saas": "Plataformas SaaS y Multi-Tenant",
-  "soluciones-empresariales": "Soluciones Empresariales",
-  "ia-automatizacion": "IA y Automatización",
-  "ux-engineering": "UX Engineering",
-};
+/** Slugs oficiales de servicios (deben coincidir con servicesData.ts).
+ *  Canonical EN vive en `/services/<slug>`; el alias ES en `/servicios/<slugEs>`.
+ */
+const services = [
+  { slug: "software-development", slugEs: "desarrollo-software", nameEn: "Custom Software Development", nameEs: "Desarrollo de Software a Medida" },
+  { slug: "saas-platforms", slugEs: "plataformas-saas", nameEn: "SaaS & Multi-Tenant Platforms", nameEs: "Plataformas SaaS y Multi-Tenant" },
+  { slug: "enterprise-solutions", slugEs: "soluciones-empresariales", nameEn: "Enterprise Solutions", nameEs: "Soluciones Empresariales" },
+  { slug: "ai-automation", slugEs: "ia-automatizacion", nameEn: "AI & Automation", nameEs: "IA y Automatización" },
+  { slug: "modernization", slugEs: "modernizacion", nameEn: "Technology Modernization", nameEs: "Modernización Tecnológica" },
+  { slug: "ux-engineering", slugEs: "ux-engineering", nameEn: "UX Engineering", nameEs: "UX Engineering" },
+];
 
 /** title + description por ruta (se inyectan en el HTML estático). */
 const routeMeta = {
@@ -38,14 +44,27 @@ const routeMeta = {
     description:
       "Desarrollo de software a medida, plataformas SaaS multi-tenant y soluciones empresariales. Ingeniería senior desde Colombia. Bogotá · Cali · Remoto.",
   },
+  "/services": {
+    title: `Services · ${BRAND}`,
+    description:
+      "Five engineering disciplines: custom development, multi-tenant SaaS, enterprise solutions, AI & automation, and UX Engineering.",
+  },
   "/servicios": {
     title: `Servicios · ${BRAND}`,
     description:
       "Cinco disciplinas de ingeniería: desarrollo a medida, SaaS multi-tenant, soluciones empresariales, IA y automatización, y UX Engineering.",
   },
+  "/case-studies": {
+    title: `Case Studies · ${BRAND}`,
+    description: "Real work with real clients: Afilamos Hermanos and Supraeventos. Technology stack and measurable impact.",
+  },
   "/casos-exito": {
     title: `Casos de Éxito · ${BRAND}`,
     description: "Trabajo real con clientes reales: Afilamos Hermanos y Supraeventos. Stack tecnológico e impacto medible.",
+  },
+  "/about-us": {
+    title: `About Us · ${BRAND}`,
+    description: "An engineering collective first. Distributed by design, with presence in Bogotá and Cali.",
   },
   "/nosotros": {
     title: `Nosotros · ${BRAND}`,
@@ -66,10 +85,15 @@ const routeMeta = {
   },
 };
 
-for (const [slug, name] of Object.entries(capNames)) {
-  routeMeta[`/servicios/${slug}`] = {
-    title: `${name} · ${BRAND}`,
-    description: `${name} en ${BRAND}. Ingeniería senior, desde el primer commit hasta el runbook.`,
+// Add service routes in both languages (canonical EN in /services, ES alias in /servicios)
+for (const s of services) {
+  routeMeta[`/services/${s.slug}`] = {
+    title: `${s.nameEn} · ${BRAND}`,
+    description: `${s.nameEn} at ${BRAND}. Senior engineering, from the first commit to the runbook.`,
+  };
+  routeMeta[`/servicios/${s.slugEs}`] = {
+    title: `${s.nameEs} · ${BRAND}`,
+    description: `${s.nameEs} en ${BRAND}. Ingeniería senior, desde el primer commit hasta el runbook.`,
   };
 }
 
