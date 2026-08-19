@@ -4,9 +4,17 @@
  */
 import { useT } from "../../i18n";
 import { Link } from "react-router-dom";
+import { useDocumentMeta } from "../../hooks/useDocumentMeta";
 
 export function AIAutomationPage() {
   const t = useT();
+  useDocumentMeta({
+    title: "IA y Automatización",
+    description: "Inteligencia artificial y automatización para tu operación: chatbots, procesamiento de documentos, predicción y workflows inteligentes.",
+    path: "/services/ia-automatizacion",
+    type: "service",
+    keywords: ["inteligencia artificial", "IA", "automatización", "machine learning", "chatbots", "NLP"],
+  });
   
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-cyan-950 to-slate-900 text-white">

@@ -32,6 +32,7 @@ const serviceSlugs = [
   "soluciones-empresariales",
   "ia-automatizacion",
   "ux-engineering",
+  "modernizacion",
 ];
 
 const capNames = {
@@ -40,6 +41,7 @@ const capNames = {
   "soluciones-empresariales": "Soluciones Empresariales",
   "ia-automatizacion": "IA y Automatización",
   "ux-engineering": "UX Engineering",
+  "modernizacion": "Modernización de Sistemas",
 };
 
 /** title + description por ruta (se inyectan en el HTML estático). */

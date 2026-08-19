@@ -4,9 +4,17 @@
  */
 import { useT } from "../../i18n";
 import { Link } from "react-router-dom";
+import { useDocumentMeta } from "../../hooks/useDocumentMeta";
 
 export function EnterpriseSolutionsPage() {
   const t = useT();
+  useDocumentMeta({
+    title: "Soluciones Empresariales",
+    description: "Soluciones empresariales a medida: ERP, CRM, BI y sistemas de gestión integrados con tu operación.",
+    path: "/services/soluciones-empresariales",
+    type: "service",
+    keywords: ["soluciones empresariales", "ERP", "CRM", "sistemas de gestión", "BI"],
+  });
   
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-orange-950 to-slate-900 text-white">

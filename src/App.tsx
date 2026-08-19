@@ -21,6 +21,7 @@ import { SaaSPlatformsPage } from "./pages/services/SaaSPlatformsPage";
 import { EnterpriseSolutionsPage } from "./pages/services/EnterpriseSolutionsPage";
 import { AIAutomationPage } from "./pages/services/AIAutomationPage";
 import { UXEngineeringPage } from "./pages/services/UXEngineeringPage";
+import { ModernizacionPage } from "./pages/services/ModernizacionPage";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -46,6 +47,7 @@ export default function App() {
             <Route path="/services/soluciones-empresariales" element={<EnterpriseSolutionsPage />} />
             <Route path="/services/ia-automatizacion" element={<AIAutomationPage />} />
             <Route path="/services/ux-engineering" element={<UXEngineeringPage />} />
+            <Route path="/services/modernizacion" element={<ModernizacionPage />} />
             
             {/* Redirección de rutas antiguas (Español) -> Nuevas (Inglés) */}
             <Route path="/servicios" element={<ServicesHubPage />} />
@@ -54,6 +56,7 @@ export default function App() {
             <Route path="/servicios/soluciones-empresariales" element={<EnterpriseSolutionsPage />} />
             <Route path="/servicios/ia-automatizacion" element={<AIAutomationPage />} />
             <Route path="/servicios/ux-engineering" element={<UXEngineeringPage />} />
+            <Route path="/servicios/modernizacion" element={<ModernizacionPage />} />
             
             {/* Casos de éxito y Nosotros */}
             <Route path="/case-studies" element={<CaseStudiesPage />} />

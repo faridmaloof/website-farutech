@@ -4,9 +4,17 @@
  */
 import { useT } from "../../i18n";
 import { Link } from "react-router-dom";
+import { useDocumentMeta } from "../../hooks/useDocumentMeta";
 
 export function UXEngineeringPage() {
   const t = useT();
+  useDocumentMeta({
+    title: "UX Engineering",
+    description: "UX Engineering: investigación, diseño y prototipado con validación continua. Interfaces que los usuarios entienden y disfrutan.",
+    path: "/services/ux-engineering",
+    type: "service",
+    keywords: ["UX", "UX Engineering", "diseño de interfaces", "investigación de usuarios", "prototipado"],
+  });
   
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-purple-950 to-slate-900 text-white">

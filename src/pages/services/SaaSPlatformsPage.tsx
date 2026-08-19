@@ -4,9 +4,17 @@
  */
 import { useT } from "../../i18n";
 import { Link } from "react-router-dom";
+import { useDocumentMeta } from "../../hooks/useDocumentMeta";
 
 export function SaaSPlatformsPage() {
   const t = useT();
+  useDocumentMeta({
+    title: "Plataformas SaaS y Multi-Tenant",
+    description: "Plataformas SaaS multi-tenant con arquitectura escalable, billing integrado y aislamiento de datos por tenant.",
+    path: "/services/plataformas-saas",
+    type: "service",
+    keywords: ["SaaS", "multi-tenant", "plataforma SaaS", "software as a service", "billing"],
+  });
   
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-violet-950 to-slate-900 text-white">

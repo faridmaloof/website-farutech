@@ -1,38 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Homepage -->
-  <url><loc>https://farutech.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-
-  <!-- Services Hub (bilingual) -->
-  <url><loc>https://farutech.com/services</loc><changefreq>monthly</changefreq><priority>0.95</priority></url>
-  <url><loc>https://farutech.com/servicios</loc><changefreq>monthly</changefreq><priority>0.95</priority></url>
-
-  <!-- Individual Services (English slugs) -->
-  <url><loc>https://farutech.com/services/desarrollo-software</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://farutech.com/services/plataformas-saas</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://farutech.com/services/soluciones-empresariales</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://farutech.com/services/ia-automatizacion</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://farutech.com/services/ux-engineering</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-
-  <!-- Individual Services (Spanish slugs - legacy redirects) -->
-  <url><loc>https://farutech.com/servicios/desarrollo-software</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
-  <url><loc>https://farutech.com/servicios/plataformas-saas</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
-  <url><loc>https://farutech.com/servicios/soluciones-empresariales</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
-  <url><loc>https://farutech.com/servicios/ia-automatizacion</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
-  <url><loc>https://farutech.com/servicios/ux-engineering</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
-
-  <!-- Case Studies (bilingual) -->
-  <url><loc>https://farutech.com/case-studies</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://farutech.com/casos-exito</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-
-  <!-- About Us (bilingual) -->
-  <url><loc>https://farutech.com/about-us</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://farutech.com/nosotros</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-
-  <!-- Ecosystem -->
-  <url><loc>https://farutech.com/ecosistema</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-
-  <!-- Legal pages -->
-  <url><loc>https://farutech.com/privacidad</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
-  <url><loc>https://farutech.com/terminos</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url>
+    <loc>https://www.farutech.com/</loc>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.farutech.com/services</loc>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.farutech.com/services/desarrollo-software</loc>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.farutech.com/services/plataformas-saas</loc>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.farutech.com/services/soluciones-empresariales</loc>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.farutech.com/services/ia-automatizacion</loc>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.farutech.com/services/ux-engineering</loc>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.farutech.com/services/modernizacion</loc>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.farutech.com/case-studies</loc>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.farutech.com/about-us</loc>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.farutech.com/ecosistema</loc>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://www.farutech.com/privacidad</loc>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://www.farutech.com/terminos</loc>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
 </urlset>

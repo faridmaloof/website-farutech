@@ -4,9 +4,17 @@
  */
 import { useT } from "../../i18n";
 import { Link } from "react-router-dom";
+import { useDocumentMeta } from "../../hooks/useDocumentMeta";
 
 export function SoftwareDevelopmentPage() {
   const t = useT();
+  useDocumentMeta({
+    title: "Desarrollo de Software a Medida",
+    description: "Sistemas diseñados y construidos para tu operación: desde el primer commit hasta producción, sin atajos ni deuda escondida.",
+    path: "/services/desarrollo-software",
+    type: "service",
+    keywords: ["desarrollo de software", "software a medida", "ingeniería de software", "desarrollo web", "APIs"],
+  });
   
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-blue-950 to-slate-900 text-white">
