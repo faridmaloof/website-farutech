@@ -18,7 +18,9 @@ const root = path.resolve(__dirname, "..");
 const dist = path.resolve(root, "dist");
 
 const template = fs.readFileSync(path.resolve(dist, "index.html"), "utf-8");
-const { render } = await import(path.resolve(dist, "server", "entry-server.js"));
+const serverBundlePath = path.resolve(dist, "server", "entry-server.js");
+const serverBundleUrl = new URL(`file://${serverBundlePath.replace(/\\/g, "/")}`);
+const { render } = await import(serverBundleUrl);
 
 const SITE = "https://www.farutech.com";
 const BRAND = "FaruTech";

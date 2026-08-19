@@ -3,7 +3,7 @@ import { caseStudies } from "../content/work";
 import { useContact } from "../components/contact";
 import { ArrowRight } from "lucide-react";
 
-export function WorkPage() {
+export function CaseStudiesPage() {
   const { open } = useContact();
   useDocumentMeta({
     title: "Casos de Éxito",
