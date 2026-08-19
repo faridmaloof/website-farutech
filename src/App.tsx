@@ -41,10 +41,10 @@ export default function App() {
             
             {/* Servicios - Rutas en Inglés (Estándar) */}
             <Route path="/services" element={<ServicesHubPage />} />
-            <Route path="/services/software-development" element={<SoftwareDevelopmentPage />} />
-            <Route path="/services/saas-platforms" element={<SaaSPlatformsPage />} />
-            <Route path="/services/enterprise-solutions" element={<EnterpriseSolutionsPage />} />
-            <Route path="/services/ai-automation" element={<AIAutomationPage />} />
+            <Route path="/services/desarrollo-software" element={<SoftwareDevelopmentPage />} />
+            <Route path="/services/plataformas-saas" element={<SaaSPlatformsPage />} />
+            <Route path="/services/soluciones-empresariales" element={<EnterpriseSolutionsPage />} />
+            <Route path="/services/ia-automatizacion" element={<AIAutomationPage />} />
             <Route path="/services/ux-engineering" element={<UXEngineeringPage />} />
             
             {/* Redirección de rutas antiguas (Español) -> Nuevas (Inglés) */}
