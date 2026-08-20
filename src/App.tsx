@@ -17,7 +17,16 @@ import { AboutUsPage } from "./pages/AboutUsPage";
 import { EcosystemPage } from "./pages/EcosystemPage";
 import { LegalPage } from "./pages/LegalPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
-import AdminPanel from "./pages/admin/AdminPanel";
+
+// Admin Panel - Placeholder until Feature 2 Phase 7 implementation
+const AdminPanel = () => (
+  <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+    <div className="text-center">
+      <h1 className="text-2xl font-bold text-gray-800 mb-4">Admin Panel</h1>
+      <p className="text-gray-600">Under construction - Feature 2 Phase 7</p>
+    </div>
+  </div>
+);
 
 function ScrollToTop() {
   const { pathname } = useLocation();

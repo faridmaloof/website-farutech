@@ -1,37 +1,28 @@
 <?php
 
-use Slim\Factory\AppFactory;
-use App\Middleware\CorsMiddleware;
-use App\Routes\ApiRoutes;
-use DI\Container;
+/*
+|--------------------------------------------------------------------------
+| Create The Application
+|--------------------------------------------------------------------------
+|
+| First we need to get an application instance. This creates an instance
+| of the application / container and bootstraps the application so it
+| is ready to receive HTTP / Console requests from the environment.
+|
+*/
 
-require __DIR__ . '/../vendor/autoload.php';
+$app = require __DIR__.'/../bootstrap/app.php';
 
-// Load environment variables
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
-$dotenv->load();
+/*
+|--------------------------------------------------------------------------
+| Run The Application
+|--------------------------------------------------------------------------
+|
+| Once we have the application, we can handle the incoming request
+| through the kernel, and send the associated response back to
+| the client's browser allowing them to enjoy the creative
+| and wonderful application we have prepared for them.
+|
+*/
 
-// Create container
-$container = new Container();
-AppFactory::setContainer($container);
-
-// Create app
-$app = AppFactory::create();
-
-// Add CORS middleware
-$app->add(new CorsMiddleware());
-
-// Add body parsing middleware
-$app->addBodyParsingMiddleware();
-
-// Add routing middleware
-$app->addRoutingMiddleware();
-
-// Add error middleware
-$errorMiddleware = $app->addErrorMiddleware(true, true, true);
-
-// Register API routes
-ApiRoutes::register($app);
-
-// Run the application
 $app->run();
