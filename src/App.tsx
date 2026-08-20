@@ -17,6 +17,7 @@ import { AboutUsPage } from "./pages/AboutUsPage";
 import { EcosystemPage } from "./pages/EcosystemPage";
 import { LegalPage } from "./pages/LegalPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
+import AdminPanel from "./pages/admin/AdminPanel";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -30,32 +31,40 @@ export default function App({ initialLang }: { initialLang?: Lang }) {
   return (
     <I18nProvider initialLang={initialLang}>
       <ContactProvider>
-        <SiteLayout>
-          <ScrollToTop />
-          <Routes>
-            <Route path="/" element={<HomePage />} />
+        <Routes>
+          {/* Admin Panel Routes - Must be before SiteLayout */}
+          <Route path="/admin/*" element={<AdminPanel />} />
+          
+          {/* Main Site Routes with Layout */}
+          <Route path="/" element={
+            <SiteLayout>
+              <ScrollToTop />
+              <Routes>
+                <Route path="/" element={<HomePage />} />
 
-            {/* Servicios — rutas EN canónicas (slugs en inglés) */}
-            <Route path="/services" element={<ServicesHubPage />} />
-            <Route path="/services/:slug" element={<ServiceLandingPage />} />
+                {/* Servicios — rutas EN canónicas (slugs en inglés) */}
+                <Route path="/services" element={<ServicesHubPage />} />
+                <Route path="/services/:slug" element={<ServiceLandingPage />} />
 
-            {/* Servicios — rutas ES alternas (slugs en español) */}
-            <Route path="/servicios" element={<ServicesHubPage />} />
-            <Route path="/servicios/:slug" element={<ServiceLandingPage />} />
+                {/* Servicios — rutas ES alternas (slugs en español) */}
+                <Route path="/servicios" element={<ServicesHubPage />} />
+                <Route path="/servicios/:slug" element={<ServiceLandingPage />} />
 
-            {/* Casos de éxito y Nosotros */}
-            <Route path="/case-studies" element={<CaseStudiesPage />} />
-            <Route path="/casos-exito" element={<CaseStudiesPage />} />
-            <Route path="/about-us" element={<AboutUsPage />} />
-            <Route path="/nosotros" element={<AboutUsPage />} />
+                {/* Casos de éxito y Nosotros */}
+                <Route path="/case-studies" element={<CaseStudiesPage />} />
+                <Route path="/casos-exito" element={<CaseStudiesPage />} />
+                <Route path="/about-us" element={<AboutUsPage />} />
+                <Route path="/nosotros" element={<AboutUsPage />} />
 
-            {/* Otras páginas */}
-            <Route path="/ecosistema" element={<EcosystemPage />} />
-            <Route path="/privacidad" element={<LegalPage kind="privacidad" />} />
-            <Route path="/terminos" element={<LegalPage kind="terminos" />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
-        </SiteLayout>
+                {/* Otras páginas */}
+                <Route path="/ecosistema" element={<EcosystemPage />} />
+                <Route path="/privacidad" element={<LegalPage kind="privacidad" />} />
+                <Route path="/terminos" element={<LegalPage kind="terminos" />} />
+                <Route path="*" element={<NotFoundPage />} />
+              </Routes>
+            </SiteLayout>
+          } />
+        </Routes>
       </ContactProvider>
     </I18nProvider>
   );
