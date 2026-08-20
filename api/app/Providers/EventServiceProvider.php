@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\BlogPostPublished;
+use App\Events\BlogPostViewed;
+use App\Listeners\TrackBlogStats;
 use Laravel\Lumen\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -12,8 +15,11 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        \App\Events\ExampleEvent::class => [
-            \App\Listeners\ExampleListener::class,
+        BlogPostViewed::class => [
+            TrackBlogStats::class,
+        ],
+        BlogPostPublished::class => [
+            // Futuros listeners de notificaciones se registran aquí
         ],
     ];
 

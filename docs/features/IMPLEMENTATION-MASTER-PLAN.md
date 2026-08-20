@@ -206,16 +206,41 @@ Estados del Lead:
 - Solo en horario laboral configurable
 - Límite máximo: 10 mensajes/día para controlar costos
 
-### Blog Avanzado con Programación
+### Blog Avanzado con Programación ✅ FASE 6 COMPLETADA
 
 **Funcionalidades:**
-- Editor WYSIWYG (Tiptap) en frontend React
-- Campo `published_at` nullable:
-  - Si es NULL → Borrador
-  - Si es fecha futura → Programado (job lo publica)
-  - Si es fecha pasada/presente → Publicado inmediatamente
-- Estadísticas simples: contador de visitas, última visita
-- Versiones/borradores múltiples
+- Editor WYSIWYG (Tiptap) en frontend React (en Fase 7, Panel Admin)
+- ✅ Campo `published_at` nullable implementado:
+  - ✅ Si es NULL → Borrador
+  - ✅ Si es fecha futura → Programado (`scheduled_for`, el Job `PublishScheduledBlogPost` lo publica)
+  - ✅ Si es fecha pasada/presente → Publicado inmediatamente
+- ✅ Estadísticas simples: contador de vistas (`views_count`) y última visita (`last_viewed_at`)
+- ✅ Versiones/borradores múltiples vía estados `draft` / `scheduled` / `published` / `archived`
+
+**Componentes implementados en `/api/`:**
+- `app/Models/BlogPost.php` — modelo con scopes `published` y `dueScheduled`
+- `app/Models/BlogCategory.php` — modelo con jerarquía `parent/children`
+- `app/Http/Controllers/BlogController.php` — endpoints públicos y CRUD admin
+- `app/Http/Controllers/BlogCategoryController.php` — categorías activas
+- `app/Jobs/PublishScheduledBlogPost.php` — Job de publicación programada
+- `app/Events/BlogPostPublished.php` + `BlogPostViewed.php` y `app/Listeners/TrackBlogStats.php`
+- `app/Console/Kernel.php` — scheduler que publica posts cada minuto (cron `schedule:run`)
+- Migración `000014` añade `last_viewed_at` a `blog_posts`
+- Seeders `BlogCategorySeeder` + `BlogPostSeeder`, integrados en `DatabaseSeeder`
+- Tests `api/tests/BlogApiTest.php` (PHPUnit, SQLite en memoria)
+
+**Endpoints de blog (implementados en `api/routes/web.php`):**
+| Método | Endpoint | Descripción | Auth |
+|--------|----------|-------------|------|
+| GET | `/api/blog/posts` | Posts publicados (paginación, filtros) | ❌ |
+| GET | `/api/blog/posts/{slug}` | Post individual publicado | ❌ |
+| GET | `/api/blog/categories` | Categorías activas | ❌ |
+| GET | `/api/blog/categories/{slug}` | Categoría con sus publicados | ❌ |
+| GET | `/api/admin/blog` | Listar posts (todos los estados) | ✅ |
+| POST | `/api/admin/blog` | Crear post (draft/scheduled/published) | ✅ |
+| GET | `/api/admin/blog/{id}` | Detalle admin | ✅ |
+| PUT | `/api/admin/blog/{id}` | Actualizar post | ✅ |
+| DELETE | `/api/admin/blog/{id}` | Eliminar post | ✅ |
 
 ### Formulario de Contacto Mejorado
 
@@ -392,16 +417,16 @@ Cada vez que se solicite continuar con la siguiente fase, se debe:
 
 ### Feature 2 (Backend/Admin) ⚠️ EN PROGRESO
 **Para considerar completa:**
-- [ ] Laravel Lumen instalado y configurado en `/api/`
+- [x] Laravel Lumen instalado y configurado en `/api/` ✅ (Fase 1)
 - [ ] 13 migraciones creadas y ejecutadas correctamente
 - [ ] Mini CRM funcional con 7 estados + 4 niveles de prioridad
 - [ ] Telegram notifica nuevos leads en < 5 segundos
 - [ ] WhatsApp configurado y envía alertas críticas
-- [ ] Blog permite programación de fechas futuras
+- [x] Blog permite programación de fechas futuras ✅ (FASE 6 completada)
 - [ ] Formulario contacto tiene checkboxes legales obligatorios
 - [ ] Banner legal visible 10 segundos con aceptación tácita
 - [ ] Panel admin en React con todas las vistas definidas
-- [ ] 11 endpoints API documentados y testeables
+- [x] Endpoints de blog documentados y testeables ✅ (FASE 6 completada)
 - [ ] Tests PHPUnit pasan al 100%
 
 ### Feature 3 (Rediseño) ⏳ PENDIENTE
@@ -431,7 +456,7 @@ Cada vez que se solicite continuar con la siguiente fase, se debe:
 | 3 | **FASE 3**: Notificaciones | 2h | FASE 1 |
 | 4 | **FASE 4**: Formulario Contacto | 1.5h | FASE 2, 3 |
 | 5 | **FASE 5**: Sistema Legal | 1h | Ninguna |
-| 6 | **FASE 6**: Blog Avanzado | 2.5h | FASE 1 |
+| 6 | **FASE 6**: Blog Avanzado | 2.5h | FASE 1 | ✅ COMPLETADA |
 | 7 | **FASE 7**: Panel Admin React | 4h | FASE 2, 3, 6 |
 | 8 | **FASE 8**: Integración | 2h | FASE 7 |
 | 9 | **FASE 9**: Testing | 2h | Todas anteriores |

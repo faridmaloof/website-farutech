@@ -24,6 +24,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        //
+        // Publica posts programados cuyo scheduled_for ya llegó.
+        // Requiere cron: * * * * * php artisan schedule:run
+        $schedule->call(function () {
+            (new \App\Jobs\PublishScheduledBlogPost())->handle();
+        })->everyMinute();
     }
 }

@@ -13,6 +13,8 @@ class DatabaseSeeder extends Seeder
             ServiceSeeder::class,
             ApplicationTypeSeeder::class,
             DefaultSettingsSeeder::class,
+            BlogCategorySeeder::class,
+            BlogPostSeeder::class,
         ]);
     }
 }
