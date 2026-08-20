@@ -1,19 +1,16 @@
-```
 # Build artifacts
 dist/
 build/
-*.min.js
-*.min.css
-*.bundle.js
 
 # Dependencies
-vendor/
 node_modules/
+vendor/
 
 # Environment
 .env
 .env.local
 .env.*
+!.env.example
 
 # Cache and temporary files
 .cache/
@@ -27,4 +24,4 @@ node_modules/
 # OS
 .DS_Store
 Thumbs.db
-```
+Thumbs.dbx
