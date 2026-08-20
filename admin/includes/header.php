@@ -29,6 +29,7 @@ $currentPage = basename($_SERVER['SCRIPT_NAME']);
       <a class="nav-item <?= basename($currentPage) === 'leads.php' ? 'active' : '' ?>" href="/admin/leads.php"><i class="ti ti-inbox"></i>Leads</a>
       <a class="nav-item <?= in_array($currentPage, ['locations.php']) ? 'active' : '' ?>" href="/admin/locations.php"><i class="ti ti-map-pins"></i>Ubicaciones</a>
       <a class="nav-item <?= in_array($currentPage, ['services.php']) ? 'active' : '' ?>" href="/admin/services.php"><i class="ti ti-tools"></i>Servicios</a>
+      <a class="nav-item <?= in_array($currentPage, ['application_types.php']) ? 'active' : '' ?>" href="/admin/application_types.php"><i class="ti ti-category"></i>Tipos de Aplicación</a>
       <a class="nav-item <?= in_array($currentPage, ['blog.php','blog-edit.php']) ? 'active' : '' ?>" href="/admin/blog.php"><i class="ti ti-news"></i>Blog</a>
       <a class="nav-item <?= $currentPage === 'contact-info.php' ? 'active' : '' ?>" href="/admin/contact-info.php"><i class="ti ti-phone"></i>Contacto</a>
     </nav>
