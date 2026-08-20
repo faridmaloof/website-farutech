@@ -1,4 +1,39 @@
 ```
-# Documentation artifacts
-docs/features/*.md
+# Dependencies
+node_modules/
+
+# Build artifacts
+dist/
+build/
+*.js
+*.ts
+*.tsx
+
+# Logs and temp files
+*.log
+*.tmp
+
+# Environment
+.env
+.env.local
+*.env.*
+
+# Editors
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Coverage
+coverage/
+htmlcov/
+.coverage
+
+# OS
+.DS_Store
+Thumbs.db
 ```

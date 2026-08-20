@@ -1,11 +1,11 @@
 /**
  * Admin Layout Component
- * 
+ *
  * Main layout for admin panel with sidebar navigation.
  */
 
 import React, { useState } from 'react';
-import { Outlet, Link, useLocation } from 'react-router-dom';
+import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import {
   LayoutDashboard,
@@ -17,7 +17,6 @@ import {
   LogOut,
   Menu,
   X,
-  ChevronDown,
 } from 'lucide-react';
 
 interface NavItem {
@@ -28,25 +27,27 @@ interface NavItem {
 
 const navigation: NavItem[] = [
   { name: 'Dashboard', path: '/admin', icon: LayoutDashboard },
-  { name: 'Services', path: '/admin/services', icon: FolderOpen },
-  { name: 'Application Types', path: '/admin/application-types', icon: FileText },
-  { name: 'Locations', path: '/admin/locations', icon: Globe },
-  { name: 'Blog Posts', path: '/admin/blog', icon: MessageSquare },
-  { name: 'Contact Info', path: '/admin/contact-info', icon: Settings },
-  { name: 'Leads', path: '/admin/leads', icon: FileText },
+  { name: 'Servicios', path: '/admin/services', icon: FolderOpen },
+  { name: 'Tipos de Aplicación', path: '/admin/application-types', icon: FileText },
+  { name: 'Ubicaciones', path: '/admin/locations', icon: Globe },
+  { name: 'Blog', path: '/admin/blog', icon: MessageSquare },
+  { name: 'Contacto', path: '/admin/contact-info', icon: Settings },
+  { name: 'Leads', path: '/admin/leads', icon: MessageSquare },
 ];
 
 export function AdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
-  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const { logout } = useAuth();
 
-  const handleLogout = async () => {
-    await logout();
+  const handleLogout = () => {
+    logout();
+    navigate('/admin/login');
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-100">
       {/* Mobile sidebar backdrop */}
       {sidebarOpen && (
         <div
@@ -56,89 +57,73 @@ export function AdminLayout() {
       )}
 
       {/* Sidebar */}
-      <aside
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 lg:translate-x-0 ${
+      <div
+        className={`fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="flex flex-col h-full">
-          {/* Logo */}
-          <div className="flex items-center justify-between h-16 px-6 border-b">
-            <img src="/logo.webp" alt="FaruTech" className="h-8" />
-            <button
-              onClick={() => setSidebarOpen(false)}
-              className="lg:hidden text-gray-500 hover:text-gray-700"
-            >
-              <X className="h-6 w-6" />
-            </button>
-          </div>
-
-          {/* Navigation */}
-          <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
-            {navigation.map((item) => {
-              const isActive = location.pathname === item.path;
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  onClick={() => setSidebarOpen(false)}
-                  className={`flex items-center px-4 py-3 rounded-lg transition-colors ${
-                    isActive
-                      ? 'bg-blue-50 text-blue-600'
-                      : 'text-gray-700 hover:bg-gray-50'
-                  }`}
-                >
-                  <item.icon className="h-5 w-5 mr-3" />
-                  <span className="font-medium">{item.name}</span>
-                </Link>
-              );
-            })}
-          </nav>
-
-          {/* User & Logout */}
-          <div className="p-4 border-t">
-            <div className="flex items-center mb-4">
-              <div className="flex-shrink-0">
-                <div className="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold">
-                  {user?.name?.charAt(0).toUpperCase() || 'A'}
-                </div>
-              </div>
-              <div className="ml-3">
-                <p className="text-sm font-medium text-gray-900">{user?.name || 'Admin'}</p>
-                <p className="text-xs text-gray-500 capitalize">{user?.role || 'admin'}</p>
-              </div>
-            </div>
-            <button
-              onClick={handleLogout}
-              className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-            >
-              <LogOut className="h-4 w-4 mr-2" />
-              Sign Out
-            </button>
-          </div>
+        <div className="flex items-center justify-between h-16 px-4 border-b">
+          <h1 className="text-xl font-bold text-blue-600">Farutech Admin</h1>
+          <button
+            onClick={() => setSidebarOpen(false)}
+            className="lg:hidden p-2 rounded-md hover:bg-gray-100"
+          >
+            <X className="h-5 w-5" />
+          </button>
         </div>
-      </aside>
+
+        <nav className="p-4 space-y-1">
+          {navigation.map((item) => {
+            const isActive = location.pathname === item.path;
+            return (
+              <Link
+                key={item.name}
+                to={item.path}
+                onClick={() => setSidebarOpen(false)}
+                className={`flex items-center px-4 py-3 rounded-lg transition-colors ${
+                  isActive
+                    ? 'bg-blue-50 text-blue-600'
+                    : 'text-gray-700 hover:bg-gray-50'
+                }`}
+              >
+                <item.icon className="h-5 w-5 mr-3" />
+                <span className="font-medium">{item.name}</span>
+              </Link>
+            );
+          })}
+        </nav>
+
+        <div className="absolute bottom-0 left-0 right-0 p-4 border-t">
+          <button
+            onClick={handleLogout}
+            className="flex items-center w-full px-4 py-3 text-red-600 rounded-lg hover:bg-red-50 transition-colors"
+          >
+            <LogOut className="h-5 w-5 mr-3" />
+            <span className="font-medium">Cerrar Sesión</span>
+          </button>
+        </div>
+      </div>
 
       {/* Main content */}
       <div className="lg:pl-64">
         {/* Top bar */}
-        <header className="sticky top-0 z-30 bg-white shadow-sm">
-          <div className="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
-            <button
-              onClick={() => setSidebarOpen(true)}
-              className="lg:hidden text-gray-500 hover:text-gray-700"
-            >
-              <Menu className="h-6 w-6" />
-            </button>
-            <div className="flex-1"></div>
-          </div>
-        </header>
+        <div className="sticky top-0 z-30 flex items-center h-16 px-4 bg-white border-b shadow-sm lg:hidden">
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="p-2 rounded-md hover:bg-gray-100"
+          >
+            <Menu className="h-6 w-6" />
+          </button>
+          <h2 className="ml-4 text-lg font-semibold text-gray-900">Panel de Administración</h2>
+        </div>
 
         {/* Page content */}
-        <main className="p-4 sm:p-6 lg:p-8">
+        <main className="p-6">
           <Outlet />
         </main>
       </div>
     </div>
   );
 }
+
+export default AdminLayout;
