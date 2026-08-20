@@ -75,7 +75,34 @@ $endpoint = rtrim($endpoint, '/');
 
 // Route handling
 try {
-    switch ($endpoint) {
+    switch (true) {
+        // Public content endpoints
+        case $endpoint === '/services':
+            handleServices($method);
+            break;
+        case preg_match('/^\/services\/([a-z0-9-]+)$/', $endpoint, $matches):
+            handleServiceBySlug($method, $matches[1]);
+            break;
+        case $endpoint === '/application-types':
+            handleApplicationTypes($method);
+            break;
+        case $endpoint === '/contact-info':
+            handleContactInfo($method);
+            break;
+        case $endpoint === '/locations':
+            handleLocations($method);
+            break;
+        case $endpoint === '/blog/posts':
+            handleBlogPosts($method);
+            break;
+        case preg_match('/^\/blog\/posts\/([a-z0-9-]+)$/', $endpoint, $matches):
+            handleBlogPostBySlug($method, $matches[1]);
+            break;
+        case $endpoint === '/blog/categories':
+            handleBlogCategories($method);
+            break;
+        
+        // Existing endpoints
         case '/contact':
             handleContact($method);
             break;
@@ -94,6 +121,217 @@ try {
 } catch (\Exception $e) {
     error_log("API Error: " . $e->getMessage());
     Response::error('Internal server error', [], 500);
+}
+
+/**
+ * Handle GET /services - List all active services
+ */
+function handleServices(string $method): void
+{
+    if ($method !== 'GET') {
+        Response::methodNotAllowed(['GET']);
+    }
+    
+    $pdo = App\Config\Database::getInstance()->getConnection();
+    $stmt = $pdo->query("SELECT id, slug, name, description FROM services WHERE is_active = 1 ORDER BY name");
+    $services = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    Response::success($services);
+}
+
+/**
+ * Handle GET /services/:slug - Get service by slug
+ */
+function handleServiceBySlug(string $method, string $slug): void
+{
+    if ($method !== 'GET') {
+        Response::methodNotAllowed(['GET']);
+    }
+    
+    $pdo = App\Config\Database::getInstance()->getConnection();
+    $stmt = $pdo->prepare("
+        SELECT s.id, s.slug, s.name, s.description, 
+               COUNT(at.id) as application_types_count
+        FROM services s
+        LEFT JOIN application_types at ON s.id = at.service_id AND at.is_active = 1
+        WHERE s.slug = ? AND s.is_active = 1
+        GROUP BY s.id
+    ");
+    $stmt->execute([$slug]);
+    $service = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    if (!$service) {
+        Response::error('Service not found', [], 404);
+    }
+    
+    // Get application types for this service
+    $stmt = $pdo->prepare("SELECT id, name, description FROM application_types WHERE service_id = ? AND is_active = 1 ORDER BY name");
+    $stmt->execute([$service['id']]);
+    $service['application_types'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    Response::success($service);
+}
+
+/**
+ * Handle GET /application-types - List all active application types
+ */
+function handleApplicationTypes(string $method): void
+{
+    if ($method !== 'GET') {
+        Response::methodNotAllowed(['GET']);
+    }
+    
+    $pdo = App\Config\Database::getInstance()->getConnection();
+    $serviceId = isset($_GET['service_id']) ? (int)$_GET['service_id'] : null;
+    
+    if ($serviceId) {
+        $stmt = $pdo->prepare("SELECT id, service_id, name, description FROM application_types WHERE service_id = ? AND is_active = 1 ORDER BY name");
+        $stmt->execute([$serviceId]);
+    } else {
+        $stmt = $pdo->query("SELECT id, service_id, name, description FROM application_types WHERE is_active = 1 ORDER BY name");
+    }
+    
+    $types = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    Response::success($types);
+}
+
+/**
+ * Handle GET /contact-info - Get contact information
+ */
+function handleContactInfo(string $method): void
+{
+    if ($method !== 'GET') {
+        Response::methodNotAllowed(['GET']);
+    }
+    
+    $pdo = App\Config\Database::getInstance()->getConnection();
+    $stmt = $pdo->query("SELECT phone, email, address, social_links FROM contact_info LIMIT 1");
+    $contact = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    if (!$contact) {
+        Response::error('Contact info not found', [], 404);
+    }
+    
+    // Decode JSON social links
+    $contact['social_links'] = json_decode($contact['social_links'] ?? '{}', true);
+    
+    Response::success($contact);
+}
+
+/**
+ * Handle GET /locations - Get countries, states, cities
+ */
+function handleLocations(string $method): void
+{
+    if ($method !== 'GET') {
+        Response::methodNotAllowed(['GET']);
+    }
+    
+    $pdo = App\Config\Database::getInstance()->getConnection();
+    
+    $countryId = isset($_GET['country_id']) ? (int)$_GET['country_id'] : null;
+    $stateId = isset($_GET['state_id']) ? (int)$_GET['state_id'] : null;
+    
+    if ($stateId) {
+        // Get cities for a state
+        $stmt = $pdo->prepare("SELECT id, name, timezone FROM cities WHERE state_id = ? ORDER BY name");
+        $stmt->execute([$stateId]);
+        $locations = ['cities' => $stmt->fetchAll(PDO::FETCH_ASSOC)];
+    } elseif ($countryId) {
+        // Get states for a country
+        $stmt = $pdo->prepare("SELECT id, name, iso_code FROM states WHERE country_id = ? ORDER BY name");
+        $stmt->execute([$countryId]);
+        $locations = ['states' => $stmt->fetchAll(PDO::FETCH_ASSOC)];
+    } else {
+        // Get all countries
+        $stmt = $pdo->query("SELECT id, iso2, name, calling_code FROM countries ORDER BY name");
+        $locations = ['countries' => $stmt->fetchAll(PDO::FETCH_ASSOC)];
+    }
+    
+    Response::success($locations);
+}
+
+/**
+ * Handle GET /blog/posts - List published blog posts
+ */
+function handleBlogPosts(string $method): void
+{
+    if ($method !== 'GET') {
+        Response::methodNotAllowed(['GET']);
+    }
+    
+    $pdo = App\Config\Database::getInstance()->getConnection();
+    
+    $categoryId = isset($_GET['category_id']) ? (int)$_GET['category_id'] : null;
+    $limit = isset($_GET['limit']) ? min((int)$_GET['limit'], 50) : 10;
+    $offset = isset($_GET['offset']) ? (int)$_GET['offset'] : 0;
+    
+    $where = "p.status = 'published'";
+    $params = [];
+    
+    if ($categoryId) {
+        $where .= " AND p.category_id = ?";
+        $params[] = $categoryId;
+    }
+    
+    $stmt = $pdo->prepare("
+        SELECT p.id, p.title, p.slug, p.excerpt, p.featured_image, 
+               p.published_at, c.name as category_name, u.name as author_name
+        FROM blog_posts p
+        LEFT JOIN blog_categories c ON p.category_id = c.id
+        LEFT JOIN admin_users u ON p.admin_user_id = u.id
+        WHERE $where
+        ORDER BY p.published_at DESC
+        LIMIT ? OFFSET ?
+    ");
+    $stmt->execute([...$params, $limit, $offset]);
+    $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    Response::success($posts);
+}
+
+/**
+ * Handle GET /blog/posts/:slug - Get single blog post
+ */
+function handleBlogPostBySlug(string $method, string $slug): void
+{
+    if ($method !== 'GET') {
+        Response::methodNotAllowed(['GET']);
+    }
+    
+    $pdo = App\Config\Database::getInstance()->getConnection();
+    $stmt = $pdo->prepare("
+        SELECT p.*, c.name as category_name, c.slug as category_slug, 
+               u.name as author_name
+        FROM blog_posts p
+        LEFT JOIN blog_categories c ON p.category_id = c.id
+        LEFT JOIN admin_users u ON p.admin_user_id = u.id
+        WHERE p.slug = ? AND p.status = 'published'
+    ");
+    $stmt->execute([$slug]);
+    $post = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    if (!$post) {
+        Response::error('Post not found', [], 404);
+    }
+    
+    Response::success($post);
+}
+
+/**
+ * Handle GET /blog/categories - List blog categories
+ */
+function handleBlogCategories(string $method): void
+{
+    if ($method !== 'GET') {
+        Response::methodNotAllowed(['GET']);
+    }
+    
+    $pdo = App\Config\Database::getInstance()->getConnection();
+    $stmt = $pdo->query("SELECT id, name, slug, description FROM blog_categories ORDER BY name");
+    $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    Response::success($categories);
 }
 
 /**
