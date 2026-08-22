@@ -17,16 +17,10 @@ import { AboutUsPage } from "./pages/AboutUsPage";
 import { EcosystemPage } from "./pages/EcosystemPage";
 import { LegalPage } from "./pages/LegalPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
-
-// Admin Panel - Placeholder until Feature 2 Phase 7 implementation
-const AdminPanel = () => (
-  <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-    <div className="text-center">
-      <h1 className="text-2xl font-bold text-gray-800 mb-4">Admin Panel</h1>
-      <p className="text-gray-600">Under construction - Feature 2 Phase 7</p>
-    </div>
-  </div>
-);
+import AdminLoginPage from "./pages/AdminLoginPage";
+import AdminDashboardPage from "./pages/AdminDashboardPage";
+import AdminLeadsPage from "./pages/AdminLeadsPage";
+import { Navigate } from "react-router-dom";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -42,7 +36,10 @@ export default function App({ initialLang }: { initialLang?: Lang }) {
       <ContactProvider>
         <Routes>
           {/* Admin Panel Routes - Must be before SiteLayout */}
-          <Route path="/admin/*" element={<AdminPanel />} />
+          <Route path="/admin/login" element={<AdminLoginPage />} />
+          <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+          <Route path="/admin/leads" element={<AdminLeadsPage />} />
+          <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
           
           {/* Main Site Routes with Layout */}
           <Route path="/" element={
