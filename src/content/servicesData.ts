@@ -18,12 +18,16 @@ export interface Service {
   index: string;
   name: L;
   short: L;
+  fullDescription?: L;
   featured?: boolean;
   flag?: L;
   tags: L[];
   intro: L;
   problems: { title: L; desc: L }[];
   approach: { title: L; desc: L }[];
+  benefits?: { title: L; desc: L }[];
+  faq?: { question: L; answer: L }[];
+  caseStudy?: { title: L; description: L; metrics?: { label: L; value: string }[] };
   useCases: L[];
   /** Visuales (identidad del refactor). `image` es opcional: algunas usan solo motif. */
   image?: string;
