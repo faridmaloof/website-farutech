@@ -1,5 +1,10 @@
 # Database Setup Instructions
 
+> 📦 **Nota monorepo**: el schema y los seeds tambien se aplican
+> automáticamente vía `docker/mysql/init/` en el primer arranque del
+> volumen de MariaDB de Docker Compose. Este README documenta el flujo
+> manual (migraciones Laravel) por si trabajas fuera de Docker.
+
 ## Prerequisites
 MySQL o MariaDB debe estar instalado y ejecutándose en tu sistema.
 
@@ -13,7 +18,7 @@ COLLATE utf8mb4_unicode_ci;
 ```
 
 ### 2. Configurar variables de entorno
-Editar el archivo `.env` en `/api/.env`:
+Editar el archivo `.env` en `apps/backend/.env`:
 
 ```env
 DB_CONNECTION=mysql
@@ -25,7 +30,7 @@ DB_PASSWORD=tu_password_aqui
 ```
 
 ### 3. Ejecutar migraciones
-Desde el directorio `/api`:
+Desde el directorio `apps/backend`:
 ```bash
 php artisan migrate
 ```

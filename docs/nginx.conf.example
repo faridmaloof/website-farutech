@@ -109,7 +109,7 @@ server {
         log_not_found off;
     }
     
-    location ~* /(vendor|node_modules|api/storage|api/bootstrap)\. {
+    location ~* /(vendor|node_modules|apps/backend/storage|apps/backend/bootstrap)\. {
         deny all;
     }
 }

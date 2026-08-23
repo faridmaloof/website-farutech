@@ -1,0 +1,35 @@
+# ---------------------------------------------------------------------------
+# FaruTech — Docker build context ignore (raíz del repo)
+# ---------------------------------------------------------------------------
+
+# Git
+.git
+**/.git
+.gitignore
+
+# Entorno (nunca dentro de la imagen)
+.env
+.env.*
+**/.env
+**/.env.*
+
+# Dependencias
+node_modules
+**/node_modules
+vendor
+**/vendor
+
+# Artefactos de build
+dist
+**/dist
+
+# Logs
+*.log
+**/storage/logs/*
+
+# Documentación / CI / repos (fuera del contexto de build)
+/docs
+/.github
+/README.md
+/CHANGELOG.md
+/CONTRIBUTING.md

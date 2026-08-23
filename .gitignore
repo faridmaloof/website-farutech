@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------------
-# FaruTech Web — Git ignore
+# FaruTech Web — Git ignore (monorepo: apps/ y docker/)
 # ---------------------------------------------------------------------------
 
 # Dependencies
@@ -15,11 +15,8 @@ out/
 
 # Environment variables (nunca subir secretos)
 .env
-.env.local
-.env.*.local
-api/.env
-api/.env.local
-api/.env.*.local
+.env.*
+!.env.example
 
 # Logs
 logs/
