@@ -99,15 +99,67 @@ for (const s of services) {
 
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
 
+/**
+ * Construye pares de URLs canónicas y alternas para hreflang.
+ * Cada ruta EN tiene su equivalente ES y viceversa.
+ */
+function getHreflangPairs(url) {
+  const pairs = [];
+  
+  // Mapeo de rutas EN ↔ ES
+  const langMap = {
+    "/": { es: "/", en: "/" },
+    "/services": { es: "/servicios", en: "/services" },
+    "/servicios": { es: "/servicios", en: "/services" },
+    "/case-studies": { es: "/casos-exito", en: "/case-studies" },
+    "/casos-exito": { es: "/casos-exito", en: "/case-studies" },
+    "/about-us": { es: "/nosotros", en: "/about-us" },
+    "/nosotros": { es: "/nosotros", en: "/about-us" },
+    "/ecosistema": { es: "/ecosistema", en: "/ecosistema" },
+    "/privacidad": { es: "/privacidad", en: "/privacidad" },
+    "/terminos": { es: "/terminos", en: "/terminos" },
+  };
+  
+  // Servicios
+  for (const s of services) {
+    langMap[`/services/${s.slug}`] = { es: `/servicios/${s.slugEs}`, en: `/services/${s.slug}` };
+    langMap[`/servicios/${s.slugEs}`] = { es: `/servicios/${s.slugEs}`, en: `/services/${s.slug}` };
+  }
+  
+  const mapping = langMap[url];
+  if (mapping) {
+    pairs.push({ lang: "es", url: `${SITE}${mapping.es}` });
+    pairs.push({ lang: "en", url: `${SITE}${mapping.en}` });
+    pairs.push({ lang: "x-default", url: `${SITE}${mapping.en}` }); // default = inglés (canónico)
+  }
+  
+  return pairs;
+}
+
 function buildHtml(url) {
   const appHtml = render(url);
   const meta = routeMeta[url] || routeMeta["/"];
   const canonical = `${SITE}${url}`;
+  const hreflangPairs = getHreflangPairs(url);
 
   let html = template.replace(`<div id="root"></div>`, `<div id="root">${appHtml}</div>`);
   html = html.replace(/<title>[^<]*<\/title>/, `<title>${esc(meta.title)}</title>`);
   html = html.replace(/<meta[^>]*name="description"[^>]*>/, `<meta name="description" content="${esc(meta.description)}" />`);
-  html = html.replace(/<link[^>]*rel="canonical"[^>]*>/, `<link rel="canonical" href="${canonical}" />`);
+  
+  // Hreflang tags
+  const hreflangTags = hreflangPairs
+    .map(({ lang, url }) => `<link rel="alternate" hreflang="${lang}" href="${url}" />`)
+    .join("\n    ");
+  
+  // Canonical + Hreflang (reemplazar todo el bloque de canonical e insertar hreflang después)
+  const canonicalLine = `<link rel="canonical" href="${canonical}" />`;
+  const canonicalBlock = hreflangPairs.length > 0
+    ? `${canonicalLine}\n    ${hreflangTags}`
+    : canonicalLine;
+    
+  html = html.replace(/<link[^>]*rel="canonical"[^>]*>/, canonicalBlock);
+  
+  // Open Graph
   html = html.replace(/<meta[^>]*property="og:url"[^>]*>/, `<meta property="og:url" content="${canonical}" />`);
   html = html.replace(/<meta[^>]*property="og:title"[^>]*>/, `<meta property="og:title" content="${esc(meta.title)}" />`);
   html = html.replace(/<meta[^>]*property="og:description"[^>]*>/, `<meta property="og:description" content="${esc(meta.description)}" />`);
