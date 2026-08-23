@@ -102,10 +102,39 @@ function ContactDrawer({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
     e.preventDefault();
     setStatus("sending");
     try {
-      const response = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name: form.nombre, email: form.email, company: form.empresa, service_interest: form.tipo, project_timeline: form.plazo, budget_range: form.presupuesto, message: form.mensaje }) });
-      if (!response.ok) throw new Error("contact request failed");
-      setStatus("success");
-      setForm({ nombre: "", email: "", empresa: "", tipo: "", plazo: "", presupuesto: "", mensaje: "" });
+      // Use the new contactService for consistency and better error handling
+      const { submitContactForm, validateContactForm } = await import("../services/contactService");
+      
+      const formData = {
+        name: form.nombre,
+        email: form.email,
+        company: form.empresa || undefined,
+        service_interest: form.tipo,
+        project_timeline: form.plazo || undefined,
+        budget_range: form.presupuesto || undefined,
+        message: form.mensaje,
+        phone: undefined,
+        position: undefined
+      };
+      
+      // Client-side validation (UX only - backend validates authoritatively)
+      const validationErrors = validateContactForm(formData);
+      if (Object.keys(validationErrors).length > 0) {
+        // Show first error to user
+        const firstError = Object.values(validationErrors)[0];
+        alert(firstError); // Simple approach - could be improved with inline errors
+        setStatus("idle");
+        return;
+      }
+      
+      const result = await submitContactForm(formData);
+      
+      if (result.success) {
+        setStatus("success");
+        setForm({ nombre: "", email: "", empresa: "", tipo: "", plazo: "", presupuesto: "", mensaje: "" });
+      } else {
+        setStatus("error");
+      }
     } catch {
       setStatus("error");
     }

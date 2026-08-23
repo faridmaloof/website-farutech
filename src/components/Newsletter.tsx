@@ -1,7 +1,6 @@
 import { useState, FormEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-
-const API_BASE_URL = '/api';
+import { subscribeToNewsletter, validateNewsletterForm } from '../services/newsletterService';
 
 export function Newsletter() {
   const [email, setEmail] = useState('');
@@ -15,13 +14,11 @@ export function Newsletter() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     
-    if (!email.trim()) {
-      setResult({ success: false, error: 'El email es requerido' });
-      return;
-    }
-
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setResult({ success: false, error: 'Email inválido' });
+    // Client-side validation (UX only - backend validates authoritatively)
+    const validationErrors = validateNewsletterForm({ email });
+    if (Object.keys(validationErrors).length > 0) {
+      const firstError = Object.values(validationErrors)[0];
+      setResult({ success: false, error: firstError });
       return;
     }
 
@@ -29,29 +26,18 @@ export function Newsletter() {
     setResult(null);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/newsletter`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: email.trim(),
-          source: 'website'
-        })
-      });
+      const response = await subscribeToNewsletter({ email: email.trim() });
 
-      const data = await response.json();
-
-      if (response.ok && data.success) {
+      if (response.success) {
         setResult({
           success: true,
-          message: '¡Gracias por suscribirte! Pronto recibirás nuestro contenido exclusivo.'
+          message: response.message || '¡Gracias por suscribirte! Pronto recibirás nuestro contenido exclusivo.'
         });
         setEmail('');
       } else {
         setResult({
           success: false,
-          error: data.errors?.email || 'Error al suscribirse. Intenta nuevamente.'
+          error: response.errors?.email || 'Error al suscribirse. Intenta nuevamente.'
         });
       }
     } catch (error) {
