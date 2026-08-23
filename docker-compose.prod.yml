@@ -1,0 +1,77 @@
+# ==========================================================================
+# FaruTech — docker-compose de producción (VPS Hostinger)
+#
+#   cp .env.example .env   # con valores reales
+#   docker compose -f docker-compose.prod.yml up -d --build
+#
+# El frontend NO expone puertos: el proxy inverso (NPM/Nginx del host)
+# enruta www/api.farutech.com hacia farutech_frontend:80.
+# ==========================================================================
+
+services:
+  db:
+    image: mariadb:10.11
+    container_name: farutech_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+    networks:
+      - farutech-net
+
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend.Dockerfile
+    container_name: farutech_backend
+    restart: always
+    environment:
+      APP_NAME: ${APP_NAME:-FaruTech API}
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_KEY: ${APP_KEY:?APP_KEY es obligatorio}
+      APP_URL: ${APP_URL:-https://www.farutech.com}
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: ${MYSQL_DATABASE}
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - backend_storage:/var/www/html/storage
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - farutech-net
+
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend.Dockerfile
+    container_name: farutech_frontend
+    restart: always
+    # Sin puertos expuestos: el proxy inverso externo enruta hacia :80
+    depends_on:
+      - backend
+    networks:
+      - farutech-net
+
+volumes:
+  db_data:
+  backend_storage:
+
+networks:
+  farutech-net:
+    driver: bridge

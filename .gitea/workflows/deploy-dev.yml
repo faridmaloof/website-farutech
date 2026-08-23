@@ -1,0 +1,52 @@
+# ======================================================
+# FaruTech — Pipeline de despliegue continuo (rama dev)
+# Motor: Gitea Actions (compatible con workflow GitHub).
+# Se dispara con cada push a la rama `dev`.
+#
+# Pasos:
+#   1. checkout del repo (desde Gitea)
+#   2. docker build backend + push al registry local
+#   3. docker build frontend + push al registry local
+#   4. kubectl set image de ambos Deployments (namespace hosting)
+#   5. rollout status (verifica que los pods reinicien OK)
+# ======================================================
+name: Deploy dev (K3s)
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  deploy-dev:
+    runs-on: ubuntu-latest        # -> imagen farutech-ci:latest (ver runner.yaml)
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v4
+
+      - name: Construir y publicar imagen del backend
+        run: |
+          docker build \
+            -f docker/backend.Dockerfile \
+            -t registry.local:5000/farutech-backend:dev .
+          docker push registry.local:5000/farutech-backend:dev
+
+      - name: Construir y publicar imagen del frontend
+        run: |
+          docker build \
+            -f docker/frontend.Dockerfile \
+            -t registry.local:5000/farutech-frontend:dev .
+          docker push registry.local:5000/farutech-frontend:dev
+
+      - name: Actualizar Deployments en K3s
+        run: |
+          kubectl set image deployment/backend \
+            backend=registry.local:5000/farutech-backend:dev -n hosting
+          kubectl set image deployment/frontend \
+            frontend=registry.local:5000/farutech-frontend:dev -n hosting
+
+      - name: Verificar reinicio de los pods
+        run: |
+          kubectl rollout status deployment/backend  -n hosting --timeout=300s
+          kubectl rollout status deployment/frontend -n hosting --timeout=300s
+          kubectl -n hosting get pods -o wide

@@ -1,0 +1,79 @@
+# ==============================================================================
+# FaruTech — CI/CD ligero para la Raspberry Pi (red local, sin internet externo)
+#
+# Levanta en un solo `docker compose`:
+#   1. registry     — registry Docker local (inseguro en LAN) para las imágenes
+#   2. gitea        — repositorio Git + Gitea Actions (web en :3000, SSH en 2222)
+#   3. runner       — act_runner de Gitea (ejecuta los pipelines con Docker)
+#
+# Uso:
+#   export RUNNER_REGISTRATION_TOKEN=<token-de-gitea>
+#   docker compose -f ci/docker-compose.ci.yml up -d --build
+#
+# Antes: leer docs/CI-CD-K3S-PI.md (configura docker daemon + registries.yaml).
+# ==============================================================================
+name: farutech-ci
+
+networks:
+  ci-net:
+    name: farutech-ci
+    driver: bridge
+
+volumes:
+  registry_data:
+  gitea_data:
+
+services:
+
+  registry:
+    image: registry:2
+    container_name: farutech_registry
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    volumes:
+      - registry_data:/var/lib/registry
+
+  gitea:
+    image: gitea/gitea:1.22
+    container_name: farutech_gitea
+    restart: unless-stopped
+    environment:
+      GITEA__server__DOMAIN: git.local
+      GITEA__server__ROOT_URL: "http://git.local:3000/"
+      GITEA__server__SSH_PORT: "2222"
+      GITEA__actions__ENABLED: "true"
+    ports:
+      - "3000:3000"
+      - "2222:22"
+    volumes:
+      - gitea_data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      ci-net:
+        aliases:
+          - git.local           # así el runner y los jobs resuelven git.local
+
+  runner:
+    build:
+      context: ./act-runner
+      dockerfile: runner.Dockerfile
+    image: farutech/act-runner:latest
+    container_name: farutech_runner
+    restart: unless-stopped
+    privileged: true
+    depends_on:
+      - gitea
+    environment:
+      GITEA_INSTANCE_URL: "http://git.local:3000"
+      GITEA_RUNNER_REGISTRATION_TOKEN: ${RUNNER_REGISTRATION_TOKEN:?Define RUNNER_REGISTRATION_TOKEN}
+      GITEA_RUNNER_NAME: "pi-runner"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./act-runner/runner.yaml:/opt/runner/config.yaml:ro
+      - ./kubeconfig:/opt/runner/kube/config:ro
+      - /etc/hosts:/etc/hosts:ro   # resuelve registry.local/git.local dentro del runner
+    command: ["act_runner", "daemon", "--config", "/opt/runner/config.yaml"]
+    networks:
+      - ci-net

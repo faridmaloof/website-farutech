@@ -1,0 +1,50 @@
+# ==============================================================================
+# FaruTech — Frontend (SPA Vite/React servida por Nginx + proxy /api)
+# Imagen multi-etapa: docker/frontend.Dockerfile
+# El nginx interno sirve dist/ y proxyea `location ^~ /api/` -> http://backend:80
+# (ver docker/nginx/default.conf). El nombre `backend` resuelve al Service
+# `backend` dentro del namespace `hosting`.
+# ==============================================================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: hosting
+  labels:
+    app: farutech-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: farutech-frontend
+  template:
+    metadata:
+      labels:
+        app: farutech-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: registry.local:5000/farutech-frontend:dev
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 400m
+              memory: 256Mi

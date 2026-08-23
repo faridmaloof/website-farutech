@@ -1,0 +1,43 @@
+# ==============================================================================
+# FaruTech — Ingress (controlador Traefik, incluido con K3s)
+#
+#   farutech-dev       -> Service `frontend`  (SPA + proxy /api)
+#   api.farutech-dev   -> Service `backend`   (API Laravel/Lumen directa)
+#
+# Nota: el backend registra sus rutas bajo el prefijo `/api`
+# (p. ej. /api/blog/...), por eso al enrutar api.farutech-dev al backend NO se
+# duplica el prefijo: http://api.farutech-dev/api/blog/posts.
+# Para ver la versión de Lumen: http://api.farutech-dev/
+#
+# El entrypoint `web` fuerza HTTP (sin redirect a HTTPS), correcto para LAN.
+# ==============================================================================
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: farutech-ingress
+  namespace: hosting
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: api.farutech-dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: backend
+                port:
+                  number: 80
+    - host: farutech-dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 80
