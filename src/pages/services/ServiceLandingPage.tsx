@@ -20,6 +20,13 @@ const PAGE_COMPONENTS: Record<string, () => JSX.Element> = {
   "ai-automation": AIAutomationPage,
   modernization: ModernizationPage,
   "ux-engineering": UXEngineeringPage,
+  // Mapeo de slugs en español
+  "desarrollo-software": SoftwareDevelopmentPage,
+  "plataformas-saas": SaaSPlatformsPage,
+  "soluciones-empresariales": EnterpriseSolutionsPage,
+  "automatizacion-ia": AIAutomationPage,
+  modernizacion: ModernizationPage,
+  "ingenieria-ux": UXEngineeringPage,
 };
 
 export function ServiceLandingPage() {
