@@ -1,12 +1,20 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
+interface LeadItem {
+  id: number;
+  name: string;
+  email: string;
+  status: 'NEW' | 'CONTACTED' | 'QUALIFIED' | 'PROPOSAL' | 'NEGOTIATION' | 'WON' | 'LOST';
+  created_at: string;
+}
+
 interface DashboardStats {
   totalLeads: number;
   newLeads: number;
   activeProjects: number;
   conversionRate: number;
-  recentLeads: any[];
+  recentLeads: LeadItem[];
 }
 
 export default function AdminDashboardPage() {
@@ -156,7 +164,7 @@ export default function AdminDashboardPage() {
                   </tr>
                 </thead>
                 <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                  {stats.recentLeads.map((lead: any) => (
+                  {stats.recentLeads.map((lead) => (
                     <tr key={lead.id}>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                         {lead.name}
