@@ -9,7 +9,8 @@
     "build": "vite build",
     "build:seo": "vite build && vite build --ssr src/entry-server.tsx --outDir dist/server && node scripts/prerender.mjs",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "validate": "npm run typecheck && npm run build && npm run build:seo"
   },
   "dependencies": {
     "clsx": "^2.1.1",

@@ -1,27 +1,57 @@
-# Build artifacts
-dist/
-build/
-
+```
 # Dependencies
 node_modules/
-vendor/
 
 # Environment
 .env
 .env.local
-.env.*
-!.env.example
+*.env.*
 
-# Cache and temporary files
-.cache/
-*.tmp
+# Logs and temp files
 *.log
+*.tmp
 
-# IDE
+# Editors
 .vscode/
 .idea/
 
-# OS
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+.ENV
+.python-version
+
+# Build outputs
+dist/
+build/
+*.egg-info/
+.eggs/
+
+# Testing
+.coverage
+htmlcov/
+.coverage.*
+.nyc_output/
+coverage-final.json
+
+# OS generated files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
-Thumbs.dbx
+
+# IDE
+.vs/
+*.swp
+*.swo
+*~
+```
