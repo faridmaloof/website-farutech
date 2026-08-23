@@ -1,5 +1,5 @@
 # ==============================================================================
-# FaruTech — Configuración no secret del backend (Laravel/Lumen)
+# FaruTech ÔÇö Configuraci├│n no secret del backend (Laravel/Lumen)
 # Las credenciales de DB y APP_KEY se inyectan desde el Secret `backend-secrets`
 # (ver scripts/copy-mysql-secret.sh). El Secret NO se versiona.
 # ==============================================================================
@@ -12,7 +12,7 @@ data:
   APP_NAME: "FaruTech API"
   APP_ENV: "production"
   APP_DEBUG: "false"
-  APP_URL: "http://api.farutech-dev"
+  APP_URL: "http://api.farutech.rbp"
   APP_TIMEZONE: "UTC"
   LOG_CHANNEL: "stack"
   DB_CONNECTION: "mysql"

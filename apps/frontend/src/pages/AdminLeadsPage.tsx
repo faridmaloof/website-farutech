@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 interface Lead {
@@ -16,6 +17,7 @@ export default function AdminLeadsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [filter, setFilter] = useState('all');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchLeads = async () => {
@@ -28,12 +30,19 @@ export default function AdminLeadsPage() {
           },
         });
 
+        if (response.status === 401) {
+          localStorage.removeItem('auth_token');
+          localStorage.removeItem('auth_user');
+          navigate('/admin/login', { replace: true });
+          return;
+        }
         if (!response.ok) {
           throw new Error('Error al cargar leads');
         }
 
         const data = await response.json();
-        setLeads(data);
+        // El backend puede devolver array plano o { data, meta }
+        setLeads(Array.isArray(data) ? data : data.data ?? []);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Error de conexión');
       } finally {
@@ -42,7 +51,7 @@ export default function AdminLeadsPage() {
     };
 
     fetchLeads();
-  }, []);
+  }, [navigate]);
 
   const filteredLeads = filter === 'all' 
     ? leads 

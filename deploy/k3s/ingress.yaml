@@ -1,15 +1,18 @@
 # ==============================================================================
-# FaruTech — Ingress (controlador Traefik, incluido con K3s)
+# FaruTech ÔÇö Ingress (controlador Traefik, incluido con K3s)
 #
-#   farutech-dev       -> Service `frontend`  (SPA + proxy /api)
-#   api.farutech-dev   -> Service `backend`   (API Laravel/Lumen directa)
+#   farutech.rbp         -> Service `frontend`  (SPA + proxy /api)
+#   api.farutech.rbp     -> Service `backend`   (API Laravel/Lumen directa)
+#   *.rbp y *.rpi        -> Service `frontend`  (wildcard de subdominios)
+#
+# HTTP y HTTPS (ambos puertos de Traefik: 80 y 443). HTTPS usa el certificado
+# autofirmado por defecto de Traefik: ver├ís un aviso en el navegador, se
+# acepta una vez y la LAN queda cifrada para desarrollo.
+#
+# El entrypoint `web` (80) sigue funcionando ÔÇö el "puerto normal".
 #
 # Nota: el backend registra sus rutas bajo el prefijo `/api`
-# (p. ej. /api/blog/...), por eso al enrutar api.farutech-dev al backend NO se
-# duplica el prefijo: http://api.farutech-dev/api/blog/posts.
-# Para ver la versión de Lumen: http://api.farutech-dev/
-#
-# El entrypoint `web` fuerza HTTP (sin redirect a HTTPS), correcto para LAN.
+# (p. ej. /api/blog/posts). Para ver la versi├│n de Lumen: http://api.farutech.rbp/
 # ==============================================================================
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -17,11 +20,28 @@ metadata:
   name: farutech-ingress
   namespace: hosting
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: web
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
 spec:
   ingressClassName: traefik
+  tls:
+    - hosts:
+        - farutech.rbp
+        - api.farutech.rbp
+        - "*.rbp"
+        - "*.rpi"
   rules:
-    - host: api.farutech-dev
+    # --- Dominios propios (frontend y API) ---
+    - host: farutech.rbp
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 80
+    - host: api.farutech.rbp
       http:
         paths:
           - path: /
@@ -31,7 +51,18 @@ spec:
                 name: backend
                 port:
                   number: 80
-    - host: farutech-dev
+    # --- Wildcards: cualquier.otro.rbp / cualquier.rpi -> frontend (SPA) ---
+    - host: "*.rbp"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 80
+    - host: "*.rpi"
       http:
         paths:
           - path: /

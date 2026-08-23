@@ -1,0 +1,12 @@
+# PVC de MySQL en `infra` (StorageClass local-path de K3s).
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pvc
+  namespace: infra
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi

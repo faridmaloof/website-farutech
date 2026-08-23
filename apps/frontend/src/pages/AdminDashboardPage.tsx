@@ -1,26 +1,19 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-
-interface LeadItem {
-  id: number;
-  name: string;
-  email: string;
-  status: 'NEW' | 'CONTACTED' | 'QUALIFIED' | 'PROPOSAL' | 'NEGOTIATION' | 'WON' | 'LOST';
-  created_at: string;
-}
+import { Link, useNavigate } from 'react-router-dom';
 
 interface DashboardStats {
   totalLeads: number;
   newLeads: number;
   activeProjects: number;
   conversionRate: number;
-  recentLeads: LeadItem[];
+  recentLeads: any[];
 }
 
 export default function AdminDashboardPage() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -33,6 +26,12 @@ export default function AdminDashboardPage() {
           },
         });
 
+        if (response.status === 401) {
+          localStorage.removeItem('auth_token');
+          localStorage.removeItem('auth_user');
+          navigate('/admin/login', { replace: true });
+          return;
+        }
         if (!response.ok) {
           throw new Error('Error al cargar estadísticas');
         }
@@ -47,7 +46,7 @@ export default function AdminDashboardPage() {
     };
 
     fetchStats();
-  }, []);
+  }, [navigate]);
 
   if (loading) {
     return (
@@ -164,7 +163,7 @@ export default function AdminDashboardPage() {
                   </tr>
                 </thead>
                 <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                  {stats.recentLeads.map((lead) => (
+                  {stats.recentLeads.map((lead: any) => (
                     <tr key={lead.id}>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                         {lead.name}

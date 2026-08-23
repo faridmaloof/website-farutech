@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Events\BlogPostViewed;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Carbon;
 
 class TrackBlogStats implements ShouldQueue
 {
@@ -20,6 +21,6 @@ class TrackBlogStats implements ShouldQueue
         $post = $event->post;
 
         $post->increment('views_count');
-        $post->forceFill(['last_viewed_at' => now()])->save();
+        $post->forceFill(['last_viewed_at' => Carbon::now()])->save();
     }
 }

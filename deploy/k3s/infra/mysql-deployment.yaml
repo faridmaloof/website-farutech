@@ -1,0 +1,78 @@
+# ==============================================================================
+# FaruTech ÔÇö MySQL en el namespace `infra`
+#
+# Creaci├│n del Secret (NO se versiona contrase├▒as; se crea con kubectl):
+#   MYSQL_ROOT_PASSWORD=$(openssl rand -base64 24)
+#   MYSQL_PASSWORD=$(openssl rand -base64 24)
+#   kubectl -n infra create secret generic mysql-secret \
+#     --from-literal=MYSQL_DATABASE=farutech \
+#     --from-literal=MYSQL_USER=farutech_user \
+#     --from-literal=MYSQL_PASSWORD=$MYSQL_PASSWORD \
+#     --from-literal=MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
+#
+# El resto obtiene esas variables v├¡a envFrom.
+# ==============================================================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  namespace: infra
+  labels:
+    app: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:8.0
+          env:
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_DATABASE
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_USER
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_PASSWORD
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_ROOT_PASSWORD
+          ports:
+            - name: mysql
+              containerPort: 3306
+          readinessProbe:
+            exec:
+              command: ["bash", "-lc", "mysqladmin ping -h 127.0.0.1 -u root -p\"$MYSQL_ROOT_PASSWORD\""]
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/mysql
+          resources:
+            requests:
+              cpu: 200m
+              memory: 256Mi
+            limits:
+              cpu: 1
+              memory: 1Gi
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: mysql-pvc

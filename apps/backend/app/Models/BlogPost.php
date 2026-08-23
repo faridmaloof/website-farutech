@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 class BlogPost extends Model
 {
@@ -81,7 +82,7 @@ class BlogPost extends Model
         return $query
             ->where('status', 'published')
             ->whereNotNull('published_at')
-            ->where('published_at', '<=', now());
+            ->where('published_at', '<=', Carbon::now());
     }
 
     /**
@@ -92,6 +93,6 @@ class BlogPost extends Model
         return $query
             ->where('status', 'scheduled')
             ->whereNotNull('scheduled_for')
-            ->where('scheduled_for', '<=', now());
+            ->where('scheduled_for', '<=', Carbon::now());
     }
 }

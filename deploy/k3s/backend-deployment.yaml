@@ -1,5 +1,5 @@
 # ==============================================================================
-# FaruTech — Backend (Laravel/Lumen): PHP-FPM + Nginx (Supervisor)
+# FaruTech ÔÇö Backend (Laravel/Lumen): PHP-FPM + Nginx (Supervisor)
 # Imagen multi-etapa: docker/backend.Dockerfile
 # No expone puerto host; solo Service interno (ver backend-service.yaml).
 # - Conecta a MySQL en infra (mysql.infra.svc.cluster.local).
@@ -33,7 +33,7 @@ spec:
           workingDir: /var/www/html
           command: ["/bin/sh", "-c"]
           args:
-            - mkdir -p storage/framework/{cache,sessions,views} && chown -R www-data:www-data storage bootstrap/cache && php artisan migrate --force
+            - mkdir -p storage/framework/{cache,sessions,views} storage/logs && chown -R www-data:www-data storage bootstrap/cache && php artisan migrate --force && php artisan admin:create
           envFrom:
             - configMapRef:
                 name: backend-config

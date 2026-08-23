@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\BlogPostViewed;
 use App\Models\BlogPost;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -220,14 +221,14 @@ $post->update($this->normalizePayload($request));
             $data['slug'] = (string) Str::uuid();
         }
 
-        // A falta de autenticación completa (JWT llega en Feature 4),
+        // A falta de autenticaci├│n completa (JWT llega en Feature 4),
         // asigna el autor por defecto (admin seed) o el primer usuario activo.
         $data['author_id'] = $this->getDefaultAuthorId();
 
         $data['tags'] = $request->input('tags', []);
         $data['seo_meta'] = $request->input('seo_meta', []);
 
-        // Lógica de publicación según el plan:
+        // L├│gica de publicaci├│n seg├║n el plan:
         // - published_at NULL  -> Borrador
         // - published_at futuro -> Programado (el Job lo publica)
         // - published_at pasado/presente -> Publicado
@@ -236,7 +237,7 @@ $post->update($this->normalizePayload($request));
         if (($data['published_at'] ?? null) === null
             && ($data['scheduled_for'] ?? null) === null
             && $status === 'published') {
-            $data['published_at'] = now();
+            $data['published_at'] = Carbon::now();
         }
 
         if ($status === 'scheduled' && ($data['scheduled_for'] ?? null) !== null) {
