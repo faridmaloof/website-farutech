@@ -1,0 +1,15 @@
+# Service interno del backend. Solo accesible dentro del clúster
+# (el Ingress y el nginx del frontend lo usan). No se expone ningún puerto host.
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: hosting
+spec:
+  selector:
+    app: farutech-backend
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+      protocol: TCP

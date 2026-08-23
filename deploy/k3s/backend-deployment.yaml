@@ -1,0 +1,83 @@
+# ==============================================================================
+# FaruTech — Backend (Laravel/Lumen): PHP-FPM + Nginx (Supervisor)
+# Imagen multi-etapa: docker/backend.Dockerfile
+# No expone puerto host; solo Service interno (ver backend-service.yaml).
+# - Conecta a MySQL en infra (mysql.infra.svc.cluster.local).
+# - Un initContainer ejecuta las migraciones antes de arrancar el pod.
+# - Monta un PVC en /var/www/html/storage para persistir logs/cache.
+# ==============================================================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: hosting
+  labels:
+    app: farutech-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: farutech-backend
+  template:
+    metadata:
+      labels:
+        app: farutech-backend
+    spec:
+      # uid/gid de www-data (82) para que php-fpm pueda escribir en el PVC
+      securityContext:
+        fsGroup: 82
+      initContainers:
+        - name: migrate
+          image: registry.local:5000/farutech-backend:dev
+          imagePullPolicy: Always
+          workingDir: /var/www/html
+          command: ["/bin/sh", "-c"]
+          args:
+            - mkdir -p storage/framework/{cache,sessions,views} && chown -R www-data:www-data storage bootstrap/cache && php artisan migrate --force
+          envFrom:
+            - configMapRef:
+                name: backend-config
+            - secretRef:
+                name: backend-secrets
+      containers:
+        - name: backend
+          image: registry.local:5000/farutech-backend:dev
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: backend-config
+            - secretRef:
+                name: backend-secrets
+          ports:
+            - name: http
+              containerPort: 80        # Nginx interno del backend (HTTP -> php-fpm)
+            - name: fpm
+              containerPort: 9000
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            timeoutSeconds: 5
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 800m
+              memory: 512Mi
+          volumeMounts:
+            - name: storage
+              mountPath: /var/www/html/storage
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: backend-storage-pvc

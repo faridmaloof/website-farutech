@@ -1,0 +1,14 @@
+# Persistencia de /var/www/html/storage del backend (logs, cache, uploads).
+# K3s trae el StorageClass `local-path` por defecto, así que no se indica uno.
+# Refleja el volumen `backend_storage` que usaba docker-compose.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: backend-storage-pvc
+  namespace: hosting
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
